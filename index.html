@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bilgi Notu Asistanı</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -215,6 +221,14 @@
             color: var(--text-gray);
         }
     </style>
+    
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('PWA Aktif'))
+          .catch((err) => console.log('PWA Hatası:', err));
+      }
+    </script>
 </head>
 <body>
 
@@ -425,6 +439,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+    // MAAŞ GÜNÜ PROJESİNİN GERÇEK VERİLERİ
     const firebaseConfig = {
       apiKey: "AIzaSyADpIRNLQEIer_gplTgwKi_EKkfcyrYoqY",
       authDomain: "maasgunu-bd353.firebaseapp.com",
@@ -495,7 +510,7 @@
                 `;
                 div.addEventListener('click', () => {
                     navigator.clipboard.writeText(data.metin);
-                    alert("Metin kopyalandı!");
+                    alert("Metin panoya kopyalandı!");
                 });
                 liste.appendChild(div);
             });
