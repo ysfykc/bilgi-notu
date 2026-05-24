@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bilgi Notu Asistanı</title>
     
-    <link rel="apple-touch-icon" href="https://img.icons8.com/color/512/shield.png">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3c72">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,11 +28,11 @@
         
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); position: relative; }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        h1 { font-size: 20px; font-weight: 700; color: var(--text-dark); }
+        h1 { font-size: 20px; font-weight: 700; color: var(--text-dark); margin: 0; }
         
         .top-btn-group { display: flex; gap: 8px; }
         .archive-btn-top { background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px;}
-        .install-btn-small { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); }
+        .install-btn-small { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); display: none; } /* Başlangıçta gizli, sadece uygunsa çıkacak */
 
         .form-group { margin-bottom: 16px; }
         label { display: block; font-size: 13px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -67,7 +67,7 @@
     
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
+        navigator.serviceWorker.register('./sw.js').then(() => console.log('PWA Aktif'));
       }
     </script>
 </head>
@@ -78,7 +78,7 @@
         <div class="header-row">
             <h1><i class="fa-solid fa-shield-halved"></i> Bilgi Notu</h1>
             <div class="top-btn-group">
-                <button id="installBtn" class="archive-btn-top install-btn-small" onclick="installApp()">
+                <button id="installBtn" class="archive-btn-top install-btn-small">
                     <i class="fa-solid fa-download"></i> Yükle
                 </button>
                 <button class="archive-btn-top" onclick="arsiviAc()">
@@ -202,28 +202,27 @@
 </div>
 
 <script>
-    // --- UYGULAMA YÜKLEME MANTIĞI ---
+    // --- UYGULAMA YÜKLEME (PWA) MANTIĞI ---
     let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    // Tarayıcı uygulamayı yüklenebilir bulduğunda bu olay tetiklenir
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        installBtn.style.display = 'flex'; // Her şey tamamsa butonu göster
     });
 
-    function installApp() {
+    installBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
             deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                deferredPrompt = null;
-            });
-        } else {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            if (isIOS) {
-                alert("🍎 IPHONE İÇİN YÖNERGE:\n\n1. Safari'nin alt menüsündeki 'Paylaş' (Kareden çıkan ok 📤) ikonuna basın.\n2. Menüyü biraz aşağı kaydırıp 'Ana Ekrana Ekle' (➕) seçeneğine dokunun.");
-            } else {
-                alert("🤖 ANDROID İÇİN YÖNERGE:\n\nTarayıcının sağ üst köşesindeki 3 noktaya (⋮) basın.\nMenüden 'Ana Ekrana Ekle' veya 'Uygulamayı Yükle' seçeneğini seçin.\n\n⚠️ NOT: Eğer menüde bu seçenek yoksa, uygulamayı zaten ana ekranınıza indirmiş olabilirsiniz veya linki WhatsApp içinden açmış olabilirsiniz. Lütfen linki kopyalayıp Chrome'da açın.");
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                installBtn.style.display = 'none'; // Yüklendikten sonra gizle
             }
+            deferredPrompt = null;
         }
-    }
+    });
 
     // --- YAPAY ZEKA AYARLARI ---
     const KEY_PART_1 = "AIzaSy"; 
