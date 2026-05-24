@@ -1,0 +1,18 @@
+{
+  "theme_color": "#1e3c72",
+  "background_color": "#1e3c72",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./index.html",
+  "name": "Bilgi Notu Asistanı",
+  "short_name": "Bilgi Notu",
+  "description": "Emniyet Teşkilatı Resmi Bilgi Notu Hazırlama Asistanı",
+  "icons": [
+    {
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/shield-halved.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
