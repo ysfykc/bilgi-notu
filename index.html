@@ -114,7 +114,7 @@
         textarea {
             resize: vertical;
             min-height: 140px;
-            padding-right: 90px; /* Mikrofon ve YZ butonu için boşluk */
+            padding-right: 90px;
         }
 
         .hidden { display: none !important; }
@@ -481,8 +481,7 @@
 
 <script>
     // --- YAPAY ZEKA AYARLARI ---
-    // AIzaSyBjiFDzu4cBP9pzEsYPELnPDPUhNGF2OP0
-    const GEMINI_API_KEY = "BURAYA_GEMINI_API_KEY_GELECEK"; 
+    const GEMINI_API_KEY = "AIzaSyBjiFDzu4cBP9pzEsYPELnPDPUhNGF2OP0"; 
 
     async function yapayZekaIleDuzenle() {
         const ozetBox = document.getElementById("ozet");
@@ -491,10 +490,6 @@
 
         if(orjinalMetin === "") {
             alert("Lütfen önce düzenlenecek bir özet metni veya taslak yazın.");
-            return;
-        }
-        if(GEMINI_API_KEY === "BURAYA_GEMINI_API_KEY_GELECEK") {
-            alert("Yapay zeka için geçerli bir API anahtarı eklenmemiş!");
             return;
         }
 
