@@ -493,36 +493,46 @@
             return;
         }
 
-        // Yükleniyor animasyonu
         aiBtn.classList.add("loading");
         aiBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
         const promptText = `Sen Emniyet Teşkilatında çalışan tecrübeli bir amirsin. Sana karışık, eksik, yazım yanlışlarıyla dolu veya günlük dille yazılmış bir olay özeti vereceğim. Senden bu metni, Emniyetin standart "Bilgi Notu ve Tutanak" formatına uygun, tamamen resmi, ciddi ve nesnel bir polis diliyle yeniden yazmanı istiyorum. Yeni bir bilgi uydurma, sadece verdiğim taslağı resmi tutanak diline çevir. İşte taslak metin: "${orjinalMetin}"`;
 
+        const requestBody = {
+            contents: [{ parts: [{ text: promptText }] }],
+            // Güvenlik filtreleri polis terimleri için minimuma indirildi:
+            safetySettings: [
+                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+            ]
+        };
+
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }]
-                })
+                body: JSON.stringify(requestBody)
             });
 
             const data = await response.json();
             
-            if(data.candidates && data.candidates[0].content.parts[0].text) {
+            if (data.error) {
+                alert("API Hatası: " + data.error.message);
+            } else if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 let aiMetin = data.candidates[0].content.parts[0].text;
-                aiMetin = aiMetin.replace(/\*/g, ''); // Gelen metindeki gereksiz kalın yazıları temizle
+                aiMetin = aiMetin.replace(/\*/g, ''); 
                 ozetBox.value = aiMetin.trim();
-                metinOlustur(); // Önizlemeyi güncelle
+                metinOlustur(); 
             } else {
-                alert("Yapay zeka yanıt veremedi. Lütfen tekrar deneyin.");
+                alert("Yapay zeka yanıt veremedi. Girdiğiniz metin çok kısa veya anlaşılmaz olabilir.");
+                console.log("Hata Detayı:", data);
             }
         } catch (error) {
             console.error(error);
-            alert("Bağlantı hatası oluştu.");
+            alert("Bağlantı hatası oluştu. Lütfen internetinizi kontrol edin.");
         } finally {
-            // Butonu eski haline getir
             aiBtn.classList.remove("loading");
             aiBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i>';
         }
