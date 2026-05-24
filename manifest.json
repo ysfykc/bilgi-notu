@@ -8,14 +8,14 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Shield-Symbol.svg/512px-Shield-Symbol.svg.png",
-      "sizes": "512x512",
+      "src": "https://dummyimage.com/192x192/1e3c72/ffffff.png&text=BN",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Shield-Symbol.svg/192px-Shield-Symbol.svg.png",
-      "sizes": "192x192",
+      "src": "https://dummyimage.com/512x512/1e3c72/ffffff.png&text=BN",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
