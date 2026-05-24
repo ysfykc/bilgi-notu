@@ -163,11 +163,9 @@
         document.getElementById('micBtn').classList.remove('recording');
     }
 
-    // SATIR ARASI BOŞLUK BURADA EKLENDİ
     function ekleOzet(metin) {
         const ozetBox = document.getElementById('ozet');
         let m = ozetBox.value.trim();
-        // Kutu boşsa direkt ekle, doluysa araya bir satır boşluk (\n\n) koyarak ekle
         ozetBox.value = m === "" ? metin : m + "\n\n" + metin;
         metinOlustur();
     }
@@ -235,17 +233,17 @@
         const olayYeri = document.getElementById("olayYeri").value;
         const ozet = document.getElementById("ozet").value;
 
+        // Her satırın sonuna ekstradan bir boş satır (\n\n) eklendi
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
-        if(konu) metin += `*Konu:* ${konu}\n`;
-        if(tur === "adli" && document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n`;
-        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
-        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
-        if(tur === "asayis" && document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n`;
+        if(konu) metin += `*Konu:* ${konu}\n\n`;
+        if(tur === "adli" && document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
+        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n\n`;
+        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
+        if(tur === "asayis" && document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
         
-        sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
+        sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
         
-        // ÖZET KISMININ GÖRÜNÜMÜ FERAHLAŞTIRILDI
-        if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
+        if(ozet) metin += `*ÖZET:*\n${ozet}\n\n`;
         metin += `*Arz ederim.*`;
 
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
