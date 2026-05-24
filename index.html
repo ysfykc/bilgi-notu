@@ -34,6 +34,7 @@
             min-height: 100vh;
             padding: 20px;
             color: var(--text-dark);
+            padding-bottom: 40px;
         }
 
         .container {
@@ -97,7 +98,7 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             padding: 12px 16px;
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-dark);
             transition: all 0.3s ease;
         }
@@ -125,8 +126,10 @@
             flex: 1;
         }
 
+        /* Minimal Önizleme Stilleri */
         .preview-box {
-            background: #E5DDD5;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 16px;
             padding: 16px;
             position: relative;
@@ -134,14 +137,15 @@
         }
 
         .whatsapp-msg {
-            background: #DCF8C6;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 15px;
-            line-height: 1.4;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 14px;
+            line-height: 1.5;
             white-space: pre-wrap;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            color: #000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            color: #2c3e50;
+            border: 1px solid rgba(0,0,0,0.02);
         }
 
         .btn-group {
@@ -156,24 +160,65 @@
             color: white;
             border: none;
             border-radius: 14px;
-            padding: 16px;
-            font-size: 16px;
+            padding: 14px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .btn-secondary {
             background: #5856D6;
         }
 
+        .btn-add {
+            background: var(--ios-blue);
+            flex: none !important;
+            width: 50px;
+            border-radius: 12px;
+            padding: 0;
+        }
+
         button.success {
             background: var(--ios-green) !important;
         }
 
+        .developer-credit {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .person-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .delete-person {
+            color: #FF3B30;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* Modal */
         #archiveModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -285,9 +330,20 @@
                     <input type="text" id="sucNo" placeholder="Örn: 2026/21" oninput="metinOlustur()">
                 </div>
             </div>
+            
             <div class="form-group">
-                <label>Şahıslar (Müşteki/Mağdur - Şüpheli)</label>
-                <textarea id="sahislar" placeholder="Müşteki: Ali YILMAZ&#10;Şüpheli: Veli DEMİR" oninput="metinOlustur()"></textarea>
+                <label>Şahıs Ekle</label>
+                <div class="row" style="margin-bottom: 8px;">
+                    <select id="sahisRol" style="flex: 1;">
+                        <option value="Müşteki">Müşteki</option>
+                        <option value="Mağdur">Mağdur</option>
+                        <option value="Şüpheli">Şüpheli</option>
+                        <option value="Bilgi Sahibi">Bilgi Sahibi</option>
+                    </select>
+                    <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;" onkeypress="if(event.key === 'Enter') sahisEkle()">
+                    <button class="btn-add" onclick="sahisEkle()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div id="sahisListesiContainer"></div>
             </div>
         </div>
 
@@ -319,6 +375,10 @@
             </button>
         </div>
     </div>
+
+    <div class="developer-credit">
+        <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b>
+    </div>
 </div>
 
 <div id="archiveModal" class="hidden">
@@ -332,6 +392,8 @@
 </div>
 
 <script>
+    let sahislarDizisi = [];
+
     document.addEventListener("DOMContentLoaded", () => {
         const bugun = new Date();
         const gun = String(bugun.getDate()).padStart(2, '0');
@@ -345,6 +407,38 @@
         
         sablonDegistir();
     });
+
+    function sahisEkle() {
+        const rol = document.getElementById("sahisRol").value;
+        const ad = document.getElementById("sahisAd").value.trim();
+        
+        if(ad !== "") {
+            sahislarDizisi.push({ rol: rol, ad: ad });
+            document.getElementById("sahisAd").value = ""; // Inputu temizle
+            sahisListesiniCiz();
+            metinOlustur();
+        }
+    }
+
+    function sahisSil(index) {
+        sahislarDizisi.splice(index, 1);
+        sahisListesiniCiz();
+        metinOlustur();
+    }
+
+    function sahisListesiniCiz() {
+        const container = document.getElementById("sahisListesiContainer");
+        container.innerHTML = "";
+        
+        sahislarDizisi.forEach((sahis, index) => {
+            container.innerHTML += `
+                <div class="person-item">
+                    <span><b>${sahis.rol}:</b> ${sahis.ad}</span>
+                    <i class="fa-solid fa-trash delete-person" onclick="sahisSil(${index})"></i>
+                </div>
+            `;
+        });
+    }
 
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
@@ -386,11 +480,16 @@
 
         if (tur === "adli") {
             const sucNo = document.getElementById("sucNo").value;
-            const sahislar = document.getElementById("sahislar").value;
+            
             if(konu) metin += `*Konu:* ${konu}\n`;
             if(sucNo) metin += `*Suç No:* ${sucNo}\n`;
             if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
-            if(sahislar) metin += `${sahislar}\n`;
+            
+            // Dizideki şahısları metne dök
+            sahislarDizisi.forEach(sahis => {
+                metin += `*${sahis.rol}:* ${sahis.ad}\n`;
+            });
+
             if(tarih || saat) metin += `*Olay Tarihi ve Saati:* ${tarih} ${saat}\n`;
             metin += `\n*ÖZET:* ${ozet}\n\n`;
         } 
@@ -417,112 +516,4 @@
 
     function kopyala() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
-        navigator.clipboard.writeText(rawText).then(() => {
-            const btn = document.getElementById("kopyalaBtn");
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
-            btn.classList.add("success");
-            setTimeout(() => { btn.innerHTML = originalText; btn.classList.remove("success"); }, 2000);
-        });
-    }
-
-    function arsiviAc() {
-        document.getElementById("archiveModal").classList.remove("hidden");
-    }
-
-    function arsiviKapat() {
-        document.getElementById("archiveModal").classList.add("hidden");
-    }
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    // MAAŞ GÜNÜ PROJESİNİN GERÇEK VERİLERİ
-    const firebaseConfig = {
-      apiKey: "AIzaSyADpIRNLQEIer_gplTgwKi_EKkfcyrYoqY",
-      authDomain: "maasgunu-bd353.firebaseapp.com",
-      projectId: "maasgunu-bd353",
-      storageBucket: "maasgunu-bd353.firebasestorage.app",
-      messagingSenderId: "485904329467",
-      appId: "1:485904329467:web:579d932ae8f25958901e5e",
-      measurementId: "G-GQT1Q7FGDM"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    document.getElementById('kaydetBtn').addEventListener('click', async () => {
-        const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
-        const konu = document.getElementById("konu").value || "İsimsiz Olay";
-        const btn = document.getElementById("kaydetBtn");
-        
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kaydediliyor...';
-        
-        try {
-            await addDoc(collection(db, "bilginotlari"), {
-                konu: konu,
-                metin: rawText,
-                tarih: serverTimestamp()
-            });
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Kaydedildi!';
-            btn.classList.add("success");
-            arsiviYukle();
-        } catch (e) {
-            console.error("Hata:", e);
-            btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Hata!';
-        }
-
-        setTimeout(() => { 
-            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; 
-            btn.classList.remove("success"); 
-        }, 2000);
-    });
-
-    async function arsiviYukle() {
-        const liste = document.getElementById("archiveList");
-        liste.innerHTML = "Yükleniyor...";
-        try {
-            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"));
-            const querySnapshot = await getDocs(q);
-            liste.innerHTML = "";
-            
-            if(querySnapshot.empty) {
-                liste.innerHTML = "Henüz kaydedilmiş not yok.";
-                return;
-            }
-
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const div = document.createElement("div");
-                div.className = "archive-item";
-                
-                let tarihStr = "Tarih Yok";
-                if(data.tarih) {
-                    const dateObj = data.tarih.toDate();
-                    tarihStr = dateObj.toLocaleDateString('tr-TR') + " " + dateObj.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
-                }
-
-                div.innerHTML = `
-                    <div class="archive-item-title">${data.konu}</div>
-                    <div class="archive-item-date">${tarihStr}</div>
-                `;
-                div.addEventListener('click', () => {
-                    navigator.clipboard.writeText(data.metin);
-                    alert("Metin panoya kopyalandı!");
-                });
-                liste.appendChild(div);
-            });
-        } catch (error) {
-            console.error("Arşiv yüklenirken hata:", error);
-            liste.innerHTML = "Kayıtlar yüklenemedi. Firestore kurallarını kontrol edin.";
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        arsiviYukle();
-    });
-</script>
-</body>
-</html>
+        navigator.clipboard.writeText
