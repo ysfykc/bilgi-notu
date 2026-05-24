@@ -126,7 +126,7 @@
             flex: 1;
         }
 
-        /* Minimal Önizleme Stilleri */
+        /* Minimal Önizleme Stilleri (WhatsApp Yeşili Geri Getirildi) */
         .preview-box {
             background: rgba(255, 255, 255, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -137,14 +137,14 @@
         }
 
         .whatsapp-msg {
-            background: #ffffff;
+            background: #DCF8C6; /* Klasik WhatsApp Yeşili */
             border-radius: 14px;
             padding: 14px;
             font-size: 14px;
             line-height: 1.5;
             white-space: pre-wrap;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            color: #2c3e50;
+            color: #000;
             border: 1px solid rgba(0,0,0,0.02);
         }
 
@@ -414,7 +414,7 @@
         
         if(ad !== "") {
             sahislarDizisi.push({ rol: rol, ad: ad });
-            document.getElementById("sahisAd").value = ""; // Inputu temizle
+            document.getElementById("sahisAd").value = ""; 
             sahisListesiniCiz();
             metinOlustur();
         }
@@ -485,7 +485,6 @@
             if(sucNo) metin += `*Suç No:* ${sucNo}\n`;
             if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
             
-            // Dizideki şahısları metne dök
             sahislarDizisi.forEach(sahis => {
                 metin += `*${sahis.rol}:* ${sahis.ad}\n`;
             });
