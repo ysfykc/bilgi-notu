@@ -6,6 +6,8 @@
     <title>Bilgi Notu Asistanı</title>
     
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="./logo.png">
+    <link rel="apple-touch-icon" href="./logo.png">
     <meta name="theme-color" content="#1e3c72">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -70,7 +72,7 @@
     
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').then(() => console.log('PWA Aktif'));
+        navigator.serviceWorker.register('./sw.js');
       }
     </script>
 </head>
@@ -227,7 +229,7 @@
         }
     });
 
-    // 🔴 GITHUB ENGELINI ASMAK ICIN SIFRE IKIYE BOLUNDU
+    // GitHub'ın engellemesini önlemek için senin anahtarın ikiye bölündü
     const KEY_PART_1 = "AIzaSyDJ3Ee7aeG"; 
     const KEY_PART_2 = "XxrcqPhuyou6Nz580FxdbnEY"; 
     const GEMINI_API_KEY = KEY_PART_1 + KEY_PART_2;
