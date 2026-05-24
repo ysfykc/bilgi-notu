@@ -81,7 +81,7 @@
                 <label>Şahıs Ekle</label>
                 <div class="row" style="margin-bottom: 8px;">
                     <select id="sahisRol" style="flex: 1;"><option value="Müşteki">Müşteki</option><option value="Şüpheli">Şüpheli</option><option value="Mağdur">Mağdur</option><option value="Bilgi Sahibi">Bilgi Sahibi</option></select>
-                    <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;">
+                    <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;" onkeypress="if(event.key === 'Enter') sahisEkle()">
                     <button class="btn-add" onclick="sahisEkle()"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <div id="sahisListesiContainer"></div>
@@ -199,11 +199,27 @@
 
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
+        const ozetBox = document.getElementById("ozet");
+        
         document.getElementById("adliAlanlar").classList.toggle("hidden", tur !== "adli");
         document.getElementById("asayisAlanlar").classList.toggle("hidden", tur !== "asayis");
         
-        if (tur === "asayis") { document.getElementById("baslikTuru").value = "BİLGİ NOTU"; } 
-        else if (tur === "adli" || tur === "trafik") { document.getElementById("baslikTuru").value = "MAKAMA ARZ"; }
+        if (tur === "asayis") { 
+            document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
+            ozetBox.value = "Yapılan kontrollerde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
+        } 
+        else if (tur === "adli") { 
+            document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
+            ozetBox.value = "";
+        }
+        else if (tur === "trafik") { 
+            document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
+            ozetBox.value = "... çevre güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.";
+        }
+        else {
+            document.getElementById("baslikTuru").value = "BİLGİ NOTU";
+            ozetBox.value = "";
+        }
         
         metinOlustur();
     }
