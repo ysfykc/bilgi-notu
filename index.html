@@ -34,7 +34,7 @@
         
         .top-btn-group { display: flex; gap: 8px; }
         .archive-btn-top { background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px;}
-        .install-btn-small { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); display: none; }
+        .install-btn-small { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); display: flex; } /* Buton artık her zaman görünür */
 
         .form-group { margin-bottom: 16px; }
         label { display: block; font-size: 13px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -72,7 +72,7 @@
     
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
+        navigator.serviceWorker.register('./sw.js').then(() => console.log('PWA Aktif'));
       }
     </script>
 </head>
@@ -217,7 +217,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.display = 'flex';
     });
 
     installBtn.addEventListener('click', async () => {
@@ -226,10 +225,12 @@
             const { outcome } = await deferredPrompt.userChoice;
             if (outcome === 'accepted') { installBtn.style.display = 'none'; }
             deferredPrompt = null;
+        } else {
+            // Tarayıcı sistemi bloklasa bile devreye giren akıllı kılavuz düşümü
+            alert("🤖 ANDROID UYGULAMA YÜKLEME REHBERİ\n\nTarayıcınızın otomatik tetikleyicisi arka planda kısıtlanmış görünüyor. Uygulamayı kurmak için şu adımları takip edin:\n\n1. Chrome tarayıcınızın sağ üst köşesindeki ÜÇ NOKTAYA (⋮) basın.\n2. Menü listesinden 'Ana Ekrana Ekle' veya 'Uygulamayı Yükle' seçeneğini seçin.\n\n⚠️ ÖNEMLİ NOT: Eğer bu seçenekler menüde tamamen yoksa uygulamayı zaten indirmiş olabilirsiniz. Lütfen telefon menünüzde 'Bilgi Notu' araması yapın.");
         }
     });
 
-    // GitHub'ın engellemesini önlemek için senin anahtarın ikiye bölündü
     const KEY_PART_1 = "AIzaSyDJ3Ee7aeG"; 
     const KEY_PART_2 = "XxrcqPhuyou6Nz580FxdbnEY"; 
     const GEMINI_API_KEY = KEY_PART_1 + KEY_PART_2;
