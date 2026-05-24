@@ -1,17 +1,22 @@
 {
-  "theme_color": "#1e3c72",
-  "background_color": "#1e3c72",
-  "display": "standalone",
-  "scope": "./",
-  "start_url": "./index.html",
   "name": "Bilgi Notu Asistanı",
   "short_name": "Bilgi Notu",
-  "description": "Emniyet Teşkilatı Resmi Bilgi Notu Hazırlama Asistanı",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/shield-halved.svg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Shield-Symbol.svg/512px-Shield-Symbol.svg.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Shield-Symbol.svg/192px-Shield-Symbol.svg.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
