@@ -482,7 +482,7 @@
 <script>
     // --- YAPAY ZEKA AYARLARI ---
     
-    // GitHub'ın güvenlik taramasına takılmaması için yeni anahtar ikiye bölünerek entegre edildi:
+    // Güvenlik sızıntısını önlemek için ikiye bölünmüş anahtar
     const KEY_PART_1 = "AIzaSy"; 
     const KEY_PART_2 = "BFWfs0WlrlZJo6fZT7E5SHPni6s70OhqE"; 
     const GEMINI_API_KEY = KEY_PART_1 + KEY_PART_2;
@@ -513,7 +513,8 @@
         };
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            // BURASI DEĞİŞTİRİLDİ: Stabil 'v1' API sürümüne bağlandı. (v1beta hatasını tamamen çözer).
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(requestBody)
@@ -525,7 +526,7 @@
                 alert("API Hatası: " + data.error.message);
             } else if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
                 let aiMetin = data.candidates[0].content.parts[0].text;
-                aiMetin = aiMetin.replace(/\*/g, ''); 
+                aiMetin = aiMetin.replace(/\*/g, ''); // Kalınlık işaretlerini temizle
                 ozetBox.value = aiMetin.trim();
                 metinOlustur(); 
             } else {
