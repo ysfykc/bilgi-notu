@@ -516,4 +516,111 @@
 
     function kopyala() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
-        navigator.clipboard.writeText
+        navigator.clipboard.writeText(rawText).then(() => {
+            const btn = document.getElementById("kopyalaBtn");
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
+            btn.classList.add("success");
+            setTimeout(() => { btn.innerHTML = originalText; btn.classList.remove("success"); }, 2000);
+        });
+    }
+
+    function arsiviAc() {
+        document.getElementById("archiveModal").classList.remove("hidden");
+    }
+
+    function arsiviKapat() {
+        document.getElementById("archiveModal").classList.add("hidden");
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyADpIRNLQEIer_gplTgwKi_EKkfcyrYoqY",
+      authDomain: "maasgunu-bd353.firebaseapp.com",
+      projectId: "maasgunu-bd353",
+      storageBucket: "maasgunu-bd353.firebasestorage.app",
+      messagingSenderId: "485904329467",
+      appId: "1:485904329467:web:579d932ae8f25958901e5e",
+      measurementId: "G-GQT1Q7FGDM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById('kaydetBtn').addEventListener('click', async () => {
+        const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
+        const konu = document.getElementById("konu").value || "İsimsiz Olay";
+        const btn = document.getElementById("kaydetBtn");
+        
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kaydediliyor...';
+        
+        try {
+            await addDoc(collection(db, "bilginotlari"), {
+                konu: konu,
+                metin: rawText,
+                tarih: serverTimestamp()
+            });
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Kaydedildi!';
+            btn.classList.add("success");
+            arsiviYukle();
+        } catch (e) {
+            console.error("Hata:", e);
+            btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Hata!';
+        }
+
+        setTimeout(() => { 
+            btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; 
+            btn.classList.remove("success"); 
+        }, 2000);
+    });
+
+    async function arsiviYukle() {
+        const liste = document.getElementById("archiveList");
+        liste.innerHTML = "Yükleniyor...";
+        try {
+            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"));
+            const querySnapshot = await getDocs(q);
+            liste.innerHTML = "";
+            
+            if(querySnapshot.empty) {
+                liste.innerHTML = "Henüz kaydedilmiş not yok.";
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const div = document.createElement("div");
+                div.className = "archive-item";
+                
+                let tarihStr = "Tarih Yok";
+                if(data.tarih) {
+                    const dateObj = data.tarih.toDate();
+                    tarihStr = dateObj.toLocaleDateString('tr-TR') + " " + dateObj.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+                }
+
+                div.innerHTML = `
+                    <div class="archive-item-title">${data.konu}</div>
+                    <div class="archive-item-date">${tarihStr}</div>
+                `;
+                div.addEventListener('click', () => {
+                    navigator.clipboard.writeText(data.metin);
+                    alert("Metin panoya kopyalandı!");
+                });
+                liste.appendChild(div);
+            });
+        } catch (error) {
+            console.error("Arşiv yüklenirken hata:", error);
+            liste.innerHTML = "Kayıtlar yüklenemedi. Firestore kurallarını kontrol edin.";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        arsiviYukle();
+    });
+</script>
+</body>
+</html>
