@@ -163,10 +163,12 @@
         document.getElementById('micBtn').classList.remove('recording');
     }
 
+    // SATIR ARASI BOŞLUK BURADA EKLENDİ
     function ekleOzet(metin) {
         const ozetBox = document.getElementById('ozet');
         let m = ozetBox.value.trim();
-        ozetBox.value = m === "" ? metin : m + " " + metin;
+        // Kutu boşsa direkt ekle, doluysa araya bir satır boşluk (\n\n) koyarak ekle
+        ozetBox.value = m === "" ? metin : m + "\n\n" + metin;
         metinOlustur();
     }
 
@@ -241,7 +243,9 @@
         if(tur === "asayis" && document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n`;
         
         sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
-        if(ozet) metin += `\n*ÖZET:* ${ozet}\n\n`;
+        
+        // ÖZET KISMININ GÖRÜNÜMÜ FERAHLAŞTIRILDI
+        if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
         metin += `*Arz ederim.*`;
 
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
