@@ -1,0 +1,18 @@
+{
+  "name": "Bilgi Notu Asistanı",
+  "short_name": "Bilgi Notu",
+  "description": "Hızlı ve standart bilgi notu hazırlama asistanı.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1042/1042358.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
