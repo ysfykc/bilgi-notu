@@ -112,7 +112,8 @@
 
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
+            padding-right: 50px; /* Mikrofon için boşluk */
         }
 
         .hidden { display: none !important; }
@@ -126,7 +127,67 @@
             flex: 1;
         }
 
-        /* Minimal Önizleme Stilleri (WhatsApp Yeşili Geri Getirildi) */
+        /* --- YENİ EKLENEN KISIMLAR (MİKROFON VE BUTONLAR) --- */
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        .mic-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--ios-blue);
+            border: none;
+            border-radius: 50%;
+            width: 40px !important;
+            height: 40px !important;
+            flex: none !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 !important;
+            transition: all 0.3s;
+        }
+
+        .mic-btn.recording {
+            background: #FF3B30;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+        }
+
+        .quick-phrases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .phrase-chip {
+            background: rgba(0, 122, 255, 0.08);
+            color: var(--ios-blue);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            transition: background 0.2s;
+        }
+
+        .phrase-chip:hover {
+            background: rgba(0, 122, 255, 0.15);
+        }
+        /* ---------------------------------------------------- */
+
         .preview-box {
             background: rgba(255, 255, 255, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -137,7 +198,7 @@
         }
 
         .whatsapp-msg {
-            background: #DCF8C6; /* Klasik WhatsApp Yeşili */
+            background: #DCF8C6;
             border-radius: 14px;
             padding: 14px;
             font-size: 14px;
@@ -218,7 +279,6 @@
             padding: 4px;
         }
 
-        /* Modal */
         #archiveModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -356,7 +416,18 @@
 
         <div class="form-group">
             <label>Özet / Açıklama</label>
-            <textarea id="ozet" placeholder="Olayın özetini buraya giriniz..." oninput="metinOlustur()"></textarea>
+            <div class="textarea-wrapper">
+                <textarea id="ozet" placeholder="Olayın özetini buraya giriniz veya mikrofonla yazdırınız..." oninput="metinOlustur()"></textarea>
+                <button id="micBtn" class="mic-btn" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
+            </div>
+            
+            <div class="quick-phrases">
+                <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
+                <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
+                <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
+                <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
+                <span class="phrase-chip" onclick="ekleOzet('Meydana gelen olayla ilgili herhangi bir olumsuzluk yoktur.')">Olumsuzluk Yok +</span>
+            </div>
         </div>
     </div>
 
@@ -393,7 +464,74 @@
 
 <script>
     let sahislarDizisi = [];
+    
+    // Sesli yazdırma tanımlamaları
+    let recognition;
+    let isRecording = false;
 
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false; // Yalnızca tam cümleleri al
+        recognition.lang = 'tr-TR';
+
+        recognition.onstart = function() {
+            isRecording = true;
+            document.getElementById('micBtn').classList.add('recording');
+        };
+
+        recognition.onresult = function(event) {
+            let finalTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += event.results[i][0].transcript + ' ';
+                }
+            }
+            if (finalTranscript) {
+                ekleOzet(finalTranscript.trim());
+            }
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Mikrofon Hatası:', event.error);
+            stopDictation();
+        };
+
+        recognition.onend = function() {
+            if(isRecording) stopDictation();
+        };
+    }
+
+    function toggleDictation() {
+        if (!recognition) {
+            alert("Telefonunuzun tarayıcısı sesli yazdırma özelliğini desteklemiyor. Lütfen güncel bir Chrome veya Safari kullanın.");
+            return;
+        }
+        
+        if (isRecording) {
+            stopDictation();
+        } else {
+            // İlk açılışta mikrofon izni isteyecektir
+            recognition.start();
+        }
+    }
+
+    function stopDictation() {
+        isRecording = false;
+        if(recognition) recognition.stop();
+        document.getElementById('micBtn').classList.remove('recording');
+    }
+
+    function ekleOzet(metin) {
+        const ozetBox = document.getElementById('ozet');
+        // Kutu boş değilse ve sonunda boşluk yoksa boşluk ekleyip metni yapıştırır
+        let mevcutMetin = ozetBox.value.trim();
+        ozetBox.value = mevcutMetin === "" ? metin : mevcutMetin + " " + metin;
+        metinOlustur();
+    }
+
+    // --- Diğer Fonksiyonlar ---
     document.addEventListener("DOMContentLoaded", () => {
         const bugun = new Date();
         const gun = String(bugun.getDate()).padStart(2, '0');
@@ -456,7 +594,7 @@
         } else if (tur === "adli") {
             adliAlanlar.classList.remove("hidden");
             baslikTuru.value = "MAKAMA ARZ";
-            document.getElementById("ozet").value = "... olayla ilgili Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.";
+            document.getElementById("ozet").value = ""; // Adli olaylar için hazır butonlar daha pratik olduğu için kutuyu boş başlattım
         } else if (tur === "trafik") {
             baslikTuru.value = "MAKAMA ARZ";
             document.getElementById("ozet").value = "... çevre güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.";
@@ -490,7 +628,7 @@
             });
 
             if(tarih || saat) metin += `*Olay Tarihi ve Saati:* ${tarih} ${saat}\n`;
-            metin += `\n*ÖZET:* ${ozet}\n\n`;
+            if(ozet) metin += `\n*ÖZET:* ${ozet}\n\n`;
         } 
         else if (tur === "asayis") {
             const sorgulanan = document.getElementById("sorgulananSahis").value;
@@ -499,13 +637,13 @@
             if(konu) metin += `\n*Konu:* ${konu}\n`;
             if(olayYeri) metin += `*Kontrol Yeri:* ${olayYeri}\n`;
             if(sorgulanan) metin += `*Sorgulanan Şahıs:* ${sorgulanan}\n`;
-            metin += `\n${ozet}\n\n`;
+            if(ozet) metin += `\n${ozet}\n\n`;
         }
         else {
             if(konu) metin += `*Konu:* ${konu}\n`;
             if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
             if(olayYeri) metin += `*Adres/Olay Yeri:* ${olayYeri}\n`;
-            metin += `\n*Özet:* ${ozet}\n\n`;
+            if(ozet) metin += `\n*Özet:* ${ozet}\n\n`;
         }
         metin += `*Arz ederim.*`;
 
