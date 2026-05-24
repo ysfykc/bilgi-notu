@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bn-v7';
+const CACHE_NAME = 'bn-v8';
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(['./', './index.html', './manifest.json']))
@@ -14,5 +14,5 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
