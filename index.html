@@ -25,6 +25,28 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; }
         .container { max-width: 600px; margin: 0 auto; }
+        
+        /* Yeni Yükleme Butonu Tasarımı */
+        .install-btn {
+            background: linear-gradient(135deg, #FF2D55 0%, #FF3B30 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 700;
+            width: 100%;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 59, 48, 0.3);
+            transition: transform 0.2s;
+        }
+        .install-btn:active { transform: scale(0.98); }
+
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); position: relative; }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         h1 { font-size: 20px; font-weight: 700; color: var(--text-dark); }
@@ -49,11 +71,10 @@
         .preview-box { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 16px; padding: 16px; position: relative; margin-top: 10px; }
         .whatsapp-msg { background: #DCF8C6; border-radius: 14px; padding: 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #000; }
         .btn-group { display: flex; gap: 10px; margin-top: 15px; }
-        button { flex: 1; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        button.bot-btn { flex: 1; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-secondary { background: #5856D6; }
-        .btn-add { background: var(--ios-blue); flex: none; width: 50px; border-radius: 12px; }
-        button.success { background: var(--ios-green) !important; }
-        .developer-credit { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.7); font-weight: 500; }
+        .btn-add { background: var(--ios-blue); flex: none; width: 50px; border-radius: 12px; color: white; border: none; cursor: pointer;}
+        .success { background: var(--ios-green) !important; }
         .person-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.6); padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; font-size: 14px; border: 1px solid rgba(0,0,0,0.05); }
         .delete-person { color: #FF3B30; cursor: pointer; padding: 4px; }
         #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; }
@@ -63,13 +84,18 @@
     
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').then(() => console.log('PWA Aktif'));
+        navigator.serviceWorker.register('./sw.js');
       }
     </script>
 </head>
 <body>
 
 <div class="container">
+    
+    <button id="installBtn" class="install-btn" onclick="installApp()">
+        <i class="fa-solid fa-download"></i> UYGULAMAYI TELEFONA YÜKLE
+    </button>
+
     <div class="glass-panel">
         <div class="header-row">
             <h1><i class="fa-solid fa-shield-halved"></i> Bilgi Notu Asistanı</h1>
@@ -149,7 +175,7 @@
         <div class="form-group">
             <label>Özet / Açıklama</label>
             <div class="textarea-wrapper">
-                <textarea id="ozet" placeholder="Olayın özetini buraya giriniz..." oninput="metinOlustur()"></textarea>
+                <textarea id="ozet" placeholder="Olayın özetini buraya giriniz veya mikrofonla yazdırınız..." oninput="metinOlustur()"></textarea>
                 <button id="aiBtn" class="action-btn ai-btn" title="Yapay Zeka ile Resmi Dile Çevir" onclick="yapayZekaIleDuzenle()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                 <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
             </div>
@@ -170,17 +196,13 @@
         </div>
         
         <div class="btn-group">
-            <button class="btn-secondary" id="kaydetBtn">
+            <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()">
                 <i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet
             </button>
-            <button id="kopyalaBtn" onclick="kopyala()">
+            <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()">
                 <i class="fa-regular fa-copy"></i> Kopyala
             </button>
         </div>
-    </div>
-
-    <div class="developer-credit">
-        <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b>
     </div>
 </div>
 
@@ -195,6 +217,30 @@
 </div>
 
 <script>
+    // --- UYGULAMA YÜKLEME MANTIĞI ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+
+    function installApp() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                deferredPrompt = null;
+            });
+        } else {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                alert("🍎 IPHONE İÇİN YÖNERGE:\n\n1. Safari'nin alt menüsündeki 'Paylaş' (Kareden çıkan ok 📤) ikonuna basın.\n2. Menüyü biraz aşağı kaydırıp 'Ana Ekrana Ekle' (➕) seçeneğine dokunun.");
+            } else {
+                alert("🤖 ANDROID İÇİN YÖNERGE:\n\nTarayıcının sağ üst köşesindeki 3 noktaya (⋮) basın.\nMenüden 'Ana Ekrana Ekle' veya 'Uygulamayı Yükle' seçeneğini seçin.\n\n⚠️ NOT: Eğer menüde bu seçenek yoksa, uygulamayı zaten ana ekranınıza indirmiş olabilirsiniz veya linki WhatsApp içinden açmış olabilirsiniz. Lütfen linki kopyalayıp Chrome'da açın.");
+            }
+        }
+    }
+
+    // --- YAPAY ZEKA AYARLARI ---
     const KEY_PART_1 = "AIzaSy"; 
     const KEY_PART_2 = "BFWfs0WlrlZJo6fZT7E5SHPni6s70OhqE"; 
     const GEMINI_API_KEY = KEY_PART_1 + KEY_PART_2;
@@ -407,7 +453,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    document.getElementById('kaydetBtn').addEventListener('click', async () => {
+    window.kaydetVeArsivle = async function() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
         const konu = document.getElementById("konu").value || "İsimsiz Olay";
         const btn = document.getElementById("kaydetBtn");
@@ -420,7 +466,7 @@
             arsiviYukle();
         } catch (e) { btn.innerHTML = 'Hata!'; }
         setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; btn.classList.remove("success"); }, 2000);
-    });
+    }
 
     async function arsiviYukle() {
         const liste = document.getElementById("archiveList");
