@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bilgi-notu-v1';
+const CACHE_NAME = 'bilgi-notu-v2';
 const ASSETS = [
   './',
   './index.html',
