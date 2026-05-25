@@ -638,7 +638,6 @@
         metinOlustur();
     }
 
-    // YENİDEN DÜZENLENMİŞ: Şablon Değiştirici (Eski Hazır Metinler de İçinde)
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
         const ozetBox = document.getElementById("ozet");
@@ -651,29 +650,25 @@
         
         if (tur === "asayis") { 
             document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan kontrollerde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         } 
         else if (tur === "asayis_trafik") { 
             document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         }
         else if (tur === "adli") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
-            ozetBox.value = "";
         }
         else if (tur === "trafik") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
-            ozetBox.value = "... çevre güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.";
         }
         else {
             document.getElementById("baslikTuru").value = "BİLGİ NOTU";
-            ozetBox.value = "";
         }
         
         checklistCiz();
         metinOlustur();
     }
 
+    // YENİDEN DÜZENLENEN WHATSAPP ÖNİZLEME OLUŞTURUCUSU
     function metinOlustur() {
         const tur = document.getElementById("olayTuru").value;
         const baslikTuru = document.getElementById("baslikTuru").value;
@@ -686,8 +681,11 @@
         ozet = plakaFormatla(ozet);
         kanunOnerileriniGuncelle();
 
-        let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
-        if(konu) metin += `*Konu:* ${konu}\n\n`;
+        // Başlığın hemen altına \n\n eklenerek istenen o tek satır boşluk sağlandı
+        let metin = `*${baslikTuru}*\n\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n`;
+        
+        // Diğer verilerin aralarındaki \n\n'ler tamamen kaldırıldı, \n yapıldı
+        if(konu) metin += `*Konu:* ${konu}\n`;
         
         if(tur === "adli") {
             let sucNoVal = document.getElementById("sucNo").value.trim();
@@ -695,20 +693,23 @@
                 if(!sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) {
                     sucNoVal = new Date().getFullYear() + "/" + sucNoVal;
                 }
-                metin += `*Suç No:* ${sucNoVal}\n\n`;
+                metin += `*Suç No:* ${sucNoVal}\n`;
             }
-            sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
+            sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
         }
         
-        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n\n`;
-        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
+        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
+        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
         
         if(tur === "asayis" || tur === "asayis_trafik") {
-            if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
-            if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n\n`;
+            if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n`;
+            if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n`;
         }
         
-        if(ozet) metin += `*ÖZET:*\n${ozet}\n\n`;
+        // ÖZET kısmının sadece üstündeki boşluk tutuldu ki uzun metin künyeden ayrılsın
+        if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
+        else metin += `\n`;
+        
         metin += `*Arz ederim.*`;
 
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
