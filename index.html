@@ -55,7 +55,7 @@
             <label>Olay Türü (Şablon)</label>
             <select id="olayTuru" onchange="sablonDegistir()">
                 <option value="asayis">Asayiş Uygulaması</option>
-                <option value="adli">Adli Olay (Dolandırıcılık, Yaralama vb.)</option>
+                <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option> <option value="adli">Adli Olay (Dolandırıcılık, Yaralama vb.)</option>
                 <option value="trafik">Trafik Kazası</option>
                 <option value="idari">İdari / Diğer</option>
             </select>
@@ -88,7 +88,18 @@
             </div>
         </div>
 
-        <div id="asayisAlanlar"><div class="form-group"><label>Sorgulanan Şahıs Sayısı</label><input type="number" id="sorgulananSahis" oninput="metinOlustur()"></div></div>
+        <div id="asayisAlanlar">
+            <div class="row">
+                <div class="form-group">
+                    <label>Sorgulanan Şahıs Sayısı</label>
+                    <input type="number" id="sorgulananSahis" oninput="metinOlustur()">
+                </div>
+                <div class="form-group">
+                    <label>Sorgulanan Araç Sayısı</label>
+                    <input type="number" id="sorgulananArac" oninput="metinOlustur()">
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <label>Özet / Açıklama</label>
@@ -202,12 +213,19 @@
         const ozetBox = document.getElementById("ozet");
         
         document.getElementById("adliAlanlar").classList.toggle("hidden", tur !== "adli");
-        document.getElementById("asayisAlanlar").classList.toggle("hidden", tur !== "asayis");
+        
+        // HEM ASAYİŞ HEM DE ASAYİŞ-TRAFİK SEÇİLDİĞİNDE ARAÇ/ŞAHIS KUTULARI GÖRÜNSÜN
+        const asayisMi = (tur === "asayis" || tur === "asayis_trafik");
+        document.getElementById("asayisAlanlar").classList.toggle("hidden", !asayisMi);
         
         if (tur === "asayis") { 
             document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
             ozetBox.value = "Yapılan kontrollerde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         } 
+        else if (tur === "asayis_trafik") { 
+            document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
+            ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
+        }
         else if (tur === "adli") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
             ozetBox.value = "";
@@ -233,13 +251,17 @@
         const olayYeri = document.getElementById("olayYeri").value;
         const ozet = document.getElementById("ozet").value;
 
-        // Her satırın sonuna ekstradan bir boş satır (\n\n) eklendi
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         if(konu) metin += `*Konu:* ${konu}\n\n`;
         if(tur === "adli" && document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
         if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n\n`;
         if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
-        if(tur === "asayis" && document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
+        
+        // ASAYİŞ VEYA ASAYİŞ-TRAFİK SEÇİLDİYSE ŞAHIS/ARAÇ BİLGİLERİNİ EKLE
+        if(tur === "asayis" || tur === "asayis_trafik") {
+            if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
+            if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n\n`;
+        }
         
         sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
         
