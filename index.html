@@ -31,15 +31,15 @@
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         .quick-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .phrase-chip { background: rgba(0, 122, 255, 0.08); color: var(--ios-blue); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .phrase-chip { background: rgba(0, 122, 255, 0.08); color: var(--ios-blue); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; }
         .whatsapp-msg { background: #DCF8C6; border-radius: 14px; padding: 14px; font-size: 14px; white-space: pre-wrap; color: #000; margin-top: 10px; }
-        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
-        button.bot-btn { flex: 1; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; gap: 8px; }
+        .btn-group { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        button.bot-btn { flex: 1; min-width: 120px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; }
         .btn-secondary { background: #5856D6; } .btn-add { background: var(--ios-blue); color: white; width: 50px; border-radius: 12px; border: none; cursor: pointer; }
         .developer-credit { text-align: center; margin-top: 25px; font-size: 13px; color: rgba(255, 255, 255, 0.8); }
-        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
         .modal-content { background: var(--glass-bg); width: 100%; max-width: 500px; max-height: 80vh; border-radius: 24px; padding: 20px; overflow-y: auto; }
-        .archive-item { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+        .archive-item { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -55,7 +55,8 @@
             <label>Olay Türü (Şablon)</label>
             <select id="olayTuru" onchange="sablonDegistir()">
                 <option value="asayis">Asayiş Uygulaması</option>
-                <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option> <option value="adli">Adli Olay (Dolandırıcılık, Yaralama vb.)</option>
+                <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
+                <option value="adli">Adli Olay (Dolandırıcılık, Yaralama vb.)</option>
                 <option value="trafik">Trafik Kazası</option>
                 <option value="idari">İdari / Diğer</option>
             </select>
@@ -107,11 +108,18 @@
                 <textarea id="ozet" placeholder="Olayın özetini yazın..." oninput="metinOlustur()"></textarea>
                 <button id="micBtn" class="action-btn" title="Sesli Yazdır" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
             </div>
+            
             <div class="quick-phrases">
                 <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
+            </div>
+
+            <div id="dinamikPhrases" class="quick-phrases" style="margin-top: 6px;"></div>
+            <div style="margin-top: 10px; display: flex; gap: 8px;">
+                <input type="text" id="yeniCumleInput" placeholder="Kendi özel hazır cümleni buraya ekle..." style="padding: 10px 14px; font-size: 14px; border-radius: 12px;">
+                <button class="btn-add" onclick="yeniCumleEkle()" style="width: 45px; border-radius: 12px;"><i class="fa-solid fa-plus"></i></button>
             </div>
         </div>
     </div>
@@ -122,6 +130,7 @@
         <div class="btn-group">
             <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet</button>
             <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
+            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: #25D366;"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
         </div>
     </div>
     
@@ -130,7 +139,13 @@
 
 <div id="archiveModal" class="hidden">
     <div class="modal-content">
-        <div class="header-row"><h2>Geçmiş Notlar</h2><button class="archive-btn-top" onclick="arsiviKapat()">Kapat</button></div>
+        <div class="header-row">
+            <h2>Geçmiş Notlar</h2>
+            <button class="archive-btn-top" onclick="arsiviKapat()">Kapat</button>
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <input type="text" id="archiveSearch" placeholder="Arşivde kelime, şahıs veya konu ara..." oninput="arsivFiltrele()" style="background: #fff; border: 1px solid rgba(0,0,0,0.15); border-radius: 12px;">
+        </div>
         <div id="archiveList">Yükleniyor...</div>
     </div>
 </div>
@@ -141,6 +156,7 @@
     }
 
     let sahislarDizisi = [];
+    let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
     let recognition;
     let isRecording = false;
 
@@ -181,17 +197,104 @@
         metinOlustur();
     }
 
+    // Yenilik 5: Özel cümle yönetim fonksiyonları
+    function ozelCumleleriCiz() {
+        const container = document.getElementById("dinamikPhrases");
+        container.innerHTML = "";
+        ozelCumleler.forEach((cumle, index) => {
+            container.innerHTML += `
+                <span class="phrase-chip" style="background: rgba(88, 86, 214, 0.08); color: #5856D6; border: 1px solid rgba(88, 86, 214, 0.2); padding-right: 28px; position: relative;" onclick="ekleOzet('${cumle}')">
+                    ${cumle}
+                    <i class="fa-solid fa-xmark" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #FF3B30; cursor: pointer; padding: 2px;" onclick="event.stopPropagation(); ozelCumleSil(${index})"></i>
+                </span>`;
+        });
+    }
+
+    function yeniCumleEkle() {
+        const val = document.getElementById("yeniCumleInput").value.trim();
+        if(val) {
+            ozelCumleler.push(val);
+            localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
+            document.getElementById("yeniCumleInput").value = "";
+            ozelCumleleriCiz();
+        }
+    }
+
+    function ozelCumleSil(index) {
+        ozelCumleler.splice(index, 1);
+        localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
+        ozelCumleleriCiz();
+    }
+
+    // Yenilik 6: Akıllı Plaka Formatlayıcı (Gömülü Regex Motoru)
+    function plakaFormatla(text) {
+        if (!text) return "";
+        // 01-81 il kodlarını ve TR plaka kombinasyonlarını (Harf ve sayı bloklarını) yakalayıp standart boşluk bırakır.
+        return text.replace(/\b([0-8][0-9])\s*([a-zA-Z]{1,3})\s*(\d{2,5})\b/g, function(match, sehir, harf, sayi) {
+            return sehir + " " + harf.toUpperCase() + " " + sayi;
+        });
+    }
+
+    // Yenilik 3: Otomatik Taslak Veri Koruma Altyapısı
+    function taslakKaydet() {
+        const taslak = {
+            olayTuru: document.getElementById("olayTuru").value,
+            baslikTuru: document.getElementById("baslikTuru").value,
+            konu: document.getElementById("konu").value,
+            tarih: document.getElementById("tarih").value,
+            saat: document.getElementById("saat").value,
+            olayYeri: document.getElementById("olayYeri").value,
+            sucNo: document.getElementById("sucNo").value,
+            sorgulananSahis: document.getElementById("sorgulananSahis").value,
+            sorgulananArac: document.getElementById("sorgulananArac").value,
+            ozet: document.getElementById("ozet").value,
+            sahislarDizisi: sahislarDizisi
+        };
+        localStorage.setItem('taslak_not_verisi', JSON.stringify(taslak));
+    }
+
+    function taslakYukle() {
+        const veri = localStorage.getItem('taslak_not_verisi');
+        if (veri) {
+            const taslak = JSON.parse(veri);
+            document.getElementById("olayTuru").value = taslak.olayTuru || "asayis";
+            sablonDegistir();
+            
+            document.getElementById("baslikTuru").value = taslak.baslikTuru || "BİLGİ NOTU";
+            document.getElementById("konu").value = taslak.konu || "";
+            document.getElementById("tarih").value = taslak.tarih || "";
+            document.getElementById("saat").value = taslak.saat || "";
+            document.getElementById("olayYeri").value = taslak.olayYeri || "";
+            document.getElementById("sucNo").value = taslak.sucNo || "";
+            document.getElementById("sorgulananSahis").value = taslak.sorgulananSahis || "";
+            document.getElementById("sorgulananArac").value = taslak.sorgulananArac || "";
+            document.getElementById("ozet").value = taslak.ozet || "";
+            sahislarDizisi = taslak.sahislarDizisi || [];
+            
+            sahisListesiniCiz();
+            metinOlustur();
+        } else {
+            const bugun = new Date();
+            document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
+            document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
+            sablonDegistir();
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-        const bugun = new Date();
-        document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
-        document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
-        sablonDegistir();
+        taslakYukle();
+        ozelCumleleriCiz();
     });
 
     function sahisEkle() {
         const rol = document.getElementById("sahisRol").value;
         const ad = document.getElementById("sahisAd").value.trim();
-        if(ad !== "") { sahislarDizisi.push({ rol, ad }); document.getElementById("sahisAd").value = ""; sahisListesiniCiz(); metinOlustur(); }
+        if(ad !== "") { 
+            sahislarDizisi.push({ rol, ad }); 
+            document.getElementById("sahisAd").value = ""; 
+            sahisListesiniCiz(); 
+            metinOlustur(); 
+        }
     }
 
     function sahisListesiniCiz() {
@@ -214,7 +317,6 @@
         
         document.getElementById("adliAlanlar").classList.toggle("hidden", tur !== "adli");
         
-        // HEM ASAYİŞ HEM DE ASAYİŞ-TRAFİK SEÇİLDİĞİNDE ARAÇ/ŞAHIS KUTULARI GÖRÜNSÜN
         const asayisMi = (tur === "asayis" || tur === "asayis_trafik");
         document.getElementById("asayisAlanlar").classList.toggle("hidden", !asayisMi);
         
@@ -249,7 +351,10 @@
         const tarih = document.getElementById("tarih").value;
         const saat = document.getElementById("saat").value;
         const olayYeri = document.getElementById("olayYeri").value;
-        const ozet = document.getElementById("ozet").value;
+        let ozet = document.getElementById("ozet").value;
+
+        // Plaka formatlama motoru devreye giriyor
+        ozet = plakaFormatla(ozet);
 
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         if(konu) metin += `*Konu:* ${konu}\n\n`;
@@ -257,7 +362,6 @@
         if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n\n`;
         if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
         
-        // ASAYİŞ VEYA ASAYİŞ-TRAFİK SEÇİLDİYSE ŞAHIS/ARAÇ BİLGİLERİNİ EKLE
         if(tur === "asayis" || tur === "asayis_trafik") {
             if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
             if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n\n`;
@@ -270,6 +374,9 @@
 
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
         document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
+        
+        // Veri kaybını önlemek için her tuş vuruşunda taslağı hafızaya kaydeder.
+        taslakKaydet();
     }
 
     function kopyala() {
@@ -279,7 +386,28 @@
         setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala'; }, 2000);
     }
 
-    function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); }
+    // Yenilik 2: Doğrudan tek tıkla WhatsApp API Gönderim Sistemi
+    function whatsappGonder() {
+        const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
+        const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(rawText);
+        window.open(url, '_blank');
+    }
+
+    // Yenilik 4: Arşiv İçi Canlı Arama Motoru
+    function arsivFiltrele() {
+        const queryStr = document.getElementById("archiveSearch").value.toLowerCase().trim();
+        const items = document.querySelectorAll(".archive-item");
+        items.forEach(item => {
+            const itemText = item.innerText.toLowerCase();
+            if (itemText.includes(queryStr)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+
+    function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); document.getElementById("archiveSearch").value = ""; }
     function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
 </script>
 
