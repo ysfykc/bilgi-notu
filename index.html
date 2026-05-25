@@ -21,7 +21,7 @@
             --glass-border: rgba(0, 0, 0, 0.05);
             --text-dark: #1C1C1E; 
             --text-gray: #8E8E93; 
-            --input-bg: rgba(118, 118, 128, 0.12); /* Apple Orijinal Kutu Rengi */
+            --input-bg: rgba(118, 118, 128, 0.12);
             --wp-bg: #DCF8C6; 
             --wp-text: #000000;
             --panel-shadow: rgba(0, 0, 0, 0.15);
@@ -29,7 +29,6 @@
             --body-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
         }
 
-        /* iOS Karanlık Mod (OLED Black Uyumlu) */
         body.dark-mode {
             --glass-bg: rgba(28, 28, 30, 0.85);
             --glass-border: rgba(255, 255, 255, 0.08);
@@ -55,7 +54,6 @@
 
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* Apple Inset Grouped List Görünümü */
         .glass-panel { 
             background: var(--glass-bg); 
             backdrop-filter: blur(40px); 
@@ -68,10 +66,8 @@
         
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         
-        /* Başlık Küçültüldü ve Yan Yana Hizalandı */
         h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
         
-        /* Navigasyon Butonları iOS Tarzı */
         .top-btn-group { display: flex; gap: 6px; }
         .archive-btn-top { background: var(--input-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.1s; }
         .archive-btn-top:active { transform: scale(0.95); opacity: 0.7; }
@@ -79,10 +75,8 @@
 
         .form-group { margin-bottom: 16px; }
         
-        /* iOS Settings Label Stili */
         label { display: block; font-size: 11px; font-weight: 500; color: var(--text-gray); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
         
-        /* Tamamen Çerçevesiz, iOS 18 Input Kutuları */
         input, select, textarea { 
             width: 100%; background: var(--input-bg); 
             border: none; 
@@ -105,7 +99,6 @@
         .row { display: flex; gap: 10px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
         
-        /* Yuvarlak İkon Butonları */
         .action-btn { position: absolute; bottom: 8px; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; transition: transform 0.1s; }
         .action-btn:active { transform: scale(0.85); opacity: 0.7; }
         .mic-btn { right: 8px; background: var(--glass-bg); color: var(--ios-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
@@ -119,7 +112,6 @@
         
         .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 8px; line-height: 1.4;}
         
-        /* Alt Buton Grubu iOS 18 Stili */
         .btn-group { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
         button.bot-btn { flex: 1; min-width: 100px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: transform 0.1s, opacity 0.2s; }
         button.bot-btn:active { transform: scale(0.96); opacity: 0.8; }
@@ -131,7 +123,6 @@
         .developer-credit b { font-weight: 600; color: #fff; }
         .version-tag { display: inline-block; margin-top: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; background: rgba(0, 0, 0, 0.2); padding: 3px 8px; border-radius: 10px; color: rgba(255,255,255,0.9);}
 
-        /* Arşiv Modalı Tam Ekran Blur iOS Efekti */
         #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 24px; padding: 20px; overflow-y: auto; margin-bottom: 10px;}
         .archive-item { background: var(--input-bg); padding: 14px; border-radius: 14px; margin-bottom: 10px; cursor: pointer; transition: transform 0.1s; }
@@ -184,7 +175,7 @@
         <div class="form-group"><label>Olay Yeri / Adres</label><input type="text" id="olayYeri" placeholder="Örn: Yunus Emre Bulvarı" oninput="metinOlustur()"></div>
 
         <div id="adliAlanlar" class="hidden">
-            <div class="form-group"><label>Suç No</label><input type="text" id="sucNo" oninput="metinOlustur()"></div>
+            <div class="form-group"><label>Suç No</label><input type="text" id="sucNo" placeholder="Örn: 33 (Yılı otomatik ekler)" oninput="metinOlustur()"></div>
             <div class="form-group">
                 <label>Şahıs Ekle</label>
                 <input type="number" id="sahisTc" placeholder="T.C. Kimlik No (Opsiyonel)" oninput="tcKontrolEt()" style="margin-bottom: 8px;">
@@ -367,7 +358,7 @@
         
         kanunMaddeleri.forEach(madde => {
             if(madde.k.some(kelime => birlesikMetin.includes(kelime))) {
-                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.15); color: #FF9500; font-size: 12px; border: 1px solid rgba(255, 149, 0, 0.3);"><i class="fa-solid fa-scale-balanced" style="margin-right:4px;"></i> ${madde.text}</span>`;
+                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.15); color: #FF9500; font-size: 12px; border: 1px solid rgba(255, 149, 0, 0.3); border-radius: 12px;"><i class="fa-solid fa-scale-balanced" style="margin-right:4px;"></i> ${madde.text}</span>`;
                 sonuc = true;
             }
         });
@@ -655,7 +646,14 @@
         if(konu) metin += `*Konu:* ${konu}\n\n`;
         
         if(tur === "adli") {
-            if(document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
+            let sucNoVal = document.getElementById("sucNo").value.trim();
+            if(sucNoVal) {
+                // Eğer içinde "/" yoksa ve sadece rakamsa bulunduğumuz yılı ekle
+                if(!sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) {
+                    sucNoVal = new Date().getFullYear() + "/" + sucNoVal;
+                }
+                metin += `*Suç No:* ${sucNoVal}\n\n`;
+            }
             sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
         }
         
