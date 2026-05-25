@@ -8,75 +8,60 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
     <link rel="apple-touch-icon" href="./logo.png">
-    <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1e3c72" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* iOS 18 Premium Renk Paleti ve Cam Yüzey Değişkenleri */
+        /* Resmi ve Net Renk Paleti */
         :root { 
             --ios-blue: #007AFF; 
             --ios-green: #34C759; 
-            --glass-bg: rgba(255, 255, 255, 0.65); 
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.95); /* Tok Beyaz Panel */
+            --glass-border: rgba(255, 255, 255, 0.8);
             --text-dark: #1C1C1E; 
-            --text-gray: #8E8E93; 
-            --input-bg: rgba(255, 255, 255, 0.6);
-            --wp-bg: #DCF8C6; /* Klasik WhatsApp Yeşili */
+            --text-gray: #6e6e73; 
+            --input-bg: #f2f2f7; /* Hafif Gri Girdi Kutuları */
+            --wp-bg: #DCF8C6; 
             --wp-text: #000000;
-            --panel-shadow: rgba(0, 0, 0, 0.08);
+            --panel-shadow: rgba(0, 0, 0, 0.2);
             --chip-bg: rgba(0, 122, 255, 0.1);
+            --body-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Emniyet Laciverti */
         }
 
-        /* Karanlık Mod (Gece Devriyesi) Cam Yüzey */
+        /* Karanlık Mod */
         body.dark-mode {
-            --glass-bg: rgba(30, 30, 30, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(28, 28, 30, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text-dark: #F2F2F7;
-            --text-gray: #EBEBF5;
-            --input-bg: rgba(118, 118, 128, 0.24);
-            --wp-bg: #054c44; /* Karanlık Mod WhatsApp Yeşili */
+            --text-gray: #AEAEB2;
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --wp-bg: #054c44; 
             --wp-text: #E9EDEF;
-            --panel-shadow: rgba(0, 0, 0, 0.4);
+            --panel-shadow: rgba(0, 0, 0, 0.5);
             --chip-bg: rgba(10, 132, 255, 0.15);
             --ios-blue: #0A84FF;
             --ios-green: #30D158;
+            --body-bg: linear-gradient(135deg, #000000 0%, #1C1C1E 100%);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Arka Plan Mesh Gradient (Camın arkasında iOS efekti yaratır) */
         body { 
-            background-color: #f2f2f7;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(162, 194, 225, 0.8) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(200, 220, 235, 0.8) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(232, 240, 254, 0.8) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(224, 195, 252, 0.8) 0px, transparent 50%);
-            background-attachment: fixed;
+            background: var(--body-bg);
             min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; 
             transition: background 0.4s ease;
-        }
-        
-        body.dark-mode {
-            background-color: #000000;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(26, 42, 108, 0.6) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(17, 34, 64, 0.6) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(43, 88, 118, 0.6) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(78, 67, 118, 0.6) 0px, transparent 50%);
         }
 
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* Gelişmiş Glassmorphism */
         .glass-panel { 
             background: var(--glass-bg); 
-            backdrop-filter: blur(25px) saturate(180%); 
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); 
             border-radius: 24px; padding: 24px; margin-bottom: 20px; 
-            box-shadow: 0 10px 40px var(--panel-shadow); 
+            box-shadow: 0 8px 30px var(--panel-shadow); 
             transition: all 0.3s ease;
         }
         
@@ -89,19 +74,18 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* iOS 18 Input Stilleri */
         input, select, textarea { 
             width: 100%; background: var(--input-bg); 
-            border: 1px solid var(--glass-border); 
+            border: 1px solid rgba(0,0,0,0.05); 
             border-radius: 14px; padding: 14px 16px; 
             font-size: 16px; color: var(--text-dark); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
             outline: none;
         }
+        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { 
             border-color: var(--ios-blue); 
-            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15); 
-            background: var(--glass-bg);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); 
         }
         
         textarea { resize: vertical; min-height: 140px; padding-right: 100px; line-height: 1.5; }
@@ -109,7 +93,7 @@
         .row { display: flex; gap: 12px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
         
-        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer; transition: transform 0.1s, background 0.3s; }
+        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer; transition: transform 0.1s; }
         .action-btn:active { transform: scale(0.9); }
         .mic-btn { right: 12px; background: var(--chip-bg); color: var(--ios-blue); }
         .nlp-btn { right: 62px; background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
@@ -120,27 +104,26 @@
         .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); }
         .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
         
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 18px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); line-height: 1.5;}
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 18px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
         
         .btn-group { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-        button.bot-btn { flex: 1; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 16px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+        button.bot-btn { flex: 1; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 16px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); }
         button.bot-btn:active { transform: scale(0.97); }
-        .btn-secondary { background: #5856D6; box-shadow: 0 4px 15px rgba(88, 86, 214, 0.3); } 
+        .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
         .btn-add { background: var(--ios-blue); color: white; width: 52px; border-radius: 14px; border: none; cursor: pointer; font-size: 18px; transition: transform 0.1s; }
         .btn-add:active { transform: scale(0.9); }
         
-        .developer-credit { text-align: center; margin-top: 30px; font-size: 13px; color: var(--text-dark); opacity: 0.5; font-weight: 500; }
-        .developer-credit b { font-weight: 700; }
-        .version-tag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.1); padding: 4px 10px; border-radius: 12px; }
-        body.dark-mode .version-tag { background: rgba(255, 255, 255, 0.15); }
+        .developer-credit { text-align: center; margin-top: 30px; font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; }
+        .developer-credit b { font-weight: 700; color: #fff; }
+        .version-tag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.3); padding: 4px 10px; border-radius: 12px; color: #fff;}
 
-        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 20px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 20px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
         .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 28px; padding: 24px; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); margin-bottom: 20px;}
         .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
         .archive-item:active { transform: scale(0.98); }
         
         .checklist-title { font-size: 14px; font-weight: 700; color: var(--text-dark); opacity: 0.8; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 15px; background: var(--input-bg); padding: 12px; border-radius: 14px; cursor: pointer; transition: opacity 0.2s;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 15px; background: var(--input-bg); padding: 12px; border-radius: 14px; cursor: pointer;}
         .check-item input { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--ios-blue); }
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
     </style>
@@ -246,7 +229,7 @@
         <div class="btn-group">
             <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet</button>
             <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
-            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: #34C759; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
+            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: #34C759; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
         </div>
     </div>
     
@@ -404,7 +387,7 @@
                 tcInput.style.backgroundColor = "rgba(255, 59, 48, 0.1)";
             }
         } else {
-            tcInput.style.borderColor = "var(--glass-border)";
+            tcInput.style.borderColor = "rgba(0,0,0,0.05)";
             tcInput.style.backgroundColor = "var(--input-bg)";
         }
     }
@@ -588,7 +571,7 @@
             sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
             document.getElementById("sahisTc").value = ""; 
-            document.getElementById("sahisTc").style.borderColor = "var(--glass-border)";
+            document.getElementById("sahisTc").style.borderColor = "rgba(0,0,0,0.05)";
             document.getElementById("sahisTc").style.backgroundColor = "var(--input-bg)";
             sahisListesiniCiz(); 
             metinOlustur(); 
@@ -624,7 +607,7 @@
         } 
         else if (tur === "asayis_trafik") { 
             document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan asayiş and trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
+            ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         }
         else if (tur === "adli") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
