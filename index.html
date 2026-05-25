@@ -205,7 +205,6 @@
     let recognition;
     let isRecording = false;
 
-    // FORMU TEMİZLEME FONKSİYONU EKLENDİ
     function formuTemizle() {
         if(confirm("Tüm form verileri silinip yeni boş bir tutanak açılsın mı?")) {
             document.getElementById("konu").value = "";
@@ -215,6 +214,7 @@
             document.getElementById("sahisAd").value = "";
             document.getElementById("sorgulananSahis").value = "";
             document.getElementById("sorgulananArac").value = "";
+            document.getElementById("ozet").value = "";
             
             const bugun = new Date();
             document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
@@ -227,6 +227,7 @@
         }
     }
 
+    // YENİLENEN SİHİRLİ DEĞNEK: Müşteki, Şüpheli, Mağdur ve Bilgi Sahibi algılar. (2 ve 3 kelimelik isimleri destekler)
     function akilliMetinAnalizi() {
         let metin = document.getElementById("ozet").value;
         let kucukMetin = metin.toLowerCase();
@@ -243,19 +244,26 @@
             duzeltmeYapildi = true;
         }
 
-        const mustekiRegex = /müşteki\s+([a-zğüşöçı]+\s+[a-zğüşöçı]+)/i;
-        const supheliRegex = /şüpheli\s+([a-zğüşöçı]+\s+[a-zğüşöçı]+)/i;
+        // Kapsamlı Regex Motoru (Mağdur ve Bilgi Sahibi eklendi)
+        const sahisRegex = /(müşteki|şüpheli|mağdur|bilgi sahibi)\s+([a-zA-ZğüşöçıİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçıİĞÜŞÖÇ]+){1,2})/gi;
+        let matches = [...metin.matchAll(sahisRegex)];
         
-        let mustekiEslesme = metin.match(mustekiRegex);
-        if(mustekiEslesme) {
-            sahislarDizisi.push({ rol: "Müşteki", ad: mustekiEslesme[1].trim().toUpperCase() });
-            duzeltmeYapildi = true;
-        }
-        
-        let supheliEslesme = metin.match(supheliRegex);
-        if(supheliEslesme) {
-            sahislarDizisi.push({ rol: "Şüpheli", ad: supheliEslesme[1].trim().toUpperCase() });
-            duzeltmeYapildi = true;
+        if(matches.length > 0) {
+            matches.forEach(match => {
+                let rol = match[1].toLowerCase();
+                if(rol === "müşteki") rol = "Müşteki";
+                else if(rol === "şüpheli") rol = "Şüpheli";
+                else if(rol === "mağdur") rol = "Mağdur";
+                else if(rol === "bilgi sahibi") rol = "Bilgi Sahibi";
+                
+                let ad = match[2].trim().toUpperCase();
+                
+                let zatenVarMi = sahislarDizisi.some(s => s.rol === rol && s.ad === ad);
+                if(!zatenVarMi) {
+                    sahislarDizisi.push({ rol: rol, ad: ad });
+                    duzeltmeYapildi = true;
+                }
+            });
         }
 
         if(duzeltmeYapildi) {
@@ -263,9 +271,9 @@
             document.getElementById("olayTuru").value = "adli";
             sahisListesiniCiz();
             metinOlustur();
-            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar otomatik olarak forma eklendi.");
+            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar otomatik olarak listeye eklendi.");
         } else {
-            alert("🪄 Sistem metinde belirgin bir olay konusu veya şahıs adı (Örn: 'müşteki ali yılmaz' formatında) bulamadı.");
+            alert("🪄 Sistem metinde belirgin bir olay konusu veya şahıs adı bulamadı.");
         }
     }
 
@@ -578,7 +586,6 @@
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         if(konu) metin += `*Konu:* ${konu}\n\n`;
         
-        // MÜDAHALE: ŞAHISLAR ARTIK SADECE "ADLİ" ŞABLONDA YAZILACAK
         if(tur === "adli") {
             if(document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
             sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
