@@ -3,74 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu Asistanı</title>
+    <title>Bilgi Notu Asistanı v1.5</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
     <link rel="apple-touch-icon" href="./logo.png">
-    <meta name="theme-color" content="#1e3c72">
+    <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* iOS 18 Premium Renk Paleti ve Cam Yüzey Değişkenleri */
         :root { 
             --ios-blue: #007AFF; 
             --ios-green: #34C759; 
-            --glass-bg: rgba(255, 255, 255, 0.85); 
-            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.5);
             --text-dark: #1C1C1E; 
             --text-gray: #8E8E93; 
-            --body-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --wp-bg: #DCF8C6;
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --wp-bg: #DCF8C6; /* Klasik WhatsApp Yeşili */
             --wp-text: #000000;
-            --panel-shadow: rgba(0, 0, 0, 0.1);
+            --panel-shadow: rgba(0, 0, 0, 0.08);
+            --chip-bg: rgba(0, 122, 255, 0.1);
         }
 
+        /* Karanlık Mod (Gece Devriyesi) Cam Yüzey */
         body.dark-mode {
-            --glass-bg: rgba(28, 28, 30, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(30, 30, 30, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.15);
             --text-dark: #F2F2F7;
-            --text-gray: #AEAEB2;
-            --body-bg: linear-gradient(135deg, #000000 0%, #1C1C1E 100%);
-            --wp-bg: #054c44;
+            --text-gray: #EBEBF5;
+            --input-bg: rgba(118, 118, 128, 0.24);
+            --wp-bg: #054c44; /* Karanlık Mod WhatsApp Yeşili */
             --wp-text: #E9EDEF;
-            --panel-shadow: rgba(0, 0, 0, 0.5);
+            --panel-shadow: rgba(0, 0, 0, 0.4);
+            --chip-bg: rgba(10, 132, 255, 0.15);
+            --ios-blue: #0A84FF;
+            --ios-green: #30D158;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; transition: background 0.3s, color 0.3s; }
-        body { background: var(--body-bg); min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Arka Plan Mesh Gradient (Camın arkasında iOS efekti yaratır) */
+        body { 
+            background-color: #f2f2f7;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(162, 194, 225, 0.8) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(200, 220, 235, 0.8) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(232, 240, 254, 0.8) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(224, 195, 252, 0.8) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; 
+            transition: background 0.4s ease;
+        }
+        
+        body.dark-mode {
+            background-color: #000000;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(26, 42, 108, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(17, 34, 64, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(43, 88, 118, 0.6) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(78, 67, 118, 0.6) 0px, transparent 50%);
+        }
+
         .container { max-width: 600px; margin: 0 auto; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 32px var(--panel-shadow); }
+        
+        /* Gelişmiş Glassmorphism */
+        .glass-panel { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(25px) saturate(180%); 
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border); 
+            border-radius: 24px; padding: 24px; margin-bottom: 20px; 
+            box-shadow: 0 10px 40px var(--panel-shadow); 
+            transition: all 0.3s ease;
+        }
+        
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        h1 { font-size: 20px; font-weight: 700; margin: 0; }
-        .archive-btn-top { background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-size: 13px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 15px; color: var(--text-dark); }
-        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
-        textarea { resize: vertical; min-height: 140px; padding-right: 100px; }
+        h1 { font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+        
+        .archive-btn-top { background: var(--chip-bg); color: var(--ios-blue); border: none; padding: 8px 14px; border-radius: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.1s; }
+        .archive-btn-top:active { transform: scale(0.95); }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 12px; font-weight: 600; color: var(--text-gray); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* iOS 18 Input Stilleri */
+        input, select, textarea { 
+            width: 100%; background: var(--input-bg); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 14px; padding: 14px 16px; 
+            font-size: 16px; color: var(--text-dark); 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--ios-blue); 
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15); 
+            background: var(--glass-bg);
+        }
+        
+        textarea { resize: vertical; min-height: 140px; padding-right: 100px; line-height: 1.5; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 12px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
-        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; transition: all 0.2s; }
-        .mic-btn { right: 12px; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); }
-        .nlp-btn { right: 58px; background: rgba(52, 199, 89, 0.1); color: var(--ios-green); }
+        
+        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer; transition: transform 0.1s, background 0.3s; }
+        .action-btn:active { transform: scale(0.9); }
+        .mic-btn { right: 12px; background: var(--chip-bg); color: var(--ios-blue); }
+        .nlp-btn { right: 62px; background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
-        .quick-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .phrase-chip { background: rgba(0, 122, 255, 0.08); color: var(--ios-blue); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; }
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 14px; padding: 14px; font-size: 14px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .btn-group { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        button.bot-btn { flex: 1; min-width: 120px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; }
-        .btn-secondary { background: #5856D6; } .btn-add { background: var(--ios-blue); color: white; width: 50px; border-radius: 12px; border: none; cursor: pointer; }
-        .developer-credit { text-align: center; margin-top: 25px; font-size: 13px; color: rgba(255, 255, 255, 0.6); }
-        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--glass-bg); width: 100%; max-width: 500px; max-height: 80vh; border-radius: 24px; padding: 20px; overflow-y: auto; }
-        .archive-item { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); }
-        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); margin-bottom: 8px; text-transform: uppercase; display: flex; align-items: center; gap: 6px;}
-        .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 14px; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 10px; cursor: pointer;}
-        body.dark-mode .check-item { background: rgba(255,255,255,0.05); }
-        .check-item input { width: auto; margin: 0; cursor: pointer; }
-        .check-item.done { opacity: 0.6; text-decoration: line-through; }
+        
+        .quick-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); }
+        .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
+        
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 18px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); line-height: 1.5;}
+        
+        .btn-group { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+        button.bot-btn { flex: 1; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 16px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+        button.bot-btn:active { transform: scale(0.97); }
+        .btn-secondary { background: #5856D6; box-shadow: 0 4px 15px rgba(88, 86, 214, 0.3); } 
+        .btn-add { background: var(--ios-blue); color: white; width: 52px; border-radius: 14px; border: none; cursor: pointer; font-size: 18px; transition: transform 0.1s; }
+        .btn-add:active { transform: scale(0.9); }
+        
+        .developer-credit { text-align: center; margin-top: 30px; font-size: 13px; color: var(--text-dark); opacity: 0.5; font-weight: 500; }
+        .developer-credit b { font-weight: 700; }
+        .version-tag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.1); padding: 4px 10px; border-radius: 12px; }
+        body.dark-mode .version-tag { background: rgba(255, 255, 255, 0.15); }
+
+        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 20px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 28px; padding: 24px; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); margin-bottom: 20px;}
+        .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
+        .archive-item:active { transform: scale(0.98); }
+        
+        .checklist-title { font-size: 14px; font-weight: 700; color: var(--text-dark); opacity: 0.8; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 15px; background: var(--input-bg); padding: 12px; border-radius: 14px; cursor: pointer; transition: opacity 0.2s;}
+        .check-item input { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--ios-blue); }
+        .check-item.done { opacity: 0.5; text-decoration: line-through; }
     </style>
 </head>
 <body>
@@ -78,9 +150,9 @@
 <div class="container">
     <div class="glass-panel">
         <div class="header-row">
-            <h1><i class="fa-solid fa-shield-halved"></i> Bilgi Notu</h1>
+            <h1><i class="fa-solid fa-shield-halved" style="color: var(--ios-blue);"></i> Bilgi Notu</h1>
             <div style="display: flex; gap: 8px;">
-                <button class="archive-btn-top" onclick="formuTemizle()" title="Formu Temizle (Yeni Kayıt)" style="color: #FF3B30; background: rgba(255, 59, 48, 0.1);"><i class="fa-solid fa-trash-can"></i></button>
+                <button class="archive-btn-top" onclick="formuTemizle()" title="Temizle" style="color: #FF3B30; background: rgba(255, 59, 48, 0.1);"><i class="fa-solid fa-trash-can"></i></button>
                 <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
                 <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i> Arşiv</button>
             </div>
@@ -91,7 +163,7 @@
             <select id="olayTuru" onchange="sablonDegistir()">
                 <option value="asayis">Asayiş Uygulaması</option>
                 <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
-                <option value="adli">Adli Olay (Dolandırıcılık, Yaralama vb.)</option>
+                <option value="adli">Adli Olay (Dolandırıcılık vb.)</option>
                 <option value="trafik">Trafik Kazası</option>
                 <option value="idari">İdari / Diğer</option>
             </select>
@@ -128,12 +200,12 @@
         <div id="asayisAlanlar">
             <div class="row">
                 <div class="form-group">
-                    <label>Sorgulanan Şahıs Sayısı</label>
-                    <input type="number" id="sorgulananSahis" oninput="metinOlustur()">
+                    <label>Şahıs Sorgu</label>
+                    <input type="number" id="sorgulananSahis" placeholder="Adet" oninput="metinOlustur()">
                 </div>
                 <div class="form-group">
-                    <label>Sorgulanan Araç Sayısı</label>
-                    <input type="number" id="sorgulananArac" oninput="metinOlustur()">
+                    <label>Araç Sorgu</label>
+                    <input type="number" id="sorgulananArac" placeholder="Adet" oninput="metinOlustur()">
                 </div>
             </div>
         </div>
@@ -141,9 +213,8 @@
         <div class="form-group">
             <label>Özet / Açıklama</label>
             <div class="textarea-wrapper">
-                <textarea id="ozet" placeholder="Olayın özetini yazın..." oninput="metinOlustur()"></textarea>
-                
-                <button class="action-btn nlp-btn" title="Sihirli Değnek (Metinden Çıkarım)" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
+                <button class="action-btn nlp-btn" title="Sihirli Değnek (Otomatik Çıkarım)" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                 <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır / Komut Ver" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
             </div>
             
@@ -157,15 +228,15 @@
             </div>
 
             <div id="dinamikPhrases" class="quick-phrases" style="margin-top: 6px;"></div>
-            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                <input type="text" id="yeniCumleInput" placeholder="Kendi özel hazır cümleni buraya ekle..." style="padding: 10px 14px; font-size: 14px; border-radius: 12px;">
-                <button class="btn-add" onclick="yeniCumleEkle()" style="width: 45px; border-radius: 12px;"><i class="fa-solid fa-plus"></i></button>
+            <div style="margin-top: 12px; display: flex; gap: 8px;">
+                <input type="text" id="yeniCumleInput" placeholder="Kendi özel cümleni ekle..." style="padding: 12px 16px;">
+                <button class="btn-add" onclick="yeniCumleEkle()"><i class="fa-solid fa-plus"></i></button>
             </div>
         </div>
     </div>
 
     <div class="glass-panel" id="checklistPanel">
-        <div class="checklist-title"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Unutulmaması Gereken Prosedürler</div>
+        <div class="checklist-title"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
         <div id="checkListItemsContainer"></div>
     </div>
 
@@ -175,11 +246,14 @@
         <div class="btn-group">
             <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet</button>
             <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
-            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: #25D366;"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
+            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: #34C759; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
         </div>
     </div>
     
-    <div class="developer-credit"><i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b></div>
+    <div class="developer-credit">
+        <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
+        <span class="version-tag">v1.5</span>
+    </div>
 </div>
 
 <div id="archiveModal" class="hidden">
@@ -188,8 +262,8 @@
             <h2>Geçmiş Notlar</h2>
             <button class="archive-btn-top" onclick="arsiviKapat()">Kapat</button>
         </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            <input type="text" id="archiveSearch" placeholder="Arşivde kelime, şahıs veya konu ara..." oninput="arsivFiltrele()" style="background: #fff; border: 1px solid rgba(0,0,0,0.15); border-radius: 12px;">
+        <div class="form-group" style="margin-bottom: 20px;">
+            <input type="text" id="archiveSearch" placeholder="Arşivde kelime, şahıs veya konu ara..." oninput="arsivFiltrele()">
         </div>
         <div id="archiveList">Yükleniyor...</div>
     </div>
@@ -227,7 +301,6 @@
         }
     }
 
-    // YENİLENEN SİHİRLİ DEĞNEK: Müşteki, Şüpheli, Mağdur ve Bilgi Sahibi algılar. (2 ve 3 kelimelik isimleri destekler)
     function akilliMetinAnalizi() {
         let metin = document.getElementById("ozet").value;
         let kucukMetin = metin.toLowerCase();
@@ -244,7 +317,6 @@
             duzeltmeYapildi = true;
         }
 
-        // Kapsamlı Regex Motoru (Mağdur ve Bilgi Sahibi eklendi)
         const sahisRegex = /(müşteki|şüpheli|mağdur|bilgi sahibi)\s+([a-zA-ZğüşöçıİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçıİĞÜŞÖÇ]+){1,2})/gi;
         let matches = [...metin.matchAll(sahisRegex)];
         
@@ -271,7 +343,7 @@
             document.getElementById("olayTuru").value = "adli";
             sahisListesiniCiz();
             metinOlustur();
-            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar otomatik olarak listeye eklendi.");
+            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar listeye eklendi.");
         } else {
             alert("🪄 Sistem metinde belirgin bir olay konusu veya şahıs adı bulamadı.");
         }
@@ -295,7 +367,7 @@
         
         kanunMaddeleri.forEach(madde => {
             if(madde.k.some(kelime => birlesikMetin.includes(kelime))) {
-                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.1); color: #FF9500; border: 1px solid rgba(255, 149, 0, 0.3);"><i class="fa-solid fa-scale-balanced"></i> ${madde.text}</span>`;
+                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.15); color: #FF9500; border: 1px solid rgba(255, 149, 0, 0.3); border-radius: 12px;"><i class="fa-solid fa-scale-balanced"></i> ${madde.text}</span>`;
                 sonuc = true;
             }
         });
@@ -332,8 +404,8 @@
                 tcInput.style.backgroundColor = "rgba(255, 59, 48, 0.1)";
             }
         } else {
-            tcInput.style.borderColor = "rgba(0, 0, 0, 0.1)";
-            tcInput.style.backgroundColor = "";
+            tcInput.style.borderColor = "var(--glass-border)";
+            tcInput.style.backgroundColor = "var(--input-bg)";
         }
     }
 
@@ -420,9 +492,9 @@
         container.innerHTML = "";
         ozelCumleler.forEach((cumle, index) => {
             container.innerHTML += `
-                <span class="phrase-chip" style="background: rgba(88, 86, 214, 0.08); color: #5856D6; border: 1px solid rgba(88, 86, 214, 0.2); padding-right: 28px; position: relative;" onclick="ekleOzet('${cumle}')">
+                <span class="phrase-chip" style="background: rgba(88, 86, 214, 0.1); color: #5856D6; border: 1px solid rgba(88, 86, 214, 0.2); padding-right: 28px; position: relative;" onclick="ekleOzet('${cumle}')">
                     ${cumle}
-                    <i class="fa-solid fa-xmark" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #FF3B30; cursor: pointer; padding: 2px;" onclick="event.stopPropagation(); ozelCumleSil(${index})"></i>
+                    <i class="fa-solid fa-xmark" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #FF3B30; cursor: pointer; padding: 2px;" onclick="event.stopPropagation(); ozelCumleSil(${index})"></i>
                 </span>`;
         });
     }
@@ -516,8 +588,8 @@
             sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
             document.getElementById("sahisTc").value = ""; 
-            document.getElementById("sahisTc").style.borderColor = "rgba(0, 0, 0, 0.1)";
-            document.getElementById("sahisTc").style.backgroundColor = "";
+            document.getElementById("sahisTc").style.borderColor = "var(--glass-border)";
+            document.getElementById("sahisTc").style.backgroundColor = "var(--input-bg)";
             sahisListesiniCiz(); 
             metinOlustur(); 
         }
@@ -527,7 +599,7 @@
         const container = document.getElementById("sahisListesiContainer");
         container.innerHTML = "";
         sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; background: rgba(255, 255, 255, 0.4); padding: 8px; border-radius: 8px;"><span><b>${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+            container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; background: var(--input-bg); border: 1px solid var(--glass-border); padding: 10px 12px; border-radius: 12px;"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
         });
     }
 
@@ -552,7 +624,7 @@
         } 
         else if (tur === "asayis_trafik") { 
             document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
+            ozetBox.value = "Yapılan asayiş and trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         }
         else if (tur === "adli") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
