@@ -121,7 +121,7 @@
         
         .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-left: 4px;}
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 15px; background: var(--input-bg); padding: 12px; border-radius: 14px; cursor: pointer; transition: opacity 0.2s;}
-        .check-item input { width: 22px; height: 22px; pointer-events: none; accent-color: var(--ios-blue); } /* CSS İle Tıklama Çatışması Engellendi */
+        .check-item input { width: 22px; height: 22px; pointer-events: none; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
         
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 15px;}
@@ -220,7 +220,6 @@
 
             <div class="quick-phrases">
                 <span class="phrase-chip chip-green" onclick="otomatikGirisEkle()" style="font-weight: 700;"><i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> Otomatik Giriş Yaz</span>
-                
                 <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
@@ -279,7 +278,7 @@
     let recognition;
     let isRecording = false;
 
-    // YENİ: Otomatik Giriş Metni Hazırlayıcı
+    // YENİ: Otomatik Giriş Metni
     function otomatikGirisEkle() {
         const tarih = document.getElementById("tarih").value || "...";
         const saat = document.getElementById("saat").value || "...";
@@ -297,7 +296,7 @@
         metinOlustur();
     }
 
-    // YENİ: Adli Tür Alt Seçim Değişimi
+    // YENİ: Adli Tür Seçimi
     function adliTurSecildi() {
         const secim = document.getElementById("adliTuru").value;
         if (secim) {
@@ -334,6 +333,17 @@
         let kucukMetin = metin.toLowerCase();
         let duzeltmeYapildi = false;
 
+        if(kucukMetin.includes("kavga") || kucukMetin.includes("darp") || kucukMetin.includes("yaral")) {
+            document.getElementById("konu").value = "KASTEN YARALAMA";
+            duzeltmeYapildi = true;
+        } else if(kucukMetin.includes("çaldı") || kucukMetin.includes("hırsız")) {
+            document.getElementById("konu").value = "HIRSIZLIK";
+            duzeltmeYapildi = true;
+        } else if(kucukMetin.includes("kaza") || kucukMetin.includes("çarpıştı")) {
+            document.getElementById("konu").value = "MADDİ HASARLI TRAFİK KAZASI";
+            duzeltmeYapildi = true;
+        }
+
         const sahisRegex = /(müşteki|şüpheli|mağdur|bilgi sahibi)\s+([a-zA-ZğüşöçıİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçıİĞÜŞÖÇ]+){1,2})/gi;
         let matches = [...metin.matchAll(sahisRegex)];
         
@@ -360,9 +370,9 @@
             document.getElementById("olayTuru").value = "adli";
             sahisListesiniCiz();
             metinOlustur();
-            alert("🪄 Sihirli Değnek çalıştı! Şahıslar listeye eklendi.");
+            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar listeye eklendi.");
         } else {
-            alert("🪄 Sistem metinde belirgin bir şahıs adı (Örn: 'müşteki ali yılmaz') bulamadı.");
+            alert("🪄 Sistem metinde belirgin bir şahıs adı bulamadı.");
         }
     }
 
@@ -436,7 +446,6 @@
         container.innerHTML = "";
         const gorevler = checklistSablonlari[tur] || ["Gerekli çevre güvenlik önlemleri kontrol edildi mi?"];
         
-        // YENİ: Kontrol Listesi Tıklama Düzeni Baştan Yazıldı
         gorevler.forEach((gorev, idx) => {
             container.innerHTML += `
                 <div class="check-item" id="chk-div-${idx}" onclick="window.toggleCheckItem(${idx}, event)">
@@ -446,7 +455,6 @@
         });
     }
 
-    // YENİ: Küresel Kontrol Listesi Tıklama Fonksiyonu
     window.toggleCheckItem = function(idx, event) {
         const box = document.getElementById('chk-' + idx);
         const div = document.getElementById('chk-div-' + idx);
@@ -637,8 +645,6 @@
         const ozetBox = document.getElementById("ozet");
         
         document.getElementById("adliAlanlar").classList.toggle("hidden", tur !== "adli");
-        
-        // YENİ: Adli Alt Kutu Görünürlüğü
         document.getElementById("adliAltKutu").classList.toggle("hidden", tur !== "adli");
         
         const asayisMi = (tur === "asayis" || tur === "asayis_trafik");
@@ -731,58 +737,68 @@
 
     function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); document.getElementById("archiveSearch").value = ""; }
     function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
-</script>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyADpIRNLQEIer_gplTgwKi_EKkfcyrYoqY",
-      authDomain: "maasgunu-bd353.firebaseapp.com",
-      projectId: "maasgunu-bd353",
-      storageBucket: "maasgunu-bd353.firebasestorage.app",
-      messagingSenderId: "485904329467",
-      appId: "1:485904329467:web:579d932ae8f25958901e5e"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.kaydetVeArsivle = async function() {
+    // ÇEVRİMDIŞI LOCAL STORAGE ARŞİV SİSTEMİ (FIREBASE YERİNE)
+    window.kaydetVeArsivle = function() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
         const konu = document.getElementById("konu").value || "İsimsiz Olay";
         const btn = document.getElementById("kaydetBtn");
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>...';
-        
-        try {
-            await addDoc(collection(db, "bilginotlari"), { konu: konu, metin: rawText, tarih: serverTimestamp() });
+
+        const yeniKayit = {
+            id: Date.now(),
+            konu: konu,
+            metin: rawText,
+            tarih: new Date().toISOString()
+        };
+
+        let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
+        arsiv.unshift(yeniKayit); 
+        localStorage.setItem('bilgi_notu_arsivi', JSON.stringify(arsiv));
+
+        setTimeout(() => {
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Başarılı';
             arsiviYukle();
-        } catch (e) { btn.innerHTML = 'Hata!'; }
-        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; }, 2000);
+            setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; }, 2000);
+        }, 500);
     }
 
-    async function arsiviYukle() {
+    window.arsiviYukle = function() {
         const liste = document.getElementById("archiveList");
-        try {
-            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"));
-            const querySnapshot = await getDocs(q);
-            liste.innerHTML = "";
-            if(querySnapshot.empty) { liste.innerHTML = "Kayıt yok."; return; }
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const div = document.createElement("div");
-                div.className = "archive-item";
-                let tStr = "Tarih Yok";
-                if(data.tarih) { const d = data.tarih.toDate(); tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}); }
-                div.innerHTML = `<b>${data.konu}</b><br><small>${tStr}</small>`;
-                div.addEventListener('click', () => { navigator.clipboard.writeText(data.metin); alert("Panoya kopyalandı!"); });
-                liste.appendChild(div);
+        let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
+        liste.innerHTML = "";
+        
+        if(arsiv.length === 0) { 
+            liste.innerHTML = "<div style='color:var(--text-gray); text-align:center; padding:20px;'>Arşiv boş.</div>"; 
+            return; 
+        }
+
+        arsiv.forEach((data, index) => {
+            const div = document.createElement("div");
+            div.className = "archive-item";
+            const d = new Date(data.tarih);
+            const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+
+            div.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div><b style="color:var(--ios-blue);">${data.konu}</b><br><small style="color:var(--text-gray);">${tStr}</small></div>
+                                <i class="fa-solid fa-trash" style="color:#FF3B30; padding:10px;" onclick="event.stopPropagation(); kayitSil(${index})"></i>
+                             </div>`;
+            div.addEventListener('click', () => {
+                navigator.clipboard.writeText(data.metin);
+                alert("Arşivdeki not kopyalandı!");
             });
-        } catch (error) { liste.innerHTML = "Hata oluştu."; }
+            liste.appendChild(div);
+        });
     }
-    document.addEventListener("DOMContentLoaded", () => { arsiviYukle(); });
+
+    window.kayitSil = function(index) {
+        if(confirm("Bu kaydı arşivden silmek istiyor musunuz?")) {
+            let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
+            arsiv.splice(index, 1);
+            localStorage.setItem('bilgi_notu_arsivi', JSON.stringify(arsiv));
+            arsiviYukle();
+        }
+    }
 </script>
 </body>
 </html>
