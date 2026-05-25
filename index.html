@@ -12,34 +12,66 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --ios-blue: #007AFF; --ios-green: #34C759; --glass-bg: rgba(255, 255, 255, 0.85); --text-dark: #1C1C1E; --text-gray: #8E8E93; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-        body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; }
+        :root { 
+            --ios-blue: #007AFF; 
+            --ios-green: #34C759; 
+            --glass-bg: rgba(255, 255, 255, 0.85); 
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-dark: #1C1C1E; 
+            --text-gray: #8E8E93; 
+            --body-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --wp-bg: #DCF8C6;
+            --wp-text: #000000;
+            --panel-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode {
+            --glass-bg: rgba(28, 28, 30, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-dark: #F2F2F7;
+            --text-gray: #AEAEB2;
+            --body-bg: linear-gradient(135deg, #000000 0%, #1C1C1E 100%);
+            --wp-bg: #054c44;
+            --wp-text: #E9EDEF;
+            --panel-shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; transition: background 0.3s, color 0.3s; }
+        body { background: var(--body-bg); min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; }
         .container { max-width: 600px; margin: 0 auto; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 8px 32px var(--panel-shadow); }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         h1 { font-size: 20px; font-weight: 700; margin: 0; }
         .archive-btn-top { background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .form-group { margin-bottom: 16px; }
         label { display: block; font-size: 13px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 15px; }
-        textarea { resize: vertical; min-height: 140px; padding-right: 50px; }
+        input, select, textarea { width: 100%; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 15px; color: var(--text-dark); }
+        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        textarea { resize: vertical; min-height: 140px; padding-right: 140px; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 12px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
-        .action-btn { position: absolute; bottom: 12px; right: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); }
+        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; transition: all 0.2s; }
+        .mic-btn { right: 12px; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); }
+        .ai-btn { right: 58px; background: rgba(175, 82, 222, 0.1); color: #AF52DE; }
+        .nlp-btn { right: 104px; background: rgba(52, 199, 89, 0.1); color: var(--ios-green); }
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         .quick-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .phrase-chip { background: rgba(0, 122, 255, 0.08); color: var(--ios-blue); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; }
-        .whatsapp-msg { background: #DCF8C6; border-radius: 14px; padding: 14px; font-size: 14px; white-space: pre-wrap; color: #000; margin-top: 10px; }
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 14px; padding: 14px; font-size: 14px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .btn-group { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
         button.bot-btn { flex: 1; min-width: 120px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; }
         .btn-secondary { background: #5856D6; } .btn-add { background: var(--ios-blue); color: white; width: 50px; border-radius: 12px; border: none; cursor: pointer; }
-        .developer-credit { text-align: center; margin-top: 25px; font-size: 13px; color: rgba(255, 255, 255, 0.8); }
+        .developer-credit { text-align: center; margin-top: 25px; font-size: 13px; color: rgba(255, 255, 255, 0.6); }
         #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
         .modal-content { background: var(--glass-bg); width: 100%; max-width: 500px; max-height: 80vh; border-radius: 24px; padding: 20px; overflow-y: auto; }
-        .archive-item { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); }
+        .archive-item { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); }
+        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); margin-bottom: 8px; text-transform: uppercase; display: flex; align-items: center; gap: 6px;}
+        .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 14px; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 10px; cursor: pointer;}
+        body.dark-mode .check-item { background: rgba(255,255,255,0.05); }
+        .check-item input { width: auto; margin: 0; cursor: pointer; }
+        .check-item.done { opacity: 0.6; text-decoration: line-through; }
     </style>
 </head>
 <body>
@@ -48,7 +80,10 @@
     <div class="glass-panel">
         <div class="header-row">
             <h1><i class="fa-solid fa-shield-halved"></i> Bilgi Notu</h1>
-            <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i> Arşiv</button>
+            <div style="display: flex; gap: 8px;">
+                <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
+                <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i> Arşiv</button>
+            </div>
         </div>
         
         <div class="form-group">
@@ -80,6 +115,7 @@
             <div class="form-group"><label>Suç No</label><input type="text" id="sucNo" oninput="metinOlustur()"></div>
             <div class="form-group">
                 <label>Şahıs Ekle</label>
+                <input type="number" id="sahisTc" placeholder="T.C. Kimlik No (Opsiyonel)" oninput="tcKontrolEt()" style="margin-bottom: 8px;">
                 <div class="row" style="margin-bottom: 8px;">
                     <select id="sahisRol" style="flex: 1;"><option value="Müşteki">Müşteki</option><option value="Şüpheli">Şüpheli</option><option value="Mağdur">Mağdur</option><option value="Bilgi Sahibi">Bilgi Sahibi</option></select>
                     <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;" onkeypress="if(event.key === 'Enter') sahisEkle()">
@@ -106,9 +142,14 @@
             <label>Özet / Açıklama</label>
             <div class="textarea-wrapper">
                 <textarea id="ozet" placeholder="Olayın özetini yazın..." oninput="metinOlustur()"></textarea>
-                <button id="micBtn" class="action-btn" title="Sesli Yazdır" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
+                
+                <button class="action-btn nlp-btn" title="Sihirli Değnek (Metinden Çıkarım)" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                <button class="action-btn ai-btn" title="Donanımsal Yapay Zeka (window.ai)" onclick="yerelYapayZekaIleDuzenle()"><i class="fa-solid fa-brain"></i></button>
+                <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır / Komut Ver" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
             </div>
             
+            <div id="kanunOneriAlani" class="quick-phrases" style="margin-top: 10px; display: none;"></div>
+
             <div class="quick-phrases">
                 <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
@@ -122,6 +163,11 @@
                 <button class="btn-add" onclick="yeniCumleEkle()" style="width: 45px; border-radius: 12px;"><i class="fa-solid fa-plus"></i></button>
             </div>
         </div>
+    </div>
+
+    <div class="glass-panel" id="checklistPanel">
+        <div class="checklist-title"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Unutulmaması Gereken Prosedürler</div>
+        <div id="checkListItemsContainer"></div>
     </div>
 
     <div class="glass-panel">
@@ -160,6 +206,158 @@
     let recognition;
     let isRecording = false;
 
+    // YENİLİK 4: Yerel Donanım Yapay Zekası (Şifresiz Gemini Nano)
+    async function yerelYapayZekaIleDuzenle() {
+        if (!window.ai) {
+            alert("🤖 BİLGİLENDİRME:\n\nTarayıcınız henüz Google'ın çevrimdışı yerel yapay zeka (window.ai) motorunu desteklemiyor. Bu özellik şu an Chrome'un test sürümlerinde mevcuttur. Lütfen bunun yerine yeşil renkli 'Sihirli Değnek' (Akıllı Çıkarım) butonunu kullanın!");
+            return;
+        }
+        try {
+            const btn = document.querySelector('.ai-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            const session = await window.ai.createTextSession();
+            const result = await session.prompt("Aşağıdaki günlük metni emniyet resmi tutanak diline çevir. Sadece çevrilmiş metni ver: " + document.getElementById("ozet").value);
+            document.getElementById("ozet").value = result;
+            metinOlustur();
+            btn.innerHTML = '<i class="fa-solid fa-brain"></i>';
+        } catch (e) {
+            alert("Yapay Zeka Hatası: " + e.message);
+        }
+    }
+
+    // YENİLİK 1: Sihirli Değnek (Akıllı Metin Analizi ve Form Doldurucu)
+    function akilliMetinAnalizi() {
+        let metin = document.getElementById("ozet").value;
+        let kucukMetin = metin.toLowerCase();
+        let duzeltmeYapildi = false;
+
+        if(kucukMetin.includes("kavga") || kucukMetin.includes("darp") || kucukMetin.includes("yaral")) {
+            document.getElementById("konu").value = "KASTEN YARALAMA";
+            duzeltmeYapildi = true;
+        } else if(kucukMetin.includes("çaldı") || kucukMetin.includes("hırsız")) {
+            document.getElementById("konu").value = "HIRSIZLIK";
+            duzeltmeYapildi = true;
+        } else if(kucukMetin.includes("kaza") || kucukMetin.includes("çarpıştı")) {
+            document.getElementById("konu").value = "MADDİ HASARLI TRAFİK KAZASI";
+            duzeltmeYapildi = true;
+        }
+
+        const mustekiRegex = /müşteki\s+([a-zğüşöçı]+\s+[a-zğüşöçı]+)/i;
+        const supheliRegex = /şüpheli\s+([a-zğüşöçı]+\s+[a-zğüşöçı]+)/i;
+        
+        let mustekiEslesme = metin.match(mustekiRegex);
+        if(mustekiEslesme) {
+            sahislarDizisi.push({ rol: "Müşteki", ad: mustekiEslesme[1].trim().toUpperCase() });
+            duzeltmeYapildi = true;
+        }
+        
+        let supheliEslesme = metin.match(supheliRegex);
+        if(supheliEslesme) {
+            sahislarDizisi.push({ rol: "Şüpheli", ad: supheliEslesme[1].trim().toUpperCase() });
+            duzeltmeYapildi = true;
+        }
+
+        if(duzeltmeYapildi) {
+            document.getElementById("adliAlanlar").classList.remove("hidden");
+            document.getElementById("olayTuru").value = "adli";
+            sahisListesiniCiz();
+            metinOlustur();
+            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar otomatik olarak forma eklendi.");
+        } else {
+            alert("🪄 Sistem metinde belirgin bir olay konusu veya şahıs adı (Örn: 'müşteki ali yılmaz' formatında) bulamadı.");
+        }
+    }
+
+    // YENİLİK 3: Akıllı Kanun / Ceza Önerici Motoru
+    const kanunMaddeleri = [
+        { k: ["yaralama", "darp", "kavga", "vurdu"], text: "TCK Madde 86 - Kasten Yaralama" },
+        { k: ["hakaret", "küfür", "sövdü"], text: "TCK Madde 125 - Hakaret" },
+        { k: ["tehdit", "öldürürüm", "keseceğim", "silah"], text: "TCK Madde 106 - Tehdit" },
+        { k: ["hırsızlık", "çaldı", "çalındı"], text: "TCK Madde 141 - Hırsızlık" },
+        { k: ["kırmızı ışık", "ışık ihlali"], text: "KTK 47/1-b - Kırmızı Işık İhlali" },
+        { k: ["alkol", "promil"], text: "KTK 48/5 - Alkollü Araç Kullanma" },
+        { k: ["ehliyetsiz", "sürücü belgesi yok"], text: "KTK 36 - Ehliyetsiz Araç Kullanma" }
+    ];
+
+    function kanunOnerileriniGuncelle() {
+        let birlesikMetin = (document.getElementById("konu").value + " " + document.getElementById("ozet").value).toLowerCase();
+        let alan = document.getElementById("kanunOneriAlani");
+        alan.innerHTML = "";
+        let sonuc = false;
+        
+        kanunMaddeleri.forEach(madde => {
+            if(madde.k.some(kelime => birlesikMetin.includes(kelime))) {
+                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.1); color: #FF9500; border: 1px solid rgba(255, 149, 0, 0.3);"><i class="fa-solid fa-scale-balanced"></i> ${madde.text}</span>`;
+                sonuc = true;
+            }
+        });
+        alan.style.display = sonuc ? "flex" : "none";
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem('dark_mode_active', isDark);
+        document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    }
+
+    function tcDogrula(tc) {
+        if (tc.length !== 11 || isNaN(tc)) return false;
+        if (tc[0] == 0) return false;
+        let haneler = tc.split('').map(Number);
+        let tekler = haneler[0] + haneler[2] + haneler[4] + haneler[6] + haneler[8];
+        let ciftler = haneler[1] + haneler[3] + haneler[5] + haneler[7];
+        let hane10 = (tekler * 7 - ciftler) % 10;
+        let hane11 = (haneler.slice(0, 10).reduce((a, b) => a + b, 0)) % 10;
+        return haneler[9] === hane10 && haneler[10] === hane11;
+    }
+
+    function tcKontrolEt() {
+        const tcInput = document.getElementById("sahisTc");
+        const val = tcInput.value;
+        if(val.length === 11) {
+            if(tcDogrula(val)) {
+                tcInput.style.borderColor = "var(--ios-green)";
+                tcInput.style.backgroundColor = "rgba(52, 199, 89, 0.1)";
+            } else {
+                tcInput.style.borderColor = "#FF3B30";
+                tcInput.style.backgroundColor = "rgba(255, 59, 48, 0.1)";
+            }
+        } else {
+            tcInput.style.borderColor = "rgba(0, 0, 0, 0.1)";
+            tcInput.style.backgroundColor = "";
+        }
+    }
+
+    const checklistSablonlari = {
+        asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
+        asayis_trafik: ["GBT ve araç sorguları koordineli yapıldı mı?", "Sürücü belgeleri ve muayene kontrolleri bitti mi?", "Gerekli durumlarda alkolmetre üfletildi mi?", "Yol güvenlik dubaları dizildi mi?"],
+        adli: ["Günün Nöbetçi Cumhuriyet Savcısına detaylı bilgi verildi mi?", "Müşteki/Şüpheli doktor raporları (darp raporu) alındı mı?", "Olay aleti/Suç unsuru delil torbasına alındı mı?", "İfade alma işlemlerine geçildi mi?"],
+        trafik: ["Kaza Tespit Tutanağı usulüne uygun dolduruldu mu?", "Sürücülerin alkol testleri rapora işlendi mi?", "Yaralı varsa ambulans sevk durumu takip edildi mi?", "Yolu kapatan araçlar için çekici koordine edildi mi?"]
+    };
+
+    function checklistCiz() {
+        const tur = document.getElementById("olayTuru").value;
+        const container = document.getElementById("checkListItemsContainer");
+        container.innerHTML = "";
+        const gorevler = checklistSablonlari[tur] || ["Gerekli çevre güvenlik önlemleri kontrol edildi mi?"];
+        
+        gorevler.forEach((gorev, idx) => {
+            container.innerHTML += `
+                <div class="check-item" id="chk-div-${idx}" onclick="toggleCheckItem(${idx})">
+                    <input type="checkbox" id="chk-${idx}" onclick="event.stopPropagation(); toggleCheckItem(${idx})">
+                    <span>${gorev}</span>
+                </div>`;
+        });
+    }
+
+    function toggleCheckItem(idx) {
+        const box = document.getElementById(`chk-${idx}`);
+        const div = document.getElementById(`chk-div-${idx}`);
+        box.checked = !box.checked;
+        div.classList.toggle("done", box.checked);
+    }
+
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
@@ -168,12 +366,26 @@
         recognition.lang = 'tr-TR';
 
         recognition.onstart = () => { isRecording = true; document.getElementById('micBtn').classList.add('recording'); };
+        
+        // YENİLİK 2: Sesli Komut Dinleyicisi
         recognition.onresult = (event) => {
             let trans = '';
             for (let i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) trans += event.results[i][0].transcript + ' ';
             }
-            if (trans) ekleOzet(trans.trim());
+            trans = trans.trim();
+            let kucukTrans = trans.toLowerCase();
+            
+            // Eğer cümle "Sistem konu" veya "Sistem olay yeri" ile başlıyorsa komut olarak algıla
+            if(kucukTrans.startsWith("sistem konu")) {
+                document.getElementById("konu").value = trans.substring(11).trim().toUpperCase();
+                metinOlustur();
+            } else if (kucukTrans.startsWith("sistem olay yeri")) {
+                document.getElementById("olayYeri").value = trans.substring(16).trim();
+                metinOlustur();
+            } else {
+                ekleOzet(trans);
+            }
         };
         recognition.onerror = () => stopDictation();
         recognition.onend = () => { if(isRecording) stopDictation(); };
@@ -197,8 +409,7 @@
         metinOlustur();
     }
 
-    // Yenilik 5: Özel cümle yönetim fonksiyonları
-    function ozelCumleleriCiz() {
+    function ozelCumlelerCiz() {
         const container = document.getElementById("dinamikPhrases");
         container.innerHTML = "";
         ozelCumleler.forEach((cumle, index) => {
@@ -216,26 +427,23 @@
             ozelCumleler.push(val);
             localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
             document.getElementById("yeniCumleInput").value = "";
-            ozelCumleleriCiz();
+            ozelCumlelerCiz();
         }
     }
 
     function ozelCumleSil(index) {
         ozelCumleler.splice(index, 1);
         localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
-        ozelCumleleriCiz();
+        ozelCumlelerCiz();
     }
 
-    // Yenilik 6: Akıllı Plaka Formatlayıcı (Gömülü Regex Motoru)
     function plakaFormatla(text) {
         if (!text) return "";
-        // 01-81 il kodlarını ve TR plaka kombinasyonlarını (Harf ve sayı bloklarını) yakalayıp standart boşluk bırakır.
         return text.replace(/\b([0-8][0-9])\s*([a-zA-Z]{1,3})\s*(\d{2,5})\b/g, function(match, sehir, harf, sayi) {
             return sehir + " " + harf.toUpperCase() + " " + sayi;
         });
     }
 
-    // Yenilik 3: Otomatik Taslak Veri Koruma Altyapısı
     function taslakKaydet() {
         const taslak = {
             olayTuru: document.getElementById("olayTuru").value,
@@ -279,19 +487,31 @@
             document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
             sablonDegistir();
         }
+        
+        const darkActive = localStorage.getItem('dark_mode_active') === "true";
+        if(darkActive) {
+            document.body.classList.add("dark-mode");
+            document.getElementById("darkIcon").className = "fa-solid fa-sun";
+        }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         taslakYukle();
-        ozelCumleleriCiz();
+        ozelCumlelerCiz();
     });
 
     function sahisEkle() {
         const rol = document.getElementById("sahisRol").value;
         const ad = document.getElementById("sahisAd").value.trim();
+        const tc = document.getElementById("sahisTc").value.trim();
+        
         if(ad !== "") { 
-            sahislarDizisi.push({ rol, ad }); 
+            let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
+            sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
+            document.getElementById("sahisTc").value = ""; 
+            document.getElementById("sahisTc").style.borderColor = "rgba(0, 0, 0, 0.1)";
+            document.getElementById("sahisTc").style.backgroundColor = "";
             sahisListesiniCiz(); 
             metinOlustur(); 
         }
@@ -301,7 +521,7 @@
         const container = document.getElementById("sahisListesiContainer");
         container.innerHTML = "";
         sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; background: rgba(255, 255, 255, 0.6); padding: 8px; border-radius: 8px;"><span><b>${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+            container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; background: rgba(255, 255, 255, 0.4); padding: 8px; border-radius: 8px;"><span><b>${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
         });
     }
 
@@ -341,6 +561,7 @@
             ozetBox.value = "";
         }
         
+        checklistCiz();
         metinOlustur();
     }
 
@@ -353,8 +574,8 @@
         const olayYeri = document.getElementById("olayYeri").value;
         let ozet = document.getElementById("ozet").value;
 
-        // Plaka formatlama motoru devreye giriyor
         ozet = plakaFormatla(ozet);
+        kanunOnerileriniGuncelle();
 
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         if(konu) metin += `*Konu:* ${konu}\n\n`;
@@ -375,7 +596,6 @@
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
         document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
         
-        // Veri kaybını önlemek için her tuş vuruşunda taslağı hafızaya kaydeder.
         taslakKaydet();
     }
 
@@ -386,24 +606,18 @@
         setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala'; }, 2000);
     }
 
-    // Yenilik 2: Doğrudan tek tıkla WhatsApp API Gönderim Sistemi
     function whatsappGonder() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
         const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(rawText);
         window.open(url, '_blank');
     }
 
-    // Yenilik 4: Arşiv İçi Canlı Arama Motoru
     function arsivFiltrele() {
         const queryStr = document.getElementById("archiveSearch").value.toLowerCase().trim();
         const items = document.querySelectorAll(".archive-item");
         items.forEach(item => {
             const itemText = item.innerText.toLowerCase();
-            if (itemText.includes(queryStr)) {
-                item.style.display = "block";
-            } else {
-                item.style.display = "none";
-            }
+            item.style.display = itemText.includes(queryStr) ? "block" : "none";
         });
     }
 
