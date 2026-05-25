@@ -80,6 +80,7 @@
         <div class="header-row">
             <h1><i class="fa-solid fa-shield-halved"></i> Bilgi Notu</h1>
             <div style="display: flex; gap: 8px;">
+                <button class="archive-btn-top" onclick="formuTemizle()" title="Formu Temizle (Yeni Kayıt)" style="color: #FF3B30; background: rgba(255, 59, 48, 0.1);"><i class="fa-solid fa-trash-can"></i></button>
                 <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
                 <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i> Arşiv</button>
             </div>
@@ -203,6 +204,28 @@
     let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
     let recognition;
     let isRecording = false;
+
+    // FORMU TEMİZLEME FONKSİYONU EKLENDİ
+    function formuTemizle() {
+        if(confirm("Tüm form verileri silinip yeni boş bir tutanak açılsın mı?")) {
+            document.getElementById("konu").value = "";
+            document.getElementById("olayYeri").value = "";
+            document.getElementById("sucNo").value = "";
+            document.getElementById("sahisTc").value = "";
+            document.getElementById("sahisAd").value = "";
+            document.getElementById("sorgulananSahis").value = "";
+            document.getElementById("sorgulananArac").value = "";
+            
+            const bugun = new Date();
+            document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
+            document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
+            
+            sahislarDizisi = [];
+            sahisListesiniCiz();
+            sablonDegistir();
+            taslakKaydet();
+        }
+    }
 
     function akilliMetinAnalizi() {
         let metin = document.getElementById("ozet").value;
@@ -554,7 +577,13 @@
 
         let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         if(konu) metin += `*Konu:* ${konu}\n\n`;
-        if(tur === "adli" && document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
+        
+        // MÜDAHALE: ŞAHISLAR ARTIK SADECE "ADLİ" ŞABLONDA YAZILACAK
+        if(tur === "adli") {
+            if(document.getElementById("sucNo").value) metin += `*Suç No:* ${document.getElementById("sucNo").value}\n\n`;
+            sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
+        }
+        
         if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n\n`;
         if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
         
@@ -562,8 +591,6 @@
             if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n\n`;
             if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n\n`;
         }
-        
-        sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n\n`; });
         
         if(ozet) metin += `*ÖZET:*\n${ozet}\n\n`;
         metin += `*Arz ederim.*`;
