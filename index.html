@@ -51,8 +51,25 @@
             transition: background 0.4s ease;
         }
 
-        .container { max-width: 600px; margin: 0 auto; }
+        .container { max-width: 600px; margin: 0 auto; display: none; } /* Başlangıçta Uygulama Gizli */
         
+        /* GİRİŞ EKRANI (LOGIN) TASARIMI */
+        #loginScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--body-bg); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
+        }
+        .login-box {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 40px 24px; width: 100%; max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center;
+        }
+        .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 20px; }
+        .login-box h2 { margin-bottom: 10px; font-weight: 700; color: var(--text-dark); }
+        .login-box p { font-size: 14px; color: var(--text-gray); margin-bottom: 30px; }
+        .login-box input { text-align: center; font-size: 20px; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; }
+        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+
         .glass-panel { 
             background: var(--glass-bg); 
             backdrop-filter: blur(20px); 
@@ -129,7 +146,17 @@
 </head>
 <body>
 
-<div class="container">
+<div id="loginScreen">
+    <div class="login-box">
+        <i class="fa-solid fa-shield-halved"></i>
+        <h2>Dodurga Emniyet Ağı</h2>
+        <p>Ortak arşive erişmek için personel şifresini giriniz.</p>
+        <input type="password" id="loginPassword" placeholder="Parola" onkeypress="if(event.key === 'Enter') girisYap()">
+        <button onclick="girisYap()">Giriş Yap</button>
+    </div>
+</div>
+
+<div class="container" id="appContainer">
     <div class="glass-panel">
         <div class="header-row">
             <h1><i class="fa-solid fa-shield-halved" style="color: var(--ios-blue);"></i> Bilgi Notu</h1>
@@ -137,6 +164,7 @@
                 <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
                 <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
                 <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
+                <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
         </div>
         
@@ -243,7 +271,7 @@
         <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
         <div class="whatsapp-msg" id="wpOnizleme">Önizleme burada görünecek...</div>
         <div class="btn-group">
-            <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet</button>
+            <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder</button>
             <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
             <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: var(--ios-green); box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
         </div>
@@ -258,7 +286,7 @@
 <div id="archiveModal" class="hidden">
     <div class="modal-content">
         <div class="header-row">
-            <h2>Geçmiş Notlar</h2>
+            <h2>Ortak Arşiv</h2>
             <button class="archive-btn-top" onclick="arsiviKapat()">Kapat</button>
         </div>
         <div class="form-group" style="margin-bottom: 16px;">
@@ -267,6 +295,40 @@
         <div id="archiveList">Yükleniyor...</div>
     </div>
 </div>
+
+<script>
+    // ŞİFREYİ BURADAN DEĞİŞTİREBİLİRSİN
+    const SISTEM_SIFRESI = "Dodurga155";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("appContainer").style.display = "block";
+            // Firebase Arşivini Çağırır (Aşağıdaki script blokunda)
+            if(window.arsiviYukle) window.arsiviYukle();
+        }
+    });
+
+    function girisYap() {
+        const pass = document.getElementById("loginPassword").value;
+        if(pass === SISTEM_SIFRESI) {
+            localStorage.setItem('polis_ag_giris_izni', 'true');
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("appContainer").style.display = "block";
+            if(window.arsiviYukle) window.arsiviYukle();
+        } else {
+            alert("Hatalı Parola! Uygulamaya erişim reddedildi.");
+            document.getElementById("loginPassword").value = "";
+        }
+    }
+
+    function cikisYap() {
+        if(confirm("Güvenli çıkış yapmak istiyor musunuz?")) {
+            localStorage.removeItem('polis_ag_giris_izni');
+            location.reload();
+        }
+    }
+</script>
 
 <script>
     if ('serviceWorker' in navigator) {
@@ -743,66 +805,96 @@
 
     function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); document.getElementById("archiveSearch").value = ""; }
     function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
+</script>
 
-    // Çevrimdışı (Local) Kayıt Sistemi
-    window.kaydetVeArsivle = function() {
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyADpIRNLQEIer_gplTgwKi_EKkfcyrYoqY",
+      authDomain: "maasgunu-bd353.firebaseapp.com",
+      projectId: "maasgunu-bd353",
+      storageBucket: "maasgunu-bd353.firebasestorage.app",
+      messagingSenderId: "485904329467",
+      appId: "1:485904329467:web:579d932ae8f25958901e5e"
+    };
+
+    let app, db;
+    
+    try {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+    } catch(e) {
+        console.error("Firebase başlatılamadı", e);
+    }
+
+    window.kaydetVeArsivle = async function() {
+        if(!db) { alert("Sistem bağlantı hatası! Veritabanı (Firebase) kilitlenmiş olabilir."); return; }
+        
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
         const konu = document.getElementById("konu").value || "İsimsiz Olay";
         const btn = document.getElementById("kaydetBtn");
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>...';
-
-        const yeniKayit = {
-            id: Date.now(),
-            konu: konu,
-            metin: rawText,
-            tarih: new Date().toISOString()
-        };
-
-        let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
-        arsiv.unshift(yeniKayit); 
-        localStorage.setItem('bilgi_notu_arsivi', JSON.stringify(arsiv));
-
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Başarılı';
-            arsiviYukle();
-            setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Arşive Kaydet'; }, 2000);
-        }, 500);
-    }
-
-    window.arsiviYukle = function() {
-        const liste = document.getElementById("archiveList");
-        let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
-        liste.innerHTML = "";
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Gönderiliyor...';
         
-        if(arsiv.length === 0) { 
-            liste.innerHTML = "<div style='color:var(--text-gray); text-align:center; padding:20px;'>Arşiv boş.</div>"; 
-            return; 
+        try {
+            await addDoc(collection(db, "bilginotlari"), { konu: konu, metin: rawText, tarih: serverTimestamp() });
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Ağa Eklendi';
+            if(window.arsiviYukle) window.arsiviYukle();
+        } catch (e) { 
+            btn.innerHTML = 'Hata (API Engeli)!'; 
+            console.error(e);
         }
-
-        arsiv.forEach((data, index) => {
-            const div = document.createElement("div");
-            div.className = "archive-item";
-            const d = new Date(data.tarih);
-            const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
-
-            div.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;">
-                                <div><b style="color:var(--ios-blue);">${data.konu}</b><br><small style="color:var(--text-gray);">${tStr}</small></div>
-                                <i class="fa-solid fa-trash" style="color:#FF3B30; padding:10px;" onclick="event.stopPropagation(); kayitSil(${index})"></i>
-                             </div>`;
-            div.addEventListener('click', () => {
-                navigator.clipboard.writeText(data.metin);
-                alert("Arşivdeki not kopyalandı!");
-            });
-            liste.appendChild(div);
-        });
+        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder'; }, 2000);
     }
 
-    window.kayitSil = function(index) {
-        if(confirm("Bu kaydı arşivden silmek istiyor musunuz?")) {
-            let arsiv = JSON.parse(localStorage.getItem('bilgi_notu_arsivi')) || [];
-            arsiv.splice(index, 1);
-            localStorage.setItem('bilgi_notu_arsivi', JSON.stringify(arsiv));
-            arsiviYukle();
+    window.arsiviYukle = async function() {
+        if(!db) return;
+        const liste = document.getElementById("archiveList");
+        try {
+            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"));
+            const querySnapshot = await getDocs(q);
+            liste.innerHTML = "";
+            if(querySnapshot.empty) { liste.innerHTML = "<div style='text-align:center; padding:20px;'>Ortak ağda kayıt bulunamadı.</div>"; return; }
+            
+            querySnapshot.forEach((documentSnapshot) => {
+                const data = documentSnapshot.data();
+                const docId = documentSnapshot.id;
+                const div = document.createElement("div");
+                div.className = "archive-item";
+                
+                let tStr = "Tarih Yok";
+                if(data.tarih) { 
+                    const d = data.tarih.toDate(); 
+                    tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}); 
+                }
+                
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div><b style="color:var(--ios-blue);">${data.konu}</b><br><small style="color:var(--text-gray);">${tStr}</small></div>
+                        <i class="fa-solid fa-trash" style="color:#FF3B30; padding:10px;" onclick="event.stopPropagation(); kayitSilFirebase('${docId}')"></i>
+                    </div>`;
+                
+                div.addEventListener('click', () => { 
+                    navigator.clipboard.writeText(data.metin); 
+                    alert("Ağdaki not kopyalandı!"); 
+                });
+                liste.appendChild(div);
+            });
+        } catch (error) { 
+            liste.innerHTML = "<div style='color:red; text-align:center; padding:20px;'>Ağa bağlanılamadı. GitHub veritabanı şifresini güvenlik sebebiyle dondurmuş olabilir.</div>"; 
+            console.error(error);
+        }
+    }
+
+    window.kayitSilFirebase = async function(docId) {
+        if(confirm("Bu tutanağı tüm ekibin ortak ağından SİLMEK istiyor musunuz?")) {
+            try {
+                await deleteDoc(doc(db, "bilginotlari", docId));
+                window.arsiviYukle();
+            } catch(e) {
+                alert("Silme işlemi başarısız!");
+            }
         }
     }
 </script>
