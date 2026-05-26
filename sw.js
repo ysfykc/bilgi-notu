@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bn-v10';
+const CACHE_NAME = 'bn-v11';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
