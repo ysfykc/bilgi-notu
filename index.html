@@ -668,7 +668,6 @@
         metinOlustur();
     }
 
-    // YENİDEN DÜZENLENEN WHATSAPP ÖNİZLEME OLUŞTURUCUSU
     function metinOlustur() {
         const tur = document.getElementById("olayTuru").value;
         const baslikTuru = document.getElementById("baslikTuru").value;
@@ -681,10 +680,9 @@
         ozet = plakaFormatla(ozet);
         kanunOnerileriniGuncelle();
 
-        // Başlığın hemen altına \n\n eklenerek istenen o tek satır boşluk sağlandı
-        let metin = `*${baslikTuru}*\n\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n`;
+        // Başlık ve Emniyet Amirliği bitişik, Emniyet Amirliğinin hemen altında \n\n ile bir satır boşluk sağlandı
+        let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
         
-        // Diğer verilerin aralarındaki \n\n'ler tamamen kaldırıldı, \n yapıldı
         if(konu) metin += `*Konu:* ${konu}\n`;
         
         if(tur === "adli") {
@@ -706,7 +704,6 @@
             if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n`;
         }
         
-        // ÖZET kısmının sadece üstündeki boşluk tutuldu ki uzun metin künyeden ayrılsın
         if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
         else metin += `\n`;
         
