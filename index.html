@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu Asistanı v1.7</title>
+    <title>Bilgi Notu & Tutanak Asistanı v2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -45,7 +45,6 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* ÇERÇEVE BOŞLUKLARI AZALTILDI */
         body { 
             background: var(--body-bg);
             min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; 
@@ -54,7 +53,7 @@
 
         .container { max-width: 650px; margin: 0 auto; display: none; }
         
-        /* GİRİŞ EKRANI (LOGIN) TASARIMI */
+        /* GİRİŞ EKRANI (LOGIN) */
         #loginScreen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--body-bg); z-index: 9999;
@@ -68,20 +67,24 @@
         .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 20px; }
         .login-box h2 { margin-bottom: 10px; font-weight: 700; color: var(--text-dark); }
         .login-box p { font-size: 14px; color: var(--text-gray); margin-bottom: 30px; }
-        .login-box input { text-align: center; font-size: 20px; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; }
+        .login-box input { text-align: center; font-size: 20px; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; width: 100%; background: var(--input-bg); border: none; border-radius: 12px; padding: 14px;}
         .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+
+        /* SEKME (TAB) BUTONLARI */
+        .tab-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--glass-bg); padding: 6px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(20px);}
+        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: transparent; color: var(--text-gray); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 6px;}
+        .tab-btn.active { background: var(--ios-blue); color: white; box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3); }
 
         .glass-panel { 
             background: var(--glass-bg); 
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 16px; margin-bottom: 16px; /* KULLANIM ALANI GENİŞLETİLDİ */
+            border-radius: 20px; padding: 16px; margin-bottom: 16px;
             box-shadow: 0 8px 30px var(--panel-shadow); 
             transition: all 0.3s ease;
         }
         
-        /* BAŞLIK YAN YANA HİZALAMASI SABİTLENDİ */
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: nowrap; gap: 8px;}
         h1 { font-size: 18px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;}
         
@@ -103,7 +106,6 @@
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         
-        /* AÇIKLAMA KUTUSU DİKEYDE BÜYÜTÜLDÜ */
         textarea { resize: vertical; min-height: 200px; padding-right: 100px; line-height: 1.5; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; } .row .form-group { flex: 1; }
@@ -116,12 +118,11 @@
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
-        /* 2'Lİ SIRA SİSTEMİ EKLENDİ */
         .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
         .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 6px; border-radius: 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); width: 100%;}
         .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
         .chip-green { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); border-color: rgba(52, 199, 89, 0.3); }
-        .chip-full { grid-column: span 2; padding: 10px; font-size: 13px;} /* Otomatik giriş tüm satırı kaplar */
+        .chip-full { grid-column: span 2; padding: 10px; font-size: 13px;} 
         
         .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
         
@@ -136,17 +137,26 @@
         .developer-credit b { font-weight: 700; color: #fff; }
         .version-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.3); padding: 4px 8px; border-radius: 10px; color: #fff;}
 
-        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 16px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
-        .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 24px; padding: 20px; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); margin-bottom: 10px;}
-        .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
-        .archive-item:active { transform: scale(0.98); }
-        
         .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
         .check-item input { width: 20px; height: 20px; pointer-events: none; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
-        
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 14px;}
+
+        /* A4 YAZDIRMA (PRINT) MOTORU CSS AYARLARI */
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea {
+                position: absolute; left: 0; top: 0; width: 100%;
+                background: white; color: black; font-family: "Times New Roman", Times, serif; font-size: 12pt;
+                line-height: 1.5; text-align: justify; padding: 20px 40px; box-sizing: border-box;
+            }
+            .print-title { text-align: center; font-weight: bold; margin-bottom: 20px; text-decoration: underline; font-size: 14pt;}
+            .print-signatures { display: flex; justify-content: space-between; margin-top: 60px; page-break-inside: avoid;}
+            .print-sig-box { text-align: center; width: 45%; }
+        }
+        #printArea { display: none; } /* Ekranda gizli, sadece yazıcıda görünür */
     </style>
 </head>
 <body>
@@ -154,7 +164,7 @@
 <div id="loginScreen">
     <div class="login-box">
         <i class="fa-solid fa-shield-halved"></i>
-        <h2>Bilgi Notu</h2>
+        <h2>Dijital Karakol</h2>
         <p>Ortak arşive erişmek için personel şifresini giriniz.</p>
         <input type="password" id="loginPassword" placeholder="Parola" onkeypress="if(event.key === 'Enter') girisYap()">
         <button onclick="girisYap()">Giriş Yap</button>
@@ -162,146 +172,201 @@
 </div>
 
 <div class="container" id="appContainer">
-    <div class="glass-panel">
-        <div class="header-row">
-            <h1><i class="fa-solid fa-shield-halved" style="color: var(--ios-blue);"></i> Bilgi Notu</h1>
-            <div class="top-btn-group">
-                <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
-                <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
-                <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
-                <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Olay Türü (Şablon)</label>
-            <select id="olayTuru" onchange="sablonDegistir()">
-                <option value="asayis">Asayiş Uygulaması</option>
-                <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
-                <option value="adli">Adli Olay</option>
-                <option value="trafik">Trafik Kazası</option>
-                <option value="idari">İdari / Diğer</option>
-            </select>
-        </div>
+    
+    <div class="tab-container">
+        <button class="tab-btn active" id="tabBilgiNotuBtn" onclick="sekmeDegistir('bilgiNotu')"><i class="fa-brands fa-whatsapp"></i> Bilgi Notu</button>
+        <button class="tab-btn" id="tabTutanakBtn" onclick="sekmeDegistir('tutanak')"><i class="fa-solid fa-file-signature"></i> Tutanak</button>
+    </div>
 
-        <div id="adliAltKutu" class="form-group hidden" style="animation: fadeIn 0.3s;">
-            <label style="color: var(--ios-blue);">Adli Vaka Türü</label>
-            <select id="adliTuru" onchange="adliTurSecildi()" style="border: 1px solid rgba(0, 122, 255, 0.3); background: rgba(0, 122, 255, 0.05);">
-                <option value="">Lütfen vaka türünü seçin...</option>
-                <option value="Adli Vaka">Adli Vaka (Genel)</option>
-                <option value="Kasten Yaralama">Kasten Yaralama</option>
-                <option value="Nitelikli Dolandırıcılık">Nitelikli Dolandırıcılık</option>
-                <option value="Evden Hırsızlık">Evden Hırsızlık</option>
-                <option value="İşyerinden Hırsızlık">İşyerinden Hırsızlık</option>
-                <option value="Tehdit ve Hakaret">Tehdit ve Hakaret</option>
-                <option value="Mala Zarar Verme">Mala Zarar Verme</option>
-                <option value="Taksirle Yaralama">Taksirle Yaralama</option>
-                <option value="Kayıp Şahıs">Kayıp Şahıs</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Başlık Türü</label>
-            <select id="baslikTuru" oninput="metinOlustur()"><option value="BİLGİ NOTU">BİLGİ NOTU</option><option value="MAKAMA ARZ">MAKAMA ARZ</option></select>
-        </div>
-
-        <div class="form-group"><label>Konu</label><input type="text" id="konu" placeholder="Örn: Kasten Yaralama" oninput="metinOlustur()"></div>
-
-        <div class="row">
-            <div class="form-group"><label>Tarih</label><input type="text" id="tarih" oninput="metinOlustur()"></div>
-            <div class="form-group"><label>Saat</label><input type="text" id="saat" oninput="metinOlustur()"></div>
-        </div>
-
-        <div class="form-group"><label>Olay Yeri / Adres</label><input type="text" id="olayYeri" placeholder="Örn: Yunus Emre Bulvarı" oninput="metinOlustur()"></div>
-
-        <div id="adliAlanlar" class="hidden">
-            <div class="form-group"><label>Suç No</label><input type="text" id="sucNo" placeholder="Örn: 33" oninput="metinOlustur()"></div>
-            <div class="form-group">
-                <label>Şahıs Ekle</label>
-                <input type="number" id="sahisTc" placeholder="T.C. Kimlik No (Opsiyonel)" oninput="tcKontrolEt()" style="margin-bottom: 8px;">
-                <div class="row" style="margin-bottom: 8px;">
-                    <select id="sahisRol" style="flex: 1;"><option value="Müşteki">Müşteki</option><option value="Şüpheli">Şüpheli</option><option value="Mağdur">Mağdur</option><option value="Bilgi Sahibi">Bilgi Sahibi</option></select>
-                    <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;" onkeypress="if(event.key === 'Enter') sahisEkle()">
-                    <button class="btn-add" onclick="sahisEkle()"><i class="fa-solid fa-plus"></i></button>
+    <div id="bilgiNotuBolumu">
+        <div class="glass-panel">
+            <div class="header-row">
+                <h1><i class="fa-brands fa-whatsapp" style="color: var(--ios-blue);"></i> WhatsApp Bildirimi</h1>
+                <div class="top-btn-group">
+                    <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
+                    <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
-                <div id="sahisListesiContainer"></div>
-            </div>
-        </div>
-
-        <div id="asayisAlanlar">
-            <div class="row">
-                <div class="form-group">
-                    <label>Şahıs Sorgu</label>
-                    <input type="number" id="sorgulananSahis" placeholder="Adet" oninput="metinOlustur()">
-                </div>
-                <div class="form-group">
-                    <label>Araç Sorgu</label>
-                    <input type="number" id="sorgulananArac" placeholder="Adet" oninput="metinOlustur()">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Özet / Açıklama</label>
-            <div class="textarea-wrapper">
-                <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
-                <button class="action-btn nlp-btn" title="Sihirli Değnek (Otomatik Çıkarım)" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-                <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır / Komut Ver" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
             </div>
             
-            <div id="kanunOneriAlani" class="quick-phrases" style="margin-top: 8px; display: none;"></div>
-
-            <div class="quick-phrases">
-                <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> Otomatik Giriş Yaz</span>
-                <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
-                <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
-                <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
-                <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
+            <div class="form-group">
+                <label>Olay Türü (Şablon)</label>
+                <select id="olayTuru" onchange="sablonDegistir()">
+                    <option value="asayis">Asayiş Uygulaması</option>
+                    <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
+                    <option value="adli">Adli Olay</option>
+                    <option value="trafik">Trafik Kazası</option>
+                    <option value="idari">İdari / Diğer</option>
+                </select>
             </div>
 
-            <div id="dinamikPhrases" class="quick-phrases" style="margin-top: 6px;"></div>
-            <div style="margin-top: 10px; display: flex; gap: 8px;">
-                <input type="text" id="yeniCumleInput" placeholder="Kendi özel cümleni ekle...">
-                <button class="btn-add" onclick="yeniCumleEkle()"><i class="fa-solid fa-plus"></i></button>
+            <div id="adliAltKutu" class="form-group hidden">
+                <label style="color: var(--ios-blue);">Adli Vaka Türü</label>
+                <select id="adliTuru" onchange="adliTurSecildi()" style="border: 1px solid rgba(0, 122, 255, 0.3); background: rgba(0, 122, 255, 0.05);">
+                    <option value="">Lütfen vaka türünü seçin...</option>
+                    <option value="Adli Vaka">Adli Vaka (Genel)</option>
+                    <option value="Kasten Yaralama">Kasten Yaralama</option>
+                    <option value="Nitelikli Dolandırıcılık">Nitelikli Dolandırıcılık</option>
+                    <option value="Evden Hırsızlık">Evden Hırsızlık</option>
+                    <option value="İşyerinden Hırsızlık">İşyerinden Hırsızlık</option>
+                    <option value="Tehdit ve Hakaret">Tehdit ve Hakaret</option>
+                    <option value="Mala Zarar Verme">Mala Zarar Verme</option>
+                    <option value="Taksirle Yaralama">Taksirle Yaralama</option>
+                    <option value="Kayıp Şahıs">Kayıp Şahıs</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Başlık Türü</label>
+                <select id="baslikTuru" oninput="metinOlustur()"><option value="BİLGİ NOTU">BİLGİ NOTU</option><option value="MAKAMA ARZ">MAKAMA ARZ</option></select>
+            </div>
+
+            <div class="form-group"><label>Konu</label><input type="text" id="konu" placeholder="Örn: Kasten Yaralama" oninput="metinOlustur()"></div>
+
+            <div class="row">
+                <div class="form-group"><label>Tarih</label><input type="text" id="tarih" oninput="metinOlustur()"></div>
+                <div class="form-group"><label>Saat</label><input type="text" id="saat" oninput="metinOlustur()"></div>
+            </div>
+
+            <div class="form-group"><label>Olay Yeri / Adres</label><input type="text" id="olayYeri" placeholder="Örn: Yunus Emre Bulvarı" oninput="metinOlustur()"></div>
+
+            <div id="adliAlanlar" class="hidden">
+                <div class="form-group"><label>Suç No</label><input type="text" id="sucNo" placeholder="Örn: 33" oninput="metinOlustur()"></div>
+                <div class="form-group">
+                    <label>Şahıs Ekle</label>
+                    <input type="number" id="sahisTc" placeholder="T.C. Kimlik No (Opsiyonel)" oninput="tcKontrolEt()" style="margin-bottom: 8px;">
+                    <div class="row" style="margin-bottom: 8px;">
+                        <select id="sahisRol" style="flex: 1;"><option value="Müşteki">Müşteki</option><option value="Şüpheli">Şüpheli</option><option value="Mağdur">Mağdur</option><option value="Bilgi Sahibi">Bilgi Sahibi</option></select>
+                        <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex: 2;" onkeypress="if(event.key === 'Enter') sahisEkle()">
+                        <button class="btn-add" onclick="sahisEkle()"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <div id="sahisListesiContainer"></div>
+                </div>
+            </div>
+
+            <div id="asayisAlanlar">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Şahıs Sorgu</label>
+                        <input type="number" id="sorgulananSahis" placeholder="Adet" oninput="metinOlustur()">
+                    </div>
+                    <div class="form-group">
+                        <label>Araç Sorgu</label>
+                        <input type="number" id="sorgulananArac" placeholder="Adet" oninput="metinOlustur()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Özet / Açıklama</label>
+                <div class="textarea-wrapper">
+                    <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
+                    <button class="action-btn nlp-btn" title="Sihirli Değnek" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                    <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
+                </div>
+                
+                <div class="quick-phrases">
+                    <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> Otomatik Giriş Yaz</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel" id="checklistPanel">
+            <div class="checklist-title" onclick="toggleChecklist()">
+                <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
+                <i id="checklistIcon" class="fa-solid fa-chevron-up" style="color: var(--text-gray); font-size:14px;"></i>
+            </div>
+            <div id="checkListItemsContainer" style="margin-top:12px;"></div>
+        </div>
+
+        <div class="glass-panel">
+            <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
+            <div class="whatsapp-msg" id="wpOnizleme">Önizleme burada görünecek...</div>
+            <div class="btn-group">
+                <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
+                <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: var(--ios-green); box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
             </div>
         </div>
     </div>
 
-    <div class="glass-panel" id="checklistPanel">
-        <div class="checklist-title" onclick="toggleChecklist()">
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
-            <i id="checklistIcon" class="fa-solid fa-chevron-up" style="color: var(--text-gray); font-size:14px;"></i>
-        </div>
-        <div id="checkListItemsContainer" style="margin-top:12px;"></div>
-    </div>
+    <div id="tutanakBolumu" style="display:none;">
+        <div class="glass-panel">
+            <div class="header-row">
+                <h1><i class="fa-solid fa-file-signature" style="color: var(--ios-blue);"></i> Tutanak Asistanı</h1>
+                <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()"><i class="fa-solid fa-trash-can"></i> Temizle</button>
+            </div>
 
-    <div class="glass-panel">
-        <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
-        <div class="whatsapp-msg" id="wpOnizleme">Önizleme burada görünecek...</div>
-        <div class="btn-group">
-            <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle()"><i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder</button>
-            <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
-            <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: var(--ios-green); box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
+            <div class="form-group">
+                <label>Tutanak Türü (Şablon)</label>
+                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: rgba(0, 122, 255, 0.05);">
+                    <option value="adres_tespit">Adres Tespit Tutanağı</option>
+                    <option value="kamera_tanik">Kamera ve Tanık Araştırma Tutanağı</option>
+                    <option value="kayip_esya">Kayıp Eşya Tutanağı</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="form-group"><label>Tarih</label><input type="text" id="tutTarih"></div>
+                <div class="form-group"><label>Saat</label><input type="text" id="tutSaat"></div>
+            </div>
+
+            <div id="tutAdresTespitAlanlari">
+                <div class="form-group"><label>Aranan Şahıs (Ad Soyad - TC)</label><input type="text" id="tutSahis" placeholder="Örn: Ahmet YILMAZ (TC: 12345678901)"></div>
+                <div class="form-group"><label>Konu / Suç</label><input type="text" id="tutAdresKonu" placeholder="Örn: Kasten Yaralama"></div>
+                <div class="form-group"><label>Gidilen Adres</label><input type="text" id="tutGidilenAdres" placeholder="Örn: Esentepe Mah. 3. Cadde No:5 Dodurga/Çorum"></div>
+                <div class="form-group">
+                    <label>Adres Durumu</label>
+                    <select id="tutAdresDurumu">
+                        <option value="ikamet_ediyor">Şahsın bu adreste ikamet ettiği tespit edilmiştir.</option>
+                        <option value="ayrilmis">Şahsın bu adresten taşındığı/ayrıldığı tespit edilmiştir.</option>
+                        <option value="taninmiyor">Şahsın bu adreste hiç oturmadığı ve tanınmadığı tespit edilmiştir.</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="tutKameraAlanlari" class="hidden">
+                <div class="form-group"><label>Olay Yeri / Adres</label><input type="text" id="tutOlayYeri" placeholder="Örn: Yunus Emre Bulvarı"></div>
+                <div class="form-group"><label>Meydana Gelen Olay</label><input type="text" id="tutKameraKonu" placeholder="Örn: Evden Hırsızlık"></div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Güvenlik Kamerası</label>
+                        <select id="tutKameraDurumu"><option value="yok">Bulunamadı / Yok</option><option value="var">Kamera Tespit Edildi</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Görgü Tanığı</label>
+                        <select id="tutTanikDurumu"><option value="yok">Bulunamadı / Yok</option><option value="var">Tanık Tespit Edildi</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tutKayipEsyaAlanlari" class="hidden">
+                <div class="form-group"><label>Müracaatçı (Ad Soyad - TC)</label><input type="text" id="tutMuracaatci" placeholder="Örn: Ayşe DEMİR (TC: 12345678901)"></div>
+                <div class="form-group"><label>Kaybolan Eşya Detayı</label><textarea id="tutEsyaDetayi" placeholder="Örn: İçerisinde 500 TL para ve kimlik kartları bulunan siyah renkli deri cüzdan" style="min-height:80px;"></textarea></div>
+            </div>
+
+            <hr style="border: 0; height: 1px; background: rgba(0,0,0,0.1); margin: 20px 0;">
+            <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Tutanak Tutanlar (Sicil Hafızası)</label>
+            <div class="row">
+                <div class="form-group"><label>1. Memur Sicil / Ad Soyad</label><input type="text" id="tutMemur1" placeholder="Örn: 123456 Polis Memuru Ali" onchange="sicilKaydet()"></div>
+                <div class="form-group"><label>2. Memur Sicil / Ad Soyad</label><input type="text" id="tutMemur2" placeholder="Örn: 654321 Polis Memuru Veli" onchange="sicilKaydet()"></div>
+            </div>
+            
+            <button class="bot-btn" style="background: var(--ios-green); width: 100%; margin-top: 10px; font-size: 16px; padding: 16px;" onclick="tutanakYazdir()"><i class="fa-solid fa-print"></i> A4 Olarak Yazdır / PDF İndir</button>
         </div>
     </div>
     
     <div class="developer-credit">
         <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.7</span>
+        <span class="version-tag">v2.0 Phase 1</span>
     </div>
 </div>
 
-<div id="archiveModal" class="hidden">
-    <div class="modal-content">
-        <div class="header-row">
-            <h2>Ortak Arşiv</h2>
-            <button class="archive-btn-top" onclick="arsiviKapat()">Kapat</button>
-        </div>
-        <div class="form-group" style="margin-bottom: 16px;">
-            <input type="text" id="archiveSearch" placeholder="Arşivde kelime, şahıs veya konu ara..." oninput="arsivFiltrele()">
-        </div>
-        <div id="archiveList">Yükleniyor...</div>
-    </div>
+<div id="printArea">
+    <div id="printContent"></div>
 </div>
 
 <script>
@@ -311,47 +376,49 @@
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
             document.getElementById("loginScreen").style.display = "none";
             document.getElementById("appContainer").style.display = "block";
-            if(window.arsiviYukle) window.arsiviYukle();
+            
+            // Tarih ve saatleri otomatik doldur
+            const bugun = new Date();
+            const trh = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
+            const st = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
+            document.getElementById("tarih").value = trh; document.getElementById("saat").value = st;
+            document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
+
+            // Kayıtlı sicilleri çek
+            if(localStorage.getItem('tut_memur1')) document.getElementById("tutMemur1").value = localStorage.getItem('tut_memur1');
+            if(localStorage.getItem('tut_memur2')) document.getElementById("tutMemur2").value = localStorage.getItem('tut_memur2');
         }
     });
 
     function girisYap() {
-        const pass = document.getElementById("loginPassword").value;
-        if(pass === SISTEM_SIFRESI) {
+        if(document.getElementById("loginPassword").value === SISTEM_SIFRESI) {
             localStorage.setItem('polis_ag_giris_izni', 'true');
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("appContainer").style.display = "block";
-            if(window.arsiviYukle) window.arsiviYukle();
-        } else {
-            alert("Hatalı Parola! Uygulamaya erişim reddedildi.");
-            document.getElementById("loginPassword").value = "";
-        }
-    }
-
-    function cikisYap() {
-        if(confirm("Güvenli çıkış yapmak istiyor musunuz?")) {
-            localStorage.removeItem('polis_ag_giris_izni');
             location.reload();
+        } else alert("Hatalı Parola!");
+    }
+    function cikisYap() { localStorage.removeItem('polis_ag_giris_izni'); location.reload(); }
+
+    // TAB (SEKME) SİSTEMİ
+    function sekmeDegistir(sekme) {
+        document.getElementById("tabBilgiNotuBtn").classList.remove("active");
+        document.getElementById("tabTutanakBtn").classList.remove("active");
+        document.getElementById("bilgiNotuBolumu").style.display = "none";
+        document.getElementById("tutanakBolumu").style.display = "none";
+
+        if(sekme === 'bilgiNotu') {
+            document.getElementById("tabBilgiNotuBtn").classList.add("active");
+            document.getElementById("bilgiNotuBolumu").style.display = "block";
+        } else {
+            document.getElementById("tabTutanakBtn").classList.add("active");
+            document.getElementById("tutanakBolumu").style.display = "block";
         }
     }
-</script>
 
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
-    }
-
-    let sahislarDizisi = [];
-    let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
-    let recognition;
-    let isRecording = false;
-
-    // AKILLI İSİM FORMATLAYICI (Örn: "ahmet yılmaz" -> "Ahmet YILMAZ")
+    // BİLGİ NOTU KODLARI (v1.7)
     function isimFormatla(metin) {
         let kelimeler = metin.trim().split(/\s+/);
         if(kelimeler.length === 0 || metin.trim() === "") return "";
         if(kelimeler.length === 1) return kelimeler[0].replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
-        
         let soyad = kelimeler.pop().replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
         let adKismi = kelimeler.map(k => {
             if(k.length === 0) return "";
@@ -359,587 +426,130 @@
             let geriKalan = k.slice(1).toLocaleLowerCase('tr-TR');
             return ilkHarf + geriKalan;
         }).join(" ");
-        
         return adKismi + " " + soyad;
     }
 
-    // KONTROL LİSTESİ AÇILIR/KAPANIR (ACCORDION)
-    window.toggleChecklist = function() {
+    function toggleChecklist() {
         const container = document.getElementById("checkListItemsContainer");
         const icon = document.getElementById("checklistIcon");
-        if(container.classList.contains("hidden")) {
-            container.classList.remove("hidden");
-            icon.classList.remove("fa-chevron-down");
-            icon.classList.add("fa-chevron-up");
-        } else {
-            container.classList.add("hidden");
-            icon.classList.remove("fa-chevron-up");
-            icon.classList.add("fa-chevron-down");
-        }
+        container.classList.toggle("hidden");
+        icon.classList.toggle("fa-chevron-down", container.classList.contains("hidden"));
+        icon.classList.toggle("fa-chevron-up", !container.classList.contains("hidden"));
     }
 
     function otomatikGirisEkle() {
-        const tarih = document.getElementById("tarih").value || "...";
-        const saat = document.getElementById("saat").value || "...";
-        const olayYeri = document.getElementById("olayYeri").value || "...";
-        const konu = document.getElementById("konu").value || "olay";
-        
-        const girisMetni = `${tarih} günü saat ${saat} sıralarında ${olayYeri} adresinde meydana gelen ${konu} olayı ile ilgili olarak; `;
-        
+        const trh = document.getElementById("tarih").value || "...";
+        const st = document.getElementById("saat").value || "...";
+        const yer = document.getElementById("olayYeri").value || "...";
+        const kn = document.getElementById("konu").value || "olay";
+        const txt = `${trh} günü saat ${st} sıralarında ${yer} adresinde meydana gelen ${kn} olayı ile ilgili olarak; `;
         const ozetBox = document.getElementById('ozet');
-        if(ozetBox.value.trim() === "") {
-            ozetBox.value = girisMetni;
-        } else {
-            ozetBox.value = girisMetni + "\n\n" + ozetBox.value;
-        }
-        metinOlustur();
-    }
-
-    function adliTurSecildi() {
-        const secim = document.getElementById("adliTuru").value;
-        if (secim) {
-            document.getElementById("konu").value = secim;
-            metinOlustur();
-        }
-    }
-
-    function formuTemizle() {
-        if(confirm("Tüm form verileri silinip yeni boş bir tutanak açılsın mı?")) {
-            document.getElementById("konu").value = "";
-            document.getElementById("olayYeri").value = "";
-            document.getElementById("sucNo").value = "";
-            document.getElementById("sahisTc").value = "";
-            document.getElementById("sahisAd").value = "";
-            document.getElementById("sorgulananSahis").value = "";
-            document.getElementById("sorgulananArac").value = "";
-            document.getElementById("ozet").value = "";
-            document.getElementById("adliTuru").value = "";
-            
-            const bugun = new Date();
-            document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
-            document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
-            
-            sahislarDizisi = [];
-            sahisListesiniCiz();
-            sablonDegistir();
-            taslakKaydet();
-        }
-    }
-
-    function akilliMetinAnalizi() {
-        let metin = document.getElementById("ozet").value;
-        let kucukMetin = metin.toLowerCase();
-        let duzeltmeYapildi = false;
-
-        if(kucukMetin.includes("kavga") || kucukMetin.includes("darp") || kucukMetin.includes("yaral")) {
-            document.getElementById("konu").value = "KASTEN YARALAMA";
-            duzeltmeYapildi = true;
-        } else if(kucukMetin.includes("çaldı") || kucukMetin.includes("hırsız")) {
-            document.getElementById("konu").value = "HIRSIZLIK";
-            duzeltmeYapildi = true;
-        } else if(kucukMetin.includes("kaza") || kucukMetin.includes("çarpıştı")) {
-            document.getElementById("konu").value = "MADDİ HASARLI TRAFİK KAZASI";
-            duzeltmeYapildi = true;
-        }
-
-        const sahisRegex = /(müşteki|şüpheli|mağdur|bilgi sahibi)\s+([a-zA-ZğüşöçıİĞÜŞÖÇ]+(?:\s+[a-zA-ZğüşöçıİĞÜŞÖÇ]+){1,2})/gi;
-        let matches = [...metin.matchAll(sahisRegex)];
-        
-        if(matches.length > 0) {
-            matches.forEach(match => {
-                let rol = match[1].toLowerCase();
-                if(rol === "müşteki") rol = "Müşteki";
-                else if(rol === "şüpheli") rol = "Şüpheli";
-                else if(rol === "mağdur") rol = "Mağdur";
-                else if(rol === "bilgi sahibi") rol = "Bilgi Sahibi";
-                
-                let adRaw = match[2].trim();
-                let ad = isimFormatla(adRaw); // Formata uygun ekleniyor
-                
-                let zatenVarMi = sahislarDizisi.some(s => s.rol === rol && s.ad === ad);
-                if(!zatenVarMi) {
-                    sahislarDizisi.push({ rol: rol, ad: ad });
-                    duzeltmeYapildi = true;
-                }
-            });
-        }
-
-        if(duzeltmeYapildi) {
-            document.getElementById("adliAlanlar").classList.remove("hidden");
-            document.getElementById("olayTuru").value = "adli";
-            sahisListesiniCiz();
-            metinOlustur();
-            alert("🪄 Sihirli Değnek çalıştı! Olay konusu ve şahıslar listeye eklendi.");
-        } else {
-            alert("🪄 Sistem metinde belirgin bir şahıs adı bulamadı.");
-        }
-    }
-
-    const kanunMaddeleri = [
-        { k: ["yaralama", "darp", "kavga", "vurdu"], text: "TCK Madde 86 - Kasten Yaralama" },
-        { k: ["hakaret", "küfür", "sövdü"], text: "TCK Madde 125 - Hakaret" },
-        { k: ["tehdit", "öldürürüm", "keseceğim", "silah"], text: "TCK Madde 106 - Tehdit" },
-        { k: ["hırsızlık", "çaldı", "çalındı"], text: "TCK Madde 141 - Hırsızlık" },
-        { k: ["kırmızı ışık", "ışık ihlali"], text: "KTK 47/1-b - Kırmızı Işık İhlali" },
-        { k: ["alkol", "promil"], text: "KTK 48/5 - Alkollü Araç Kullanma" },
-        { k: ["ehliyetsiz", "sürücü belgesi yok"], text: "KTK 36 - Ehliyetsiz Araç Kullanma" }
-    ];
-
-    function kanunOnerileriniGuncelle() {
-        let birlesikMetin = (document.getElementById("konu").value + " " + document.getElementById("ozet").value).toLowerCase();
-        let alan = document.getElementById("kanunOneriAlani");
-        alan.innerHTML = "";
-        let sonuc = false;
-        
-        kanunMaddeleri.forEach(madde => {
-            if(madde.k.some(kelime => birlesikMetin.includes(kelime))) {
-                alan.innerHTML += `<span class="phrase-chip" style="background: rgba(255, 149, 0, 0.15); color: #FF9500; font-size: 12px; border: 1px solid rgba(255, 149, 0, 0.3);"><i class="fa-solid fa-scale-balanced" style="margin-right:4px;"></i> ${madde.text}</span>`;
-                sonuc = true;
-            }
-        });
-        alan.style.display = sonuc ? "flex" : "none";
-    }
-
-    function toggleDarkMode() {
-        document.body.classList.toggle("dark-mode");
-        const isDark = document.body.classList.contains("dark-mode");
-        localStorage.setItem('dark_mode_active', isDark);
-        document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
-    }
-
-    function tcDogrula(tc) {
-        if (tc.length !== 11 || isNaN(tc)) return false;
-        if (tc[0] == 0) return false;
-        let haneler = tc.split('').map(Number);
-        let tekler = haneler[0] + haneler[2] + haneler[4] + haneler[6] + haneler[8];
-        let ciftler = haneler[1] + haneler[3] + haneler[5] + haneler[7];
-        let hane10 = (tekler * 7 - ciftler) % 10;
-        let hane11 = (haneler.slice(0, 10).reduce((a, b) => a + b, 0)) % 10;
-        return haneler[9] === hane10 && haneler[10] === hane11;
-    }
-
-    function tcKontrolEt() {
-        const tcInput = document.getElementById("sahisTc");
-        const val = tcInput.value;
-        if(val.length === 11) {
-            if(tcDogrula(val)) {
-                tcInput.style.boxShadow = "inset 0 0 0 1.5px var(--ios-green)";
-            } else {
-                tcInput.style.boxShadow = "inset 0 0 0 1.5px #FF3B30";
-            }
-        } else {
-            tcInput.style.boxShadow = "none";
-        }
-    }
-
-    const checklistSablonlari = {
-        asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
-        asayis_trafik: ["GBT ve araç sorguları koordineli yapıldı mı?", "Sürücü belgeleri ve muayene kontrolleri bitti mi?", "Gerekli durumlarda alkolmetre üfletildi mi?", "Yol güvenlik dubaları dizildi mi?"],
-        adli: ["Günün Nöbetçi Cumhuriyet Savcısına detaylı bilgi verildi mi?", "Müşteki/Şüpheli/Mağdur doktor raporları alındı mı?", "Olay aleti/Suç unsuru delil torbasına alındı mı?", "İfade alma işlemlerine geçildi mi?"],
-        trafik: ["Kaza Tespit Tutanağı usulüne uygun dolduruldu mu?", "Sürücülerin alkol testleri rapora işlendi mi?", "Yaralı varsa ambulans sevk durumu takip edildi mi?", "Yolu kapatan araçlar için çekici koordine edildi mi?"]
-    };
-
-    function checklistCiz() {
-        const tur = document.getElementById("olayTuru").value;
-        const container = document.getElementById("checkListItemsContainer");
-        container.innerHTML = "";
-        const gorevler = checklistSablonlari[tur] || ["Gerekli çevre güvenlik önlemleri kontrol edildi mi?"];
-        
-        gorevler.forEach((gorev, idx) => {
-            container.innerHTML += `
-                <div class="check-item" id="chk-div-${idx}" onclick="window.toggleCheckItem(${idx}, event)">
-                    <input type="checkbox" id="chk-${idx}" style="pointer-events:none;">
-                    <span>${gorev}</span>
-                </div>`;
-        });
-    }
-
-    window.toggleCheckItem = function(idx, event) {
-        const box = document.getElementById('chk-' + idx);
-        const div = document.getElementById('chk-div-' + idx);
-        box.checked = !box.checked;
-        if(box.checked) {
-            div.classList.add("done");
-        } else {
-            div.classList.remove("done");
-        }
-    }
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = false;
-        recognition.lang = 'tr-TR';
-
-        recognition.onstart = () => { isRecording = true; document.getElementById('micBtn').classList.add('recording'); };
-        
-        recognition.onresult = (event) => {
-            let trans = '';
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) trans += event.results[i][0].transcript + ' ';
-            }
-            trans = trans.trim();
-            let kucukTrans = trans.toLowerCase();
-            
-            if(kucukTrans.startsWith("sistem konu")) {
-                document.getElementById("konu").value = trans.substring(11).trim().toUpperCase();
-                metinOlustur();
-            } else if (kucukTrans.startsWith("sistem olay yeri")) {
-                document.getElementById("olayYeri").value = trans.substring(16).trim();
-                metinOlustur();
-            } else {
-                ekleOzet(trans);
-            }
-        };
-        recognition.onerror = () => stopDictation();
-        recognition.onend = () => { if(isRecording) stopDictation(); };
-    }
-
-    function toggleDictation() {
-        if (!recognition) { alert("Tarayıcınız sesle yazdırmayı desteklemiyor."); return; }
-        isRecording ? stopDictation() : recognition.start();
-    }
-
-    function stopDictation() {
-        isRecording = false;
-        if(recognition) recognition.stop();
-        document.getElementById('micBtn').classList.remove('recording');
-    }
-
-    function ekleOzet(metin) {
-        const ozetBox = document.getElementById('ozet');
-        let m = ozetBox.value.trim();
-        ozetBox.value = m === "" ? metin : m + "\n\n" + metin;
-        metinOlustur();
-    }
-
-    function ozelCumlelerCiz() {
-        const container = document.getElementById("dinamikPhrases");
-        container.innerHTML = "";
-        ozelCumleler.forEach((cumle, index) => {
-            container.innerHTML += `
-                <span class="phrase-chip" style="background: rgba(88, 86, 214, 0.1); color: #5856D6; padding-right: 26px; position: relative;" onclick="ekleOzet('${cumle}')">
-                    ${cumle}
-                    <i class="fa-solid fa-xmark" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #FF3B30; cursor: pointer;" onclick="event.stopPropagation(); ozelCumleSil(${index})"></i>
-                </span>`;
-        });
-    }
-
-    function yeniCumleEkle() {
-        const val = document.getElementById("yeniCumleInput").value.trim();
-        if(val) {
-            ozelCumleler.push(val);
-            localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
-            document.getElementById("yeniCumleInput").value = "";
-            ozelCumlelerCiz();
-        }
-    }
-
-    function ozelCumleSil(index) {
-        ozelCumleler.splice(index, 1);
-        localStorage.setItem('ozel_cumleler', JSON.stringify(ozelCumleler));
-        ozelCumlelerCiz();
-    }
-
-    function plakaFormatla(text) {
-        if (!text) return "";
-        return text.replace(/\b([0-8][0-9])\s*([a-zA-Z]{1,3})\s*(\d{2,5})\b/g, function(match, sehir, harf, sayi) {
-            return sehir + " " + harf.toUpperCase() + " " + sayi;
-        });
-    }
-
-    function taslakKaydet() {
-        const taslak = {
-            olayTuru: document.getElementById("olayTuru").value,
-            adliTuru: document.getElementById("adliTuru") ? document.getElementById("adliTuru").value : "",
-            baslikTuru: document.getElementById("baslikTuru").value,
-            konu: document.getElementById("konu").value,
-            tarih: document.getElementById("tarih").value,
-            saat: document.getElementById("saat").value,
-            olayYeri: document.getElementById("olayYeri").value,
-            sucNo: document.getElementById("sucNo").value,
-            sorgulananSahis: document.getElementById("sorgulananSahis").value,
-            sorgulananArac: document.getElementById("sorgulananArac").value,
-            ozet: document.getElementById("ozet").value,
-            sahislarDizisi: sahislarDizisi
-        };
-        localStorage.setItem('taslak_not_verisi', JSON.stringify(taslak));
-    }
-
-    function taslakYukle() {
-        const veri = localStorage.getItem('taslak_not_verisi');
-        if (veri) {
-            const taslak = JSON.parse(veri);
-            document.getElementById("olayTuru").value = taslak.olayTuru || "asayis";
-            if(document.getElementById("adliTuru") && taslak.adliTuru) {
-                document.getElementById("adliTuru").value = taslak.adliTuru;
-            }
-            sablonDegistir();
-            
-            document.getElementById("baslikTuru").value = taslak.baslikTuru || "BİLGİ NOTU";
-            document.getElementById("konu").value = taslak.konu || "";
-            document.getElementById("tarih").value = taslak.tarih || "";
-            document.getElementById("saat").value = taslak.saat || "";
-            document.getElementById("olayYeri").value = taslak.olayYeri || "";
-            document.getElementById("sucNo").value = taslak.sucNo || "";
-            document.getElementById("sorgulananSahis").value = taslak.sorgulananSahis || "";
-            document.getElementById("sorgulananArac").value = taslak.sorgulananArac || "";
-            document.getElementById("ozet").value = taslak.ozet || "";
-            sahislarDizisi = taslak.sahislarDizisi || [];
-            
-            sahisListesiniCiz();
-            metinOlustur();
-        } else {
-            const bugun = new Date();
-            document.getElementById("tarih").value = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
-            document.getElementById("saat").value = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
-            sablonDegistir();
-        }
-        
-        const darkActive = localStorage.getItem('dark_mode_active') === "true";
-        if(darkActive) {
-            document.body.classList.add("dark-mode");
-            document.getElementById("darkIcon").className = "fa-solid fa-sun";
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        taslakYukle();
-        ozelCumlelerCiz();
-    });
-
-    function sahisEkle() {
-        const rol = document.getElementById("sahisRol").value;
-        const adRaw = document.getElementById("sahisAd").value;
-        const tc = document.getElementById("sahisTc").value.trim();
-        
-        if(adRaw.trim() !== "") { 
-            const ad = isimFormatla(adRaw); // Formata uygun ekleniyor
-            let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
-            sahislarDizisi.push({ rol, ad: tamAd }); 
-            document.getElementById("sahisAd").value = ""; 
-            document.getElementById("sahisTc").value = ""; 
-            document.getElementById("sahisTc").style.boxShadow = "none";
-            sahisListesiniCiz(); 
-            metinOlustur(); 
-        }
-    }
-
-    function sahisListesiniCiz() {
-        const container = document.getElementById("sahisListesiContainer");
-        container.innerHTML = "";
-        sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div class="sahis-card"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
-        });
-    }
-
-    function sahisSil(index) {
-        sahislarDizisi.splice(index, 1);
-        sahisListesiniCiz();
+        ozetBox.value = ozetBox.value.trim() === "" ? txt : txt + "\n\n" + ozetBox.value;
         metinOlustur();
     }
 
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
-        const ozetBox = document.getElementById("ozet");
-        
         document.getElementById("adliAlanlar").classList.toggle("hidden", tur !== "adli");
         document.getElementById("adliAltKutu").classList.toggle("hidden", tur !== "adli");
-        
-        const asayisMi = (tur === "asayis" || tur === "asayis_trafik");
-        document.getElementById("asayisAlanlar").classList.toggle("hidden", !asayisMi);
-        
-        if (tur === "asayis") { 
-            document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan kontrollerde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
-        } 
-        else if (tur === "asayis_trafik") { 
-            document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
-        }
-        else if (tur === "adli") { 
-            document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
-            ozetBox.value = "";
-        }
-        else if (tur === "trafik") { 
-            document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
-            ozetBox.value = "... çevre güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.";
-        }
-        else {
-            document.getElementById("baslikTuru").value = "BİLGİ NOTU";
-            ozetBox.value = "";
-        }
-        
-        checklistCiz();
+        document.getElementById("asayisAlanlar").classList.toggle("hidden", !(tur === "asayis" || tur === "asayis_trafik"));
+        document.getElementById("baslikTuru").value = (tur === "adli" || tur === "trafik") ? "MAKAMA ARZ" : "BİLGİ NOTU";
         metinOlustur();
+    }
+    
+    function adliTurSecildi() {
+        const secim = document.getElementById("adliTuru").value;
+        if (secim) { document.getElementById("konu").value = secim; metinOlustur(); }
     }
 
     function metinOlustur() {
-        const tur = document.getElementById("olayTuru").value;
         const baslikTuru = document.getElementById("baslikTuru").value;
-        const konu = document.getElementById("konu").value;
-        const tarih = document.getElementById("tarih").value;
-        const saat = document.getElementById("saat").value;
-        const olayYeri = document.getElementById("olayYeri").value;
-        let ozet = document.getElementById("ozet").value;
-
-        ozet = plakaFormatla(ozet);
-        kanunOnerileriniGuncelle();
-
-        let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
-        
-        if(konu) metin += `*Konu:* ${konu}\n`;
-        
-        if(tur === "adli") {
-            let sucNoVal = document.getElementById("sucNo").value.trim();
-            if(sucNoVal) {
-                if(!sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) {
-                    sucNoVal = new Date().getFullYear() + "/" + sucNoVal;
-                }
-                metin += `*Suç No:* ${sucNoVal}\n`;
-            }
-            sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
-        }
-        
-        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
-        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
-        
-        if(tur === "asayis" || tur === "asayis_trafik") {
-            if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n`;
-            if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n`;
-        }
-        
-        if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
-        else metin += `\n`;
-        
-        metin += `*Arz ederim.*`;
-
+        let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n*Konu:* ${document.getElementById("konu").value}\n*Olay Yeri:* ${document.getElementById("olayYeri").value}\n*Tarih/Saat:* ${document.getElementById("tarih").value} ${document.getElementById("saat").value}\n\n*ÖZET:*\n${document.getElementById("ozet").value}\n\n*Arz ederim.*`;
         document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
         document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
-        
-        taslakKaydet();
     }
 
     function kopyala() {
         navigator.clipboard.writeText(document.getElementById("wpOnizleme").getAttribute('data-raw'));
-        const btn = document.getElementById("kopyalaBtn");
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
-        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala'; }, 2000);
+        alert("Kopyalandı!");
     }
 
     function whatsappGonder() {
         const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
-        const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(rawText);
-        window.open(url, '_blank');
+        window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(rawText), '_blank');
     }
 
-    function arsivFiltrele() {
-        const queryStr = document.getElementById("archiveSearch").value.toLowerCase().trim();
-        const items = document.querySelectorAll(".archive-item");
-        items.forEach(item => {
-            const itemText = item.innerText.toLowerCase();
-            item.style.display = itemText.includes(queryStr) ? "block" : "none";
-        });
+    // ==========================================
+    // V2.0 TUTANAK ASİSTANI VE PDF MOTORU KODLARI
+    // ==========================================
+
+    function tutanakSablonDegistir() {
+        const tur = document.getElementById("tutTuru").value;
+        document.getElementById("tutAdresTespitAlanlari").classList.toggle("hidden", tur !== "adres_tespit");
+        document.getElementById("tutKameraAlanlari").classList.toggle("hidden", tur !== "kamera_tanik");
+        document.getElementById("tutKayipEsyaAlanlari").classList.toggle("hidden", tur !== "kayip_esya");
     }
 
-    function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); document.getElementById("archiveSearch").value = ""; }
-    function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const p1 = "AIzaSyADpIRNL";
-    const p2 = "QEIer_gplTgwK";
-    const p3 = "i_EKkfcyrYoqY";
-
-    const firebaseConfig = {
-      apiKey: p1 + p2 + p3, 
-      authDomain: "maasgunu-bd353.firebaseapp.com",
-      projectId: "maasgunu-bd353",
-      storageBucket: "maasgunu-bd353.firebasestorage.app",
-      messagingSenderId: "485904329467",
-      appId: "1:485904329467:web:579d932ae8f25958901e5e"
-    };
-
-    let app, db;
-    
-    try {
-        app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-    } catch(e) {
-        console.error("Firebase başlatılamadı", e);
+    function sicilKaydet() {
+        localStorage.setItem('tut_memur1', document.getElementById("tutMemur1").value);
+        localStorage.setItem('tut_memur2', document.getElementById("tutMemur2").value);
     }
 
-    window.kaydetVeArsivle = async function() {
-        if(!db) { alert("Sistem bağlantı hatası! Veritabanı kilitlenmiş olabilir."); return; }
+    function tutanakYazdir() {
+        const tur = document.getElementById("tutTuru").value;
+        const tarih = document.getElementById("tutTarih").value;
+        const saat = document.getElementById("tutSaat").value;
+        const memur1 = document.getElementById("tutMemur1").value;
+        const memur2 = document.getElementById("tutMemur2").value;
         
-        const rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
-        const konu = document.getElementById("konu").value || "İsimsiz Olay";
-        const btn = document.getElementById("kaydetBtn");
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Gönderiliyor...';
+        let baslik = "";
+        let icerik = "";
+
+        if(tur === "adres_tespit") {
+            baslik = "TUTANAKTIR";
+            const sahis = isimFormatla(document.getElementById("tutSahis").value) || ".........................";
+            const konu = document.getElementById("tutAdresKonu").value || ".........................";
+            const adres = document.getElementById("tutGidilenAdres").value || ".........................";
+            const dDurum = document.getElementById("tutAdresDurumu");
+            const durumMetni = dDurum.options[dDurum.selectedIndex].text;
+
+            icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dodurga İlçe Emniyet Amirliği sorumluluk alanı içerisinde yürütülen tahkikat ve çalışmalar kapsamında, ${konu} konusu ile ilgili olarak; <b>${sahis}</b> isimli şahsın adres tespiti ve tebligat işlemleri amacıyla ${tarih} günü saat ${saat} sıralarında beyan edilen <b>${adres}</b> adresine gidilmiş, adreste yapılan araştırma ve kontroller neticesinde; <br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${durumMetni}</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu tutanak olay yerinde tarafımızdan tanzim edilerek doğruluğu okunup birlikte imza altına alınmıştır.`;
+        } 
+        else if(tur === "kamera_tanik") {
+            baslik = "KAMERA VE TANIK ARAŞTIRMA TUTANAĞI";
+            const olayYeri = document.getElementById("tutOlayYeri").value || ".........................";
+            const konu = document.getElementById("tutKameraKonu").value || ".........................";
+            const kDurum = document.getElementById("tutKameraDurumu").value === "var" ? "olayı gören GÜVENLİK KAMERASINA RASTLANILMIŞ," : "olayı gören herhangi bir güvenlik kamerasına RASTLANILMAMIŞ,";
+            const tDurum = document.getElementById("tutTanikDurumu").value === "var" ? "olayı gören/bilen GÖRGÜ TANIĞI TESPİT EDİLMİŞTİR." : "olayı gören/bilen herhangi bir görgü tanığına RASTLANILMAMIŞTIR.";
+
+            icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${tarih} günü saat ${saat} sıralarında <b>${olayYeri}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak; olayın aydınlatılması, şüpheli şahıs/şahısların tespit edilmesi amacıyla çevre sokak ve caddelerde tarafımızdan yapılan geniş çaplı kamera ve tanık araştırması neticesinde;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Çevrede ${kDurum} ayrıca çevrede yapılan mülakatlarda ${tDurum}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu tutanak tarafımızdan tanzimle doğruluğu okunup imza altına alınmıştır.`;
+        }
+        else if(tur === "kayip_esya") {
+            baslik = "KAYIP EŞYA TUTANAĞI";
+            const kisi = isimFormatla(document.getElementById("tutMuracaatci").value) || ".........................";
+            const esya = document.getElementById("tutEsyaDetayi").value || ".........................";
+
+            icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${tarih} günü saat ${saat} sıralarında Dodurga İlçe Emniyet Amirliğimize müracaata gelen <b>${kisi}</b> isimli şahıs; kendisine ait olan ve detayları <i>"${esya}"</i> şeklinde belirtilen eşyasını/eşyalarını kendi dalgınlığı ve dikkatsizliği sonucu nerede ve ne zaman olduğunu bilmediği bir şekilde kaybettiğini, bulunması halinde tarafına teslim edilmesini beyan etmiştir.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Şahsın beyanı üzerine gerekli form doldurulmuş olup, iş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.`;
+        }
+
+        // A4 HTML İSKELETİ OLUŞTURMA
+        const printHTML = `
+            <div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 13pt;">
+                T.C.<br>DODURGA KAYMAKAMLIĞI<br>İlçe Emniyet Amirliği
+            </div>
+            <div class="print-title">${baslik}</div>
+            <div>${icerik}</div>
+            <div style="text-align: left; margin-top: 15px;"><b>Tarih/Saat:</b> ${tarih} - ${saat}</div>
+            <div class="print-signatures">
+                <div class="print-sig-box"><b>Tutanak Tutan</b><br><br><br>${memur1}</div>
+                <div class="print-sig-box"><b>Tutanak Tutan</b><br><br><br>${memur2}</div>
+            </div>
+        `;
+
+        document.getElementById("printContent").innerHTML = printHTML;
         
-        try {
-            await addDoc(collection(db, "bilginotlari"), { konu: konu, metin: rawText, tarih: serverTimestamp() });
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Ağa Eklendi';
-            if(window.arsiviYukle) window.arsiviYukle();
-        } catch (e) { 
-            btn.innerHTML = 'Hata (API Engeli)!'; 
-            console.error(e);
-        }
-        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder'; }, 2000);
-    }
-
-    window.arsiviYukle = async function() {
-        if(!db) return;
-        const liste = document.getElementById("archiveList");
-        try {
-            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"));
-            const querySnapshot = await getDocs(q);
-            liste.innerHTML = "";
-            if(querySnapshot.empty) { liste.innerHTML = "<div style='text-align:center; padding:20px; color: var(--text-gray);'>Ortak ağda kayıt bulunamadı.</div>"; return; }
-            
-            querySnapshot.forEach((documentSnapshot) => {
-                const data = documentSnapshot.data();
-                const docId = documentSnapshot.id;
-                const div = document.createElement("div");
-                div.className = "archive-item";
-                
-                let tStr = "Tarih Yok";
-                if(data.tarih) { 
-                    const d = data.tarih.toDate(); 
-                    tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}); 
-                }
-                
-                div.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><b style="color:var(--ios-blue);">${data.konu}</b><br><small style="color:var(--text-gray);">${tStr}</small></div>
-                        <i class="fa-solid fa-trash" style="color:#FF3B30; padding:10px;" onclick="event.stopPropagation(); kayitSilFirebase('${docId}')"></i>
-                    </div>`;
-                
-                div.addEventListener('click', () => { 
-                    navigator.clipboard.writeText(data.metin); 
-                    alert("Ağdaki not kopyalandı!"); 
-                });
-                liste.appendChild(div);
-            });
-        } catch (error) { 
-            liste.innerHTML = "<div style='color:#FF3B30; text-align:center; padding:20px;'>Ağa bağlanılamadı. Lütfen internet bağlantınızı kontrol edin.</div>"; 
-            console.error(error);
-        }
-    }
-
-    window.kayitSilFirebase = async function(docId) {
-        if(confirm("Bu tutanağı tüm ekibin ortak ağından SİLMEK istiyor musunuz?")) {
-            try {
-                await deleteDoc(doc(db, "bilginotlari", docId));
-                window.arsiviYukle();
-            } catch(e) {
-                alert("Silme işlemi başarısız!");
-            }
-        }
+        // SİHİRLİ DOKUNUŞ: NATIVE YAZDIRMA (A4 FORMATINDA)
+        window.print();
     }
 </script>
 </body>
