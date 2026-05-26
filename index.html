@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu Asistanı v1.6</title>
+    <title>Bilgi Notu Asistanı v1.7</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -45,13 +45,14 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        /* ÇERÇEVE BOŞLUKLARI AZALTILDI */
         body { 
             background: var(--body-bg);
-            min-height: 100vh; padding: 20px; color: var(--text-dark); padding-bottom: 40px; 
+            min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; 
             transition: background 0.4s ease;
         }
 
-        .container { max-width: 600px; margin: 0 auto; display: none; } /* Başlangıçta Uygulama Gizli */
+        .container { max-width: 650px; margin: 0 auto; display: none; }
         
         /* GİRİŞ EKRANI (LOGIN) TASARIMI */
         #loginScreen {
@@ -75,73 +76,77 @@
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); 
-            border-radius: 24px; padding: 24px; margin-bottom: 20px; 
+            border-radius: 20px; padding: 16px; margin-bottom: 16px; /* KULLANIM ALANI GENİŞLETİLDİ */
             box-shadow: 0 8px 30px var(--panel-shadow); 
             transition: all 0.3s ease;
         }
         
-        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        h1 { font-size: 20px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;}
+        /* BAŞLIK YAN YANA HİZALAMASI SABİTLENDİ */
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: nowrap; gap: 8px;}
+        h1 { font-size: 18px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;}
         
-        .top-btn-group { display: flex; gap: 6px; }
-        .archive-btn-top { background: var(--input-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.1s; }
+        .top-btn-group { display: flex; gap: 4px; flex-wrap: nowrap; overflow-x: auto;}
+        .archive-btn-top { background: var(--input-bg); color: var(--ios-blue); border: none; padding: 8px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: transform 0.1s; }
         .archive-btn-top:active { transform: scale(0.95); opacity: 0.7; }
         .btn-danger { color: #FF3B30; }
 
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 8px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
         
         input, select, textarea { 
             width: 100%; background: var(--input-bg); 
             border: 1px solid rgba(0,0,0,0.05); 
-            border-radius: 14px; padding: 14px 16px; 
+            border-radius: 12px; padding: 12px 14px; 
             font-size: 16px; color: var(--text-dark); 
             transition: all 0.3s ease; outline: none;
         }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         
-        textarea { resize: vertical; min-height: 140px; padding-right: 100px; line-height: 1.5; }
+        /* AÇIKLAMA KUTUSU DİKEYDE BÜYÜTÜLDÜ */
+        textarea { resize: vertical; min-height: 200px; padding-right: 100px; line-height: 1.5; }
         .hidden { display: none !important; }
-        .row { display: flex; gap: 12px; } .row .form-group { flex: 1; }
+        .row { display: flex; gap: 10px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
         
-        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer; transition: transform 0.1s; }
+        .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 17px; cursor: pointer; transition: transform 0.1s; }
         .action-btn:active { transform: scale(0.9); }
         .mic-btn { right: 12px; background: var(--chip-bg); color: var(--ios-blue); }
-        .nlp-btn { right: 62px; background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
+        .nlp-btn { right: 58px; background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
-        .quick-phrases { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); }
+        /* 2'Lİ SIRA SİSTEMİ EKLENDİ */
+        .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+        .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 6px; border-radius: 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); width: 100%;}
         .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
         .chip-green { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); border-color: rgba(52, 199, 89, 0.3); }
+        .chip-full { grid-column: span 2; padding: 10px; font-size: 13px;} /* Otomatik giriş tüm satırı kaplar */
         
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 18px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
         
-        .btn-group { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-        button.bot-btn { flex: 1; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 16px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); }
+        .btn-group { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+        button.bot-btn { flex: 1; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); }
         button.bot-btn:active { transform: scale(0.97); }
         .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
-        .btn-add { background: var(--ios-blue); color: white; width: 52px; border-radius: 14px; border: none; cursor: pointer; font-size: 18px; transition: transform 0.1s; }
+        .btn-add { background: var(--ios-blue); color: white; width: 50px; border-radius: 12px; border: none; cursor: pointer; font-size: 16px; transition: transform 0.1s; }
         .btn-add:active { transform: scale(0.9); }
         
-        .developer-credit { text-align: center; margin-top: 30px; font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; }
+        .developer-credit { text-align: center; margin-top: 24px; font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; }
         .developer-credit b { font-weight: 700; color: #fff; }
-        .version-tag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.3); padding: 4px 10px; border-radius: 12px; color: #fff;}
+        .version-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.3); padding: 4px 8px; border-radius: 10px; color: #fff;}
 
-        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 20px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
-        .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 28px; padding: 24px; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); margin-bottom: 20px;}
-        .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
+        #archiveModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; padding: 16px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .modal-content { background: var(--glass-bg); width: 100%; max-width: 600px; max-height: 85vh; border-radius: 24px; padding: 20px; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); margin-bottom: 10px;}
+        .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
         .archive-item:active { transform: scale(0.98); }
         
-        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-left: 4px;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 15px; background: var(--input-bg); padding: 12px; border-radius: 14px; cursor: pointer; transition: opacity 0.2s;}
-        .check-item input { width: 22px; height: 22px; pointer-events: none; accent-color: var(--ios-blue); } 
+        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
+        .check-item input { width: 20px; height: 20px; pointer-events: none; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
         
-        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 15px;}
+        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 14px;}
     </style>
 </head>
 <body>
@@ -247,7 +252,7 @@
             <div id="kanunOneriAlani" class="quick-phrases" style="margin-top: 8px; display: none;"></div>
 
             <div class="quick-phrases">
-                <span class="phrase-chip chip-green" onclick="otomatikGirisEkle()" style="font-weight: 700;"><i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> Otomatik Giriş Yaz</span>
+                <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> Otomatik Giriş Yaz</span>
                 <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evraklar İkmalen +</span>
                 <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
@@ -263,8 +268,11 @@
     </div>
 
     <div class="glass-panel" id="checklistPanel">
-        <div class="checklist-title"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
-        <div id="checkListItemsContainer"></div>
+        <div class="checklist-title" onclick="toggleChecklist()">
+            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
+            <i id="checklistIcon" class="fa-solid fa-chevron-up" style="color: var(--text-gray); font-size:14px;"></i>
+        </div>
+        <div id="checkListItemsContainer" style="margin-top:12px;"></div>
     </div>
 
     <div class="glass-panel">
@@ -279,7 +287,7 @@
     
     <div class="developer-credit">
         <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.6</span>
+        <span class="version-tag">v1.7</span>
     </div>
 </div>
 
@@ -297,14 +305,12 @@
 </div>
 
 <script>
-    // ŞİFREYİ BURADAN DEĞİŞTİREBİLİRSİN
     const SISTEM_SIFRESI = "Dodurga155";
 
     document.addEventListener("DOMContentLoaded", () => {
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
             document.getElementById("loginScreen").style.display = "none";
             document.getElementById("appContainer").style.display = "block";
-            // Firebase Arşivini Çağırır (Aşağıdaki script blokunda)
             if(window.arsiviYukle) window.arsiviYukle();
         }
     });
@@ -339,6 +345,38 @@
     let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
     let recognition;
     let isRecording = false;
+
+    // AKILLI İSİM FORMATLAYICI (Örn: "ahmet yılmaz" -> "Ahmet YILMAZ")
+    function isimFormatla(metin) {
+        let kelimeler = metin.trim().split(/\s+/);
+        if(kelimeler.length === 0 || metin.trim() === "") return "";
+        if(kelimeler.length === 1) return kelimeler[0].replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
+        
+        let soyad = kelimeler.pop().replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
+        let adKismi = kelimeler.map(k => {
+            if(k.length === 0) return "";
+            let ilkHarf = k.charAt(0).replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase();
+            let geriKalan = k.slice(1).toLocaleLowerCase('tr-TR');
+            return ilkHarf + geriKalan;
+        }).join(" ");
+        
+        return adKismi + " " + soyad;
+    }
+
+    // KONTROL LİSTESİ AÇILIR/KAPANIR (ACCORDION)
+    window.toggleChecklist = function() {
+        const container = document.getElementById("checkListItemsContainer");
+        const icon = document.getElementById("checklistIcon");
+        if(container.classList.contains("hidden")) {
+            container.classList.remove("hidden");
+            icon.classList.remove("fa-chevron-down");
+            icon.classList.add("fa-chevron-up");
+        } else {
+            container.classList.add("hidden");
+            icon.classList.remove("fa-chevron-up");
+            icon.classList.add("fa-chevron-down");
+        }
+    }
 
     function otomatikGirisEkle() {
         const tarih = document.getElementById("tarih").value || "...";
@@ -415,7 +453,8 @@
                 else if(rol === "mağdur") rol = "Mağdur";
                 else if(rol === "bilgi sahibi") rol = "Bilgi Sahibi";
                 
-                let ad = match[2].trim().toUpperCase();
+                let adRaw = match[2].trim();
+                let ad = isimFormatla(adRaw); // Formata uygun ekleniyor
                 
                 let zatenVarMi = sahislarDizisi.some(s => s.rol === rol && s.ad === ad);
                 if(!zatenVarMi) {
@@ -672,10 +711,11 @@
 
     function sahisEkle() {
         const rol = document.getElementById("sahisRol").value;
-        const ad = document.getElementById("sahisAd").value.trim();
+        const adRaw = document.getElementById("sahisAd").value;
         const tc = document.getElementById("sahisTc").value.trim();
         
-        if(ad !== "") { 
+        if(adRaw.trim() !== "") { 
+            const ad = isimFormatla(adRaw); // Formata uygun ekleniyor
             let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
             sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
@@ -811,13 +851,12 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // GitHub botlarını atlatmak için şifreyi 3'e bölüyoruz
     const p1 = "AIzaSyADpIRNL";
     const p2 = "QEIer_gplTgwK";
     const p3 = "i_EKkfcyrYoqY";
 
     const firebaseConfig = {
-      apiKey: p1 + p2 + p3, // Tarayıcı bunu birleştirip gizlice okur
+      apiKey: p1 + p2 + p3, 
       authDomain: "maasgunu-bd353.firebaseapp.com",
       projectId: "maasgunu-bd353",
       storageBucket: "maasgunu-bd353.firebasestorage.app",
