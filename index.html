@@ -26,12 +26,9 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--body-bg); min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; transition: background 0.4s ease; }
+        .container { max-width: 650px; margin: 0 auto; display: none; }
         
-        /* ÇÖKEN EKRANI KURTARAN KUSURSUZ GÖVDE (BODY) AYARI */
-        body { background: var(--body-bg); min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; transition: background 0.4s ease; display: block; }
-        .container { max-width: 650px; margin: 0 auto; display: none; width: 100%; position: relative; }
-        
-        /* MODALLAR VE LOGİN EKRANI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(5px); }
         .modal-content { background: var(--glass-bg); width: 100%; max-width: 500px; max-height: 90vh; border-radius: 24px; padding: 24px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
 
@@ -43,8 +40,8 @@
         .login-box input { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; width: 100%; background: var(--input-bg); border: none; border-radius: 12px; padding: 14px;}
         .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
 
-        .tab-container { display: flex; gap: 6px; margin-bottom: 16px; background: var(--glass-bg); padding: 6px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(20px); overflow-x: auto;}
-        .tab-btn { flex: 1; min-width:80px; padding: 10px 6px; border-radius: 12px; border: none; background: transparent; color: var(--text-gray); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 4px; white-space: nowrap;}
+        .tab-container { display: flex; gap: 6px; margin-bottom: 16px; background: var(--glass-bg); padding: 6px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(20px);}
+        .tab-btn { flex: 1; padding: 10px 6px; border-radius: 12px; border: none; background: transparent; color: var(--text-gray); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 4px;}
         .tab-btn.active { background: var(--ios-blue); color: white; box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3); }
 
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; margin-bottom: 16px; box-shadow: 0 8px 30px var(--panel-shadow); transition: all 0.3s ease; }
@@ -53,7 +50,7 @@
         
         .top-btn-group { display: flex; gap: 4px; flex-wrap: nowrap; }
         .archive-btn-top { background: var(--input-bg); color: var(--ios-blue); border: none; padding: 8px 10px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
-        .archive-btn-top:active { transform: scale(0.95); opacity: 0.7;}
+        .archive-btn-top:active { transform: scale(0.95); }
         .btn-danger { color: #FF3B30; }
 
         .form-group { margin-bottom: 16px; }
@@ -61,59 +58,43 @@
         input, select, textarea { width: 100%; background: var(--input-bg); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 12px 14px; font-size: 15px; color: var(--text-dark); transition: all 0.3s ease; outline: none; }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
-        
-        textarea { resize: vertical; min-height: 200px; padding-right: 45px; line-height: 1.5; }
+        textarea { resize: vertical; min-height: 150px; padding-right: 60px; line-height: 1.5; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
         
-        .action-btn { position: absolute; bottom: 12px; right: 12px; border: none; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-size: 15px; cursor: pointer; transition: transform 0.1s; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue);}
+        .action-btn { position: absolute; bottom: 12px; right: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 17px; cursor: pointer; transition: transform 0.1s; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue);}
         .action-btn:active { transform: scale(0.9); }
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
-        .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
-        .phrase-chip { background: var(--chip-bg); color: var(--ios-blue); padding: 8px 6px; border-radius: 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; transition: opacity 0.2s, transform 0.1s; border: 1px solid rgba(0, 122, 255, 0.1); width: 100%;}
-        .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
-        .chip-green { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); border-color: rgba(52, 199, 89, 0.3); }
-        .chip-full { grid-column: span 2; padding: 10px; font-size: 13px;} 
-        
-        /* WHATSAPP ÖNİZLEME (ORİJİNAL KENDİ PANELİNDE) */
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
-        
         button.bot-btn { flex: 1; width: 100%; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); margin-top:10px;}
         button.bot-btn:active { transform: scale(0.97); }
-        .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
         
-        /* TAKVİM CSS HİZALAMASI (NİZAMİ) */
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; text-align: center; width:100%; box-sizing:border-box;}
-        .cal-header { font-size: 12px; font-weight: bold; color: var(--text-gray); padding: 5px 0;}
-        .cal-day { background: var(--input-bg); border-radius: 10px; padding: 8px 0; font-size: 14px; font-weight: 700; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px; box-sizing:border-box; border: 1px solid rgba(0,0,0,0.05);}
-        .cal-shift { font-size: 9px; font-weight: 800; padding: 3px 5px; border-radius: 6px; color: white; text-transform: uppercase; margin-top:4px;}
-        .cal-sub { font-size: 9px; font-weight: bold; color: var(--text-gray); margin-top:2px; }
+        /* WHATSAPP ÖNİZLEME (ORİJİNAL) */
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
+        .phrase-chip { display: inline-flex; justify-content: center; align-items: center; padding: 8px 10px; background: var(--chip-bg); color: var(--ios-blue); border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; border: 1px solid rgba(0, 122, 255, 0.1); width: 100%;}
+        .phrase-chip:active { transform: scale(0.95); opacity: 0.8;}
+        .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+        .chip-green { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); border-color: rgba(52, 199, 89, 0.3); grid-column: span 2; padding: 12px;}
+        
+        /* TAKVİM CSS */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; text-align: center; }
+        .cal-header { font-size: 11px; font-weight: bold; color: var(--text-gray); padding: 5px 0;}
+        .cal-day { background: var(--input-bg); border-radius: 10px; padding: 8px 0; font-size: 14px; font-weight: 600; display:flex; flex-direction:column; align-items:center; gap:4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .cal-shift { font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 6px; color: white; text-transform: uppercase;}
+        .cal-sub { font-size: 9px; font-weight: bold; color: var(--text-gray); }
 
-        /* A4 ÖNİZLEME CSS (WORD FORMATI) */
+        /* A4 ÖNİZLEME CSS */
         #previewModal { align-items: center; padding: 30px 10px; overflow-y: auto; background: rgba(0,0,0,0.85); flex-direction: column; justify-content: flex-start;}
         .preview-header { width: 100%; max-width: 210mm; padding: 15px 20px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; }
         #previewEditArea { width: 100%; max-width: 210mm; min-height: 297mm; background: white; color: black; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; outline: none; box-sizing: border-box; text-align: justify; margin-bottom: 40px;}
 
-        /* GELİŞTİRİCİ FOOTER - DÜZGÜN HİZALANDI */
-        .developer-credit { width: 100%; text-align: center; margin: 30px auto 10px auto; font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; padding-bottom: 20px;}
-        .developer-credit b { font-weight: 700; color: #fff; }
-        .version-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 1px; background: rgba(0, 0, 0, 0.3); padding: 4px 8px; border-radius: 10px; color: #fff;}
-
-        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 14px;}
-        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
-        .check-item input { width: 20px; height: 20px; pointer-events: none; accent-color: var(--ios-blue); } 
-        .check-item.done { opacity: 0.5; text-decoration: line-through; }
-
-        /* YAZDIRMA ALANI - SARI RENKLERİ KORUR */
+        /* YAZDIRMA ALANI */
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             body { background: white !important; margin: 0; padding: 0; }
-            #loginScreen, #appContainer, .modal-overlay, .preview-header, .no-print, .developer-credit { display: none !important; }
+            #loginScreen, #appContainer, .modal-overlay, .preview-header, .no-print { display: none !important; }
             #previewModal { position: static; background: none; display: block !important; padding: 0; }
             #previewEditArea { box-shadow: none; padding: 0 !important; max-width: none; min-height: auto; width: 100%; margin: 0;}
         }
@@ -122,22 +103,20 @@
 <body>
 
 <div id="disclaimerModal" class="modal-overlay">
-    <div class="modal-content" style="background:#F4F4F7;">
-        <h2 style="color:var(--ios-blue); text-align:center; margin-bottom:15px; font-size:20px;"><i class="fa-solid fa-scale-balanced"></i> Yasal Bilgilendirme</h2>
-        <div style="font-size:14px; color:var(--text-dark); line-height:1.6; text-align:justify;">
+    <div class="modal-content">
+        <h2 style="color:var(--ios-blue); text-align:center; margin-bottom:15px;"><i class="fa-solid fa-scale-balanced"></i> Yasal Bilgilendirme</h2>
+        <div style="font-size:14px; color:var(--text-dark); line-height:1.6; text-align:justify; background:var(--input-bg); padding:15px; border-radius:12px;">
             <p><b>Değerli Kullanıcı,</b></p>
-            <p>Bu uygulama yer alan menüler <b>ZORUNLU DEĞİLDİR.</b> Uygulamayı, kişisel işlerinizi hızlandırmak adına kullanabilirsiniz. Bu yazılım Emniyet Genel Müdürlüğü'nün resmi bir projesi değildir.</p>
-            <br>
-            <p><u><b>Önemli Yasal Uyarılar:</b></u></p>
-            <ul style="padding-left:20px; margin-top:10px; font-size:13px; color:#555;">
-                <li style="margin-bottom:8px;">Bu alana girilen bilgiler tamamen kullanıcının kendi isteği ve açık iradesiyle girilir.</li>
-                <li style="margin-bottom:8px;">Girilen hiçbir veri uygulama geliştiricisi tarafından görülmez, işlenmez, paylaşılmaz veya <b>hiçbir sunucuya aktarılmaz.</b></li>
-                <li style="margin-bottom:8px;">Tüm bilgiler yalnızca kullanıcının kendi cihazında (ve kendi şifreli ağında) yerel olarak saklanır.</li>
-                <li style="margin-bottom:8px;">Bu alan herhangi bir resmi kayıt, doğrulama, veri toplama veya denetim amacı taşımaz.</li>
-                <li style="margin-bottom:8px;">Girilen bilgilerin içeriği, doğruluğu ve kullanımından doğabilecek <b>tüm hukuki ve idari sorumluluk tamamen kullanıcıya aittir.</b></li>
+            <p>Bu uygulama (Bilgi Notu), sahada görev yapan personelin işini kolaylaştırmak amacıyla kişisel bir araç olarak tasarlanmıştır. Resmi bir Emniyet Genel Müdürlüğü projesi <u>değildir</u>.</p>
+            <p style="margin-top:10px;"><b>Önemli Uyarılar:</b></p>
+            <ul style="padding-left:20px; margin-top:5px; font-size:13px; color:var(--text-gray);">
+                <li>Uygulamaya girilen şahıs, T.C. kimlik ve olay bilgileri <b>hiçbir sunucuya, geliştiriciye veya üçüncü şahsa aktarılmaz.</b></li>
+                <li>Ortak Arşiv sistemi, sadece şifreyi bilen ve kendi Firebase veritabanınızı kullanan kapalı bir ağdır.</li>
+                <li>Uygulamanın kullanımından doğabilecek KVKK veya idari/hukuki sorumluluklar <b>tamamen kullanıcıya aittir.</b></li>
+                <li>Resmi evrak ve tutanakların teyidi ve doğruluğu her zaman fiziki prosedürlere tabidir.</li>
             </ul>
         </div>
-        <button class="bot-btn" style="background:#FF3B30; margin-top:20px; font-size:16px; padding:16px;" onclick="kabulEtDisclaimer()">Okudum, Anladım</button>
+        <button class="bot-btn" style="background:var(--ios-green); margin-top:20px;" onclick="kabulEtDisclaimer()">Okudum, Anladım ve Kabul Ediyorum</button>
     </div>
 </div>
 
@@ -146,7 +125,7 @@
         <i class="fa-solid fa-shield-halved"></i>
         <h2>Bilgi Notu</h2>
         <p>Erişim için Sicil ve Şifrenizi giriniz.</p>
-        <input type="text" id="loginSicil" placeholder="Sicil">
+        <input type="text" id="loginSicil" placeholder="Sicil No VEYA admin">
         <input type="password" id="loginPassword" placeholder="Parola" onkeypress="if(event.key === 'Enter') girisYap()">
         <button onclick="girisYap()">Giriş Yap</button>
     </div>
@@ -158,7 +137,6 @@
         <button class="tab-btn active" id="tabBilgiNotuBtn" onclick="sekmeDegistir('bilgiNotu')"><i class="fa-brands fa-whatsapp"></i> Bildirim</button>
         <button class="tab-btn" id="tabTutanakBtn" onclick="sekmeDegistir('tutanak')"><i class="fa-solid fa-file-signature"></i> Tutanak</button>
         <button class="tab-btn" id="tabVardiyaBtn" onclick="sekmeDegistir('vardiya')"><i class="fa-regular fa-calendar-days"></i> Vardiya</button>
-        <button class="tab-btn hidden" id="tabYonetimBtn" onclick="sekmeDegistir('yonetim')" style="background: linear-gradient(135deg, #FF3B30, #C0392B); color:white;"><i class="fa-solid fa-user-shield"></i> Yönetim</button>
     </div>
 
     <div id="bilgiNotuBolumu">
@@ -166,6 +144,7 @@
             <div class="header-row">
                 <h1><i class="fa-brands fa-whatsapp" style="color: var(--ios-blue);"></i> Bildirim</h1>
                 <div class="top-btn-group">
+                    <button id="adminBtn" class="archive-btn-top hidden" style="background:#FF3B30; color:white;" onclick="personelPaneliAc()" title="Personel Yönetimi"><i class="fa-solid fa-user-shield"></i></button>
                     <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
                     <button class="archive-btn-top" onclick="arsiviAc()" title="Ortak Arşivi Aç"><i class="fa-solid fa-folder-open"></i></button>
@@ -174,27 +153,21 @@
             </div>
             
             <div class="form-group">
-                <label>Olay Türü (Şablon)</label>
+                <label>Olay Türü</label>
                 <select id="olayTuru" onchange="sablonDegistir()">
                     <option value="asayis">Asayiş Uygulaması</option>
                     <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
                     <option value="adli">Adli Olay</option>
                     <option value="trafik">Trafik Kazası</option>
-                    <option value="idari">İdari / Diğer</option>
                 </select>
             </div>
 
             <div id="adliAltKutu" class="form-group hidden">
-                <select id="adliTuru" onchange="adliTurSecildi()" style="border: 1px solid var(--ios-blue);">
+                <select id="adliTuru" onchange="adliTurSecildi()">
                     <option value="">Lütfen vaka türünü seçin...</option>
-                    <option value="Adli Vaka (Genel)">Adli Vaka (Genel)</option>
                     <option value="Kasten Yaralama">Kasten Yaralama</option>
-                    <option value="Nitelikli Dolandırıcılık">Nitelikli Dolandırıcılık</option>
                     <option value="Evden Hırsızlık">Evden Hırsızlık</option>
-                    <option value="İşyerinden Hırsızlık">İşyerinden Hırsızlık</option>
                     <option value="Tehdit ve Hakaret">Tehdit ve Hakaret</option>
-                    <option value="Mala Zarar Verme">Mala Zarar Verme</option>
-                    <option value="Taksirle Yaralama">Taksirle Yaralama</option>
                     <option value="Kayıp Şahıs">Kayıp Şahıs</option>
                 </select>
             </div>
@@ -216,7 +189,7 @@
                 <div class="form-group">
                     <label>Şahıs Ekle (TC ve İsim)</label>
                     <div class="row" style="margin-bottom: 8px;">
-                        <input type="number" id="sahisTc" placeholder="T.C." style="flex:1;" oninput="tcKontrolEt()">
+                        <input type="number" id="sahisTc" placeholder="T.C." style="flex:1;">
                         <input type="text" id="sahisAd" placeholder="Ad Soyad" style="flex:2;">
                     </div>
                     <div class="row">
@@ -224,13 +197,6 @@
                         <button class="bot-btn" style="flex:1; margin:0; padding:10px;" onclick="sahisEkle()">Ekle</button>
                     </div>
                     <div id="sahisListesiContainer" style="margin-top:10px;"></div>
-                </div>
-            </div>
-
-            <div id="asayisAlanlar">
-                <div class="row">
-                    <div class="form-group"><label>Şahıs Sorgu</label><input type="number" id="sorgulananSahis" placeholder="Adet" oninput="metinOlustur()"></div>
-                    <div class="form-group"><label>Araç Sorgu</label><input type="number" id="sorgulananArac" placeholder="Adet" oninput="metinOlustur()"></div>
                 </div>
             </div>
 
@@ -242,30 +208,20 @@
                 </div>
                 
                 <div class="quick-phrases">
-                    <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right:5px;"></i> Otomatik Giriş Yaz</span>
+                    <span class="phrase-chip chip-green" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right:5px;"></i> Otomatik Giriş Yaz</span>
                     <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evrak İkmalen +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
                 </div>
             </div>
-        </div>
-
-        <div class="glass-panel" id="checklistPanel">
-            <div class="checklist-title" onclick="toggleChecklist()">
-                <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
-                <i id="checklistIcon" class="fa-solid fa-chevron-up" style="color: var(--text-gray); font-size:14px;"></i>
-            </div>
-            <div id="checkListItemsContainer" style="margin-top:12px;"></div>
-        </div>
-
-        <div class="glass-panel">
+            
             <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
-            <div class="whatsapp-msg" id="wpOnizleme">Önizleme burada görünecek...</div>
-            <div class="btn-group">
-                <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')"><i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder</button>
-                <button class="bot-btn" id="kopyalaBtn" onclick="kopyala()"><i class="fa-regular fa-copy"></i> Kopyala</button>
-                <button class="bot-btn" id="wpGonderBtn" onclick="whatsappGonder()" style="background: var(--ios-green); box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);"><i class="fa-brands fa-whatsapp"></i> Paylaş</button>
+            <div class="whatsapp-msg" id="wpOnizleme"></div>
+            
+            <div style="display:flex; gap:10px;">
+                <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
+                <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
             </div>
         </div>
     </div>
@@ -283,7 +239,7 @@
 
             <div class="form-group">
                 <label>Tutanak / Evrak Türü</label>
-                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: rgba(0, 122, 255, 0.05);">
+                <select id="tutTuru" onchange="tutanakSablonDegistir()">
                     <option value="ifade">İfade Tutanağı</option>
                     <option value="olay_yeri">Olay Yeri Görgü Tutanağı</option>
                     <option value="muhafaza">Muhafaza Altına Alma Tutanağı</option>
@@ -311,9 +267,7 @@
                 
                 <div class="form-group hidden" id="d_aranan_detay">
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananMahalle" placeholder="Yakalandığı Mahalle/Sokak" style="margin-bottom:8px;">
                     <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı" style="margin-bottom:8px;">
                     <input type="text" id="tutArananHastane" placeholder="Doktor Raporu Alınan Hastane" style="margin-bottom:8px;">
                     <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim/Amirlik">
                 </div>
@@ -327,7 +281,7 @@
                 <div class="form-group hidden" id="d_kayip_detay">
                     <div class="row"><input type="text" id="tutKayipAnneBaba" placeholder="Baba-Anne Adı" style="margin-bottom:8px;"><input type="text" id="tutKayipDTarih" placeholder="D.Yeri Tarihi" style="margin-bottom:8px;"></div>
                     <div class="row"><input type="text" id="tutKayipNufus" placeholder="Nüfus İl/İlçe" style="margin-bottom:8px;"><input type="text" id="tutKayipMeslek" placeholder="Meslek-Tel" style="margin-bottom:8px;"></div>
-                    <div class="row"><input type="text" id="tutKayipZaman" placeholder="Kayıp Tarih ve Saat" style="margin-bottom:8px;"><input type="text" id="tutKayipEsya" placeholder="Kayıp Eşya Cinsi/Detayı" style="margin-bottom:8px;"></div>
+                    <div class="row"><input type="text" id="tutKayipZaman" placeholder="Kayıp Olduğu Tarih" style="margin-bottom:8px;"><input type="text" id="tutKayipEsya" placeholder="Kayıp Eşya Cinsi/Detayı" style="margin-bottom:8px;"></div>
                 </div>
 
                 <div class="form-group hidden" id="d_dugun_detay">
@@ -365,11 +319,11 @@
 
     <div id="vardiyaBolumu" style="display:none;">
         <div class="glass-panel">
-            <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
+            <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Hesaplama</h2>
             
             <div style="background:rgba(0,122,255,0.1); padding:10px; border-radius:12px; margin-bottom:15px; text-align:center;">
-                <b style="color:var(--ios-blue); font-size:14px;">Çakma 12/36 Sistemi</b><br>
-                <span style="font-size:12px; color:var(--text-gray);">15 Günlük Periyot (5 Gün, 5 Gece, 5 İstirahat)</span>
+                <b style="color:var(--ios-blue); font-size:14px;">Sistem: Çakma 12/36</b><br>
+                <span style="font-size:12px; color:var(--text-gray);">15 Günlük Periyot (5 Gün/5 Gece/5 İst)</span>
             </div>
 
             <div class="form-group">
@@ -411,37 +365,10 @@
                 <div class="cal-header">Per</div><div class="cal-header">Cum</div><div class="cal-header" style="color:red">Cmt</div><div class="cal-header" style="color:red">Paz</div>
             </div>
             <div id="takvimGunler" class="cal-grid" style="margin-top:0;"></div>
+
         </div>
     </div>
     
-    <div id="yonetimBolumu" style="display:none;">
-        <div class="glass-panel">
-            <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
-            <div style="background:var(--input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
-                <h3 style="font-size:14px; margin-bottom:10px;">Personel Ekle</h3>
-                <div class="row">
-                    <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No"></div>
-                    <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad"></div>
-                </div>
-                <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle">
-                <button class="bot-btn" onclick="personelEkleFirebase()">Kaydet</button>
-            </div>
-            
-            <h3 style="font-size:14px; margin-bottom:5px;">Kayıtlı Personel</h3>
-            <div id="personelListesi" style="max-height: 150px; overflow-y:auto; margin-bottom:15px;">Yükleniyor...</div>
-
-            <h3 style="font-size:14px; margin-bottom:5px;">Sistem Logları (Son 50 Hareket)</h3>
-            <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--text-dark);">
-                Loglar yükleniyor...
-            </div>
-        </div>
-    </div>
-    
-    <div class="developer-credit">
-        <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.2.0</span>
-    </div>
-
 </div>
 
 <div id="previewModal" class="modal-overlay hidden">
@@ -462,12 +389,31 @@
 <div id="signatureModal" class="modal-overlay hidden">
     <div class="modal-content" style="max-width: 400px; text-align:center;">
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
-        <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none; cursor:crosshair;"></canvas>
+        <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none;"></canvas>
         <div style="display:flex; gap:10px; margin-top:15px;">
             <button class="bot-btn btn-danger" onclick="clearSignature()" style="flex:1; margin:0;">Temizle</button>
             <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
         <button class="archive-btn-top" style="width:100%; margin-top:10px; background:transparent; color:var(--text-gray);" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
+    </div>
+</div>
+
+<div id="adminModal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="header-row">
+            <h2 style="color:var(--ios-blue);"><i class="fa-solid fa-user-shield"></i> Personel Yönetimi</h2>
+            <button class="archive-btn-top btn-danger" onclick="document.getElementById('adminModal').classList.add('hidden')">Kapat</button>
+        </div>
+        <div class="glass-panel" style="background:var(--input-bg); border:none; padding:15px;">
+            <div class="row">
+                <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No"></div>
+                <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad"></div>
+            </div>
+            <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle">
+            <button class="bot-btn" onclick="personelEkleFirebase()"><i class="fa-solid fa-user-plus"></i> Personeli Kaydet</button>
+        </div>
+        <h3 style="font-size:14px; margin-top:10px;">Kayıtlı Personeller</h3>
+        <div id="personelListesi" style="margin-top:10px; max-height: 200px; overflow-y:auto;">Yükleniyor...</div>
     </div>
 </div>
 
@@ -482,27 +428,20 @@
     </div>
 </div>
 
+<div class="developer-credit">
+    <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
+    <span class="version-tag">v1.2.0</span>
+</div>
+
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
 
-    // --- YASAL BİLGİLENDİRME ---
     document.addEventListener("DOMContentLoaded", () => {
         if(localStorage.getItem('kullanim_sartlari_kabul') === 'true') {
             document.getElementById("disclaimerModal").classList.add("hidden");
             baslat();
         }
-        
-        // Modalın dışına tıklanınca kapanması için
-        document.getElementById("previewModal").addEventListener("click", function(e) {
-            if(e.target === this) { this.classList.add('hidden'); }
-        });
-        document.getElementById("signatureModal").addEventListener("click", function(e) {
-            if(e.target === this) { this.classList.add('hidden'); }
-        });
-        document.getElementById("archiveModal").addEventListener("click", function(e) {
-            if(e.target === this) { this.classList.add('hidden'); }
-        });
     });
 
     function kabulEtDisclaimer() {
@@ -514,18 +453,15 @@
     function baslat() {
         if(localStorage.getItem('dark_mode_active') === "true") {
             document.body.classList.add("dark-mode");
-            if(document.getElementById("darkIcon")) document.getElementById("darkIcon").className = "fa-solid fa-sun";
-        } else {
-            document.body.classList.remove("dark-mode");
-            if(document.getElementById("darkIcon")) document.getElementById("darkIcon").className = "fa-solid fa-moon";
+            document.getElementById("darkIcon").className = "fa-solid fa-sun";
         }
 
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
             document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("appContainer").style.display = "flex";
+            document.getElementById("appContainer").style.display = "block";
             
             if(localStorage.getItem('aktif_rol') === 'admin') {
-                document.getElementById("tabYonetimBtn").classList.remove("hidden");
+                document.getElementById("adminBtn").classList.remove("hidden");
             }
             
             const bugun = new Date();
@@ -536,11 +472,31 @@
             document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
             tutanakSablonDegistir();
-            sablonDegistir(); // Asayiş vs konu otomatik doldurulur ve önizleme yenilenir
+            sablonDegistir(); // Asayiş vs konu otomatik doldurulur
             takvimCiz();
+            metinOlustur(); // Önizlemeyi hemen doldur
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
             document.getElementById("loginScreen").classList.remove("hidden");
+        }
+    }
+
+    function girisYap() {
+        const pSicil = document.getElementById("loginSicil").value.trim().toLowerCase();
+        const pSifre = document.getElementById("loginPassword").value;
+        
+        if(pSifre === SISTEM_SIFRESI) {
+            localStorage.setItem('polis_ag_giris_izni', 'true');
+            if(pSicil === 'admin') localStorage.setItem('aktif_rol', 'admin');
+            location.reload();
+        } else alert("Şifre Hatalı!");
+    }
+    
+    function cikisYap() { 
+        if(confirm("Güvenli çıkış yapmak istiyor musunuz?")) {
+            localStorage.removeItem('polis_ag_giris_izni'); 
+            localStorage.removeItem('aktif_rol');
+            location.reload(); 
         }
     }
 
@@ -551,66 +507,25 @@
         document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
     }
 
-    async function girisYap() {
-        const pSicil = document.getElementById("loginSicil").value.trim().toLowerCase();
-        const pSifre = document.getElementById("loginPassword").value;
-        
-        if(pSifre === SISTEM_SIFRESI && pSicil === 'admin') {
-            localStorage.setItem('polis_ag_giris_izni', 'true');
-            localStorage.setItem('aktif_rol', 'admin');
-            localStorage.setItem('aktif_sicil', 'Admin');
-            if(typeof window.logIslem === 'function') await window.logIslem("Giriş", "Yönetici girişi yapıldı.");
-            location.reload();
-            return;
-        }
-
-        if(typeof window.personelDogrula === 'function') {
-            window.personelDogrula(pSicil, pSifre);
-        } else {
-            if(pSifre === SISTEM_SIFRESI) {
-                localStorage.setItem('polis_ag_giris_izni', 'true');
-                localStorage.setItem('aktif_sicil', pSicil);
-                location.reload();
-            } else alert("Şifre Hatalı!");
-        }
-    }
-    
-    function cikisYap() { 
-        if(confirm("Güvenli çıkış yapmak istiyor musunuz?")) {
-            localStorage.removeItem('polis_ag_giris_izni'); 
-            localStorage.removeItem('aktif_rol');
-            localStorage.removeItem('aktif_sicil');
-            location.reload(); 
-        }
-    }
-
     function sekmeDegistir(sekme) {
         document.getElementById("tabBilgiNotuBtn").classList.remove("active");
         document.getElementById("tabTutanakBtn").classList.remove("active");
         document.getElementById("tabVardiyaBtn").classList.remove("active");
-        document.getElementById("tabYonetimBtn").classList.remove("active");
         
         document.getElementById("bilgiNotuBolumu").style.display = "none";
         document.getElementById("tutanakBolumu").style.display = "none";
         document.getElementById("vardiyaBolumu").style.display = "none";
-        document.getElementById("yonetimBolumu").style.display = "none";
 
         if(sekme === 'bilgiNotu') {
             document.getElementById("tabBilgiNotuBtn").classList.add("active");
             document.getElementById("bilgiNotuBolumu").style.display = "block";
-            checklistCiz();
         } else if(sekme === 'tutanak') {
             document.getElementById("tabTutanakBtn").classList.add("active");
             document.getElementById("tutanakBolumu").style.display = "block";
-        } else if(sekme === 'vardiya') {
+        } else {
             document.getElementById("tabVardiyaBtn").classList.add("active");
             document.getElementById("vardiyaBolumu").style.display = "block";
             takvimCiz();
-        } else if(sekme === 'yonetim') {
-            document.getElementById("tabYonetimBtn").classList.add("active");
-            document.getElementById("yonetimBolumu").style.display = "block";
-            if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
-            if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
         }
     }
 
@@ -634,9 +549,9 @@
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
         const baslangicDurumu = parseInt(document.getElementById("vardiyaDurum").value) || 0;
         
-        // Çakma 12/36 Patern
+        // Sadece Çakma 12/36 Patern (15 Günlük Periyot)
         const patern = [
-            {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
+            {n:"GÜNDÜZ", sub:"1. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"2. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"3. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"4. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"5. Gün", c:"#FF9500"},
             {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
             {n:"GECE", sub:"2. Gece", c:"#5856D6"}, {n:"İST", sub:"2. İst", c:"#34C759"},
             {n:"GECE", sub:"3. Gece", c:"#5856D6"}, {n:"İST", sub:"3. İst", c:"#34C759"},
@@ -660,9 +575,8 @@
                 const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
                 let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
                 
-                let index = (fark - baslangicDurumu) % 15;
-                if(index < 0) { index = (15 + (index % 15)) % 15; } 
-                else { index = index % 15; }
+                let index = (baslangicDurumu + fark) % 15;
+                if(index < 0) index += 15;
 
                 pBilgi = patern[index];
             }
@@ -675,6 +589,7 @@
             `;
         }
     }
+
 
     // --- İSİM FORMATLAMA ---
     function isimFormatla(metin) {
@@ -711,24 +626,15 @@
             document.getElementById("konu").value = "Asayiş ve Trafik Uygulaması";
             ozetBox.value = "Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.";
         }
-        else if (tur === "adli") { 
-            document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
-            ozetBox.value = ""; 
-            if(document.getElementById("adliTuru").value === "") document.getElementById("konu").value = "";
-        }
+        else if (tur === "adli") { document.getElementById("baslikTuru").value = "MAKAMA ARZ"; ozetBox.value = ""; document.getElementById("konu").value = "";}
         else if (tur === "trafik") { 
             document.getElementById("baslikTuru").value = "MAKAMA ARZ"; 
             document.getElementById("konu").value = "Maddi Hasarlı Trafik Kazası";
             ozetBox.value = "... çevre güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.";
         }
-        else { 
-            document.getElementById("baslikTuru").value = "BİLGİ NOTU"; 
-            ozetBox.value = ""; 
-            document.getElementById("konu").value = "";
-        }
+        else { document.getElementById("baslikTuru").value = "BİLGİ NOTU"; ozetBox.value = ""; document.getElementById("konu").value = "";}
         
         metinOlustur();
-        checklistCiz();
     }
     
     function adliTurSecildi() {
@@ -776,16 +682,6 @@
         const kn = document.getElementById("konu").value || "olay";
         const txt = `${trh} günü saat ${st} sıralarında ${yer} adresinde meydana gelen ${kn} olayı ile ilgili olarak; `;
         ekleOzet(txt);
-    }
-
-    function tcKontrolEt() {
-        const tcInput = document.getElementById("sahisTc");
-        const val = tcInput.value;
-        if(val.length === 11) {
-            tcInput.style.boxShadow = "inset 0 0 0 1.5px var(--ios-green)";
-        } else {
-            tcInput.style.boxShadow = "none";
-        }
     }
 
     function metinOlustur() {
@@ -880,12 +776,14 @@
         const isAranan = (tur === "aranan_sahis");
         const isBakaya = (tur === "bakaya");
 
+        // Tüm özel alanları gizle
         document.getElementById("d_izin_detay").classList.add("hidden");
         document.getElementById("d_dugun_detay").classList.add("hidden");
         document.getElementById("d_kayip_detay").classList.add("hidden");
         document.getElementById("d_aranan_detay").classList.add("hidden");
         document.getElementById("d_bakaya_detay").classList.add("hidden");
 
+        // Genel Gizle/Göster
         document.getElementById("d_olayYeri").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_konu").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_sahis1").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
@@ -894,6 +792,7 @@
         document.getElementById("d_tarih_saat").classList.toggle("hidden", isDilekce); 
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce || isKayip);
         
+        // Şablona Özel Aç
         if(isDilekce) document.getElementById("d_izin_detay").classList.remove("hidden");
         if(isDugun) document.getElementById("d_dugun_detay").classList.remove("hidden");
         if(isKayip) document.getElementById("d_kayip_detay").classList.remove("hidden");
@@ -998,26 +897,26 @@
             
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black; background: white; padding: 20px;">
-                    <div style="text-align: center; font-weight: bold; margin-bottom: 40px; font-size: 13pt;">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 40px; font-size: 12pt;">
                         DODURGA İLÇE EMNİYET AMİRLİĞİNE
                     </div>
                     <p style="text-align: justify; text-indent: 40px; margin-bottom: 10px; line-height: 1.5;">
-                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} sebebiyle tarafıma, ${iSure} izin verilmesi hususunu;
+                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} tarafıma ${iSure} izin verilmesi hususunu;
                     </p>
                     <p style="text-align: justify; text-indent: 40px; margin-bottom: 40px; line-height: 1.5;">
                         Gereğini bilgilerinize arz ederim.
                     </p>
                     
-                    <table style="width: 100%; border: none; font-size: 12pt; margin-top: 80px; page-break-inside: avoid;">
+                    <table style="width: 100%; border: none; font-size: 12pt; page-break-inside: avoid;">
                         <tr>
-                            <td style="width: 50%; vertical-align: bottom; text-align: left;">
+                            <td style="width: 50%; vertical-align: bottom; text-align: left; padding-right: 20px;">
                                 <b>İzindeki Adres ve Tel:</b><br>
                                 ${iAdres}
                             </td>
                             <td style="width: 50%; vertical-align: top; text-align: center;">
-                                ${new Date().toLocaleDateString('tr-TR')}<br><br><br>
+                                ${new Date().toLocaleDateString('tr-TR')}<br><br>
                                 <div id="sig-m1" style="height:60px;"></div>
-                                <b>${sIsim}</b><br>${sSicil}<br>Polis Memuru
+                                <b>${sIsim}</b><br>Polis Memuru<br>${sSicil}
                                 <br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
                             </td>
                         </tr>
@@ -1032,19 +931,15 @@
             const kMeslek = document.getElementById("tutKayipMeslek").value || "..........";
             const kZaman = document.getElementById("tutKayipZaman").value || "..........";
             const kEsyaAdi = document.getElementById("tutKayipEsya").value || "..........";
-            
-            const trStyle = "border: 1px solid black;";
-            const tdL = "border: 1px solid black; padding: 4px; font-weight:bold; width:35%;";
-            const tdR = "border: 1px solid black; padding: 4px;";
+            const trStyle = "border: 1px solid black;"; const tdL = "border: 1px solid black; padding: 4px; font-weight:bold; width:35%;"; const tdR = "border: 1px solid black; padding: 4px;";
             
             printHTML = `
-                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
-                    <div style="text-align: center; font-size: 12pt; line-height: 1.2; margin-bottom:10px;">
-                        T.C.<br>ÇORUM EMNİYET MÜDÜRLÜĞÜ<br>Dodurga Polis Merkezi Amirliği<br><br>
-                        <span style="text-decoration:underline; font-weight:bold; font-size:14pt;">KAYIP EŞYA FORMU</span>
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black;">
+                    <div style="text-align: center; font-size: 11pt; line-height: 1.2; margin-bottom:10px; font-weight:bold;">
+                        KASBES<br>(KİHBİ Araç Silah Belge ve Eşya Sistemi)<br>BİLDİRİM FORMU
                     </div>
                     
-                    <div style="background-color:#FFD966 !important; text-align:center; font-weight:bold; border:2px solid black; padding:4px; -webkit-print-color-adjust: exact; print-color-adjust: exact;">MÜRACAATÇI BİLGİLERİ</div>
+                    <div style="background:#FFD966; text-align:center; font-weight:bold; border:2px solid black; padding:4px;">MÜRACAATÇI BİLGİLERİ</div>
                     <table style="width: 100%; border-collapse: collapse; border: 2px solid black; border-top:none; margin-bottom: 20px;">
                         <tr style="${trStyle}"><td style="${tdL}">T.C. KİMLİK NO / ADI SOYADI</td><td style="${tdR}">${s1}</td></tr>
                         <tr style="${trStyle}"><td style="${tdL}">BABA ve ANNE ADI</td><td style="${tdR}">${kAnneBaba}</td></tr>
@@ -1053,7 +948,7 @@
                         <tr style="${trStyle}"><td style="${tdL}">NÜFUSA KAYITLI İL/İLÇE</td><td style="${tdR}">${kNufus}</td></tr>
                     </table>
 
-                    <div style="background-color:#FFD966 !important; text-align:center; font-weight:bold; border:2px solid black; padding:4px; -webkit-print-color-adjust: exact; print-color-adjust: exact;">KAYIP BİLGİLERİ</div>
+                    <div style="background:#FFD966; text-align:center; font-weight:bold; border:2px solid black; padding:4px;">KAYIP BİLGİLERİ</div>
                     <table style="width: 100%; border-collapse: collapse; border: 2px solid black; border-top:none; margin-bottom: 20px;">
                         <tr style="${trStyle}"><td style="${tdL}">MÜRACAATIN ALINDIĞI YER</td><td style="${tdR}">Dodurga Polis Merkezi Amirliği</td></tr>
                         <tr style="${trStyle}"><td style="${tdL}">MÜRACAAT TARİH-SAATİ</td><td style="${tdR}">${tarih} - ${saat}</td></tr>
@@ -1061,101 +956,16 @@
                         <tr style="${trStyle}"><td style="${tdL}">KAYIP EDİLEN NESNE/EŞYA</td><td style="${tdR}">${kEsyaAdi}</td></tr>
                     </table>
 
-                    <div style="border-top:2px solid black; border-bottom:2px solid black; padding: 10px 0; margin-bottom:20px;">
-                        <p style="text-align: justify; margin: 0; line-height: 1.5;"><b>KONU ÖZET:</b> ${rawDetay}</p>
-                    </div>
-
-                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-bottom: 40px;">
+                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; margin-top:50px;">
                         <tr>
-                            <td style="border: 1px solid black; padding: 4px; width:15%;">TARİH-SAAT:</td>
-                            <td style="border: 1px solid black; padding: 4px; width:45%; text-align:center;">${tarih}</td>
-                            <td style="border: 1px solid black; padding: 4px; text-align:center;">SAAT: ${saat}</td>
-                        </tr>
-                    </table>
-
-                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; page-break-inside: avoid;">
-                        <tr>
-                            <td style="width: 50%; vertical-align: top; padding: 10px;">
+                            <td style="width: 50%;">
                                 <span style="text-decoration:underline;">İŞLEM YAPAN PERSONEL</span><br><br>
                                 <div id="sig-m1" style="height:60px;"></div>
                                 ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
                             </td>
-                            <td style="width: 50%; vertical-align: top; padding: 10px;">
+                            <td style="width: 50%;">
                                 <span style="text-decoration:underline;">MÜRACAATTA BULUNAN</span><br><br>
                                 <div id="sig-vat" style="height:60px;"></div>
-                                <b>${s1}</b><br>Ruhsat Sahibi/Müracaatçı
-                                <br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            `;
-        }
-        else if (tur === "dugun_izni") {
-            const dBaba = document.getElementById("tutDugunBaba").value || "..........";
-            const dDTarih = document.getElementById("tutDugunDTarih").value || "..........";
-            const dCesit = document.getElementById("tutDugunCesit").value || "..........";
-            const dMuddet = document.getElementById("tutDugunMuddet").value || "..........";
-            const dNikah = document.getElementById("tutDugunNikah").value || "..........";
-            const dTel = document.getElementById("tutDugunTel").value || "..........";
-
-            printHTML = `
-                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
-                    <div style="text-align: center; font-size: 13pt; margin-bottom: 20px;">
-                        DÜĞÜN MERASİMİ İÇİN İZİN BELGESİ
-                    </div>
-                    <p style="text-indent: 40px; margin-bottom:20px;">İş bu düğün izin vesikası Dodurga İlçe Emniyet Amirliği tarafından verilmiştir.</p>
-                    
-                    <table style="width: 100%; border: none; font-size: 11pt; margin-bottom: 20px;">
-                        <tr><td style="width:150px;">ADI SOYADI</td><td>: ${s1}</td></tr>
-                        <tr><td>BABA ADI</td><td>: ${dBaba}</td></tr>
-                        <tr><td>DOĞUM TARİHİ</td><td>: ${dDTarih}</td></tr>
-                        <tr><td colspan="2">&nbsp;</td></tr>
-                        <tr><td>DÜĞÜN ÇEŞİDİ</td><td>: ${dCesit}</td></tr>
-                        <tr><td>BAŞLAMA TARİHİ</td><td>: ${tarih}</td></tr>
-                        <tr><td>BİTİM TARİHİ</td><td>: ${tarih}</td></tr>
-                        <tr><td>İZİN MÜDDETİ</td><td>: ${dMuddet}</td></tr>
-                        <tr><td>MEDENİ NİKAH</td><td>: ${dNikah}</td></tr>
-                        <tr><td>ADRES</td><td>: ${yer}</td></tr>
-                        <tr><td>TEL</td><td>: ${dTel}</td></tr>
-                    </table>
-
-                    <div style="text-align: center; font-size: 12pt; margin: 20px 0;">
-                        DÜĞÜN MERASİMİNDE UYULACAK TALİMAT
-                    </div>
-                    
-                    <div style="font-size: 10.5pt; line-height: 1.3; text-align: justify; margin-bottom: 20px;">
-                        1-Düğün cemiyetinde toplanan halka sükuneti bozucu aşırı alkol verilmez.<br>
-                        2-Düğün merasimi için izin verilen çalgılar en geç 1 saat süresi sonunda sonlandırılacak.<br>
-                        3-Düğüne kadın sanatçı çengi getirip oynatmak yasaktır.<br>
-                        4-Halkın huzur ve sükunetini bozacak patlayıcı, korkutucu, alet ve edevat kullandırılmayacaktır.<br>
-                        5-Düğün cemiyetinde düğün evi sahibi, mahalle muhtarı ve polislere yardım edecektir.<br>
-                        6-En ufak bir olaydan düğün sahibi sorumlu tutulacaktır.<br>
-                        7-Polis Memurları devamlı düğün mahallinde devriye halinde gezeceklerdir.<br>
-                        8-Herhangi bir olay anında en seri bir şekilde Polis Merkezine haber verilecektir.<br>
-                        9-Düğün merasimi sırasında kesinlikle silah atılmayacaktır. Atılmasına müsaade edilmeyecektir.<br>
-                        10-Silah atıldığı takdirde düğün sahibi ve silah atan hakkında yasal işlem yapılacaktır.<br>
-                        11-İş bu talimat emir verme niteliğindedir. Uymayanlar hakkında T.C.K nın ilgili maddeleri gereğince yasal işlem yapılacaktır.<br>
-                        12-Biri düğün sahibi diğeri de dosyada kalmak üzere bu izin belgesi 2 (iki) suret olarak tanzim edilmiştir.
-                    </div>
-                    
-                    <p style="margin-bottom: 30px;">TEBELLÜĞ TARİHİ: ${tarih}</p>
-
-                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; page-break-inside: avoid;">
-                        <tr>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                TEBLİĞ EDEN<br><br>
-                                <div id="sig-m1" style="height:50px;"></div>
-                                ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
-                            </td>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                HAZIR BULUNAN<br><br>
-                                <div id="sig-m2" style="height:50px;"></div>
-                                ${m2}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m2')">İmza Al</button>
-                            </td>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                TEBELLÜĞ EDEN<br><br>
-                                <div id="sig-vat" style="height:50px;"></div>
                                 <b>${s1}</b><br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
                             </td>
                         </tr>
@@ -1165,9 +975,7 @@
         }
         else if (tur === "aranan_sahis") {
             const aEkip = document.getElementById("tutArananEkip").value || "....";
-            const aMahalle = document.getElementById("tutArananMahalle").value || "..................";
             const aMahkeme = document.getElementById("tutArananMahkeme").value || "..................";
-            const aSuc = document.getElementById("tutArananSuc").value || "..................";
             const aHastane = document.getElementById("tutArananHastane").value || "..................";
             const aTeslim = document.getElementById("tutArananTeslim").value || "Polis Merkezi Amirliğine";
 
@@ -1175,10 +983,10 @@
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black;">
                     <div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 13pt;">TUTANAK</div>
                     <p ${pStyle}>
-                        ${tarih} günü saat ${saat} sıralarında Asayiş Büro Amirliğine bağlı ${aEkip} kod nolu ekip olarak görevimizi ifa ettiğimiz esnada ${aMahalle} üzerinde durumundan şüphelenilen bir şahıs durdurulmuştur. Kimlik bilgileri yapılan kontrol neticesinde tespit edilen <b>${s1}</b> isimli şahsa yönelik yapılan kaba üst aramasında herhangi bir suç unsuruna rastlanılmamıştır. Şahsın yapılan GBT-UYAP sorgulamasında, ${aMahkeme} sayılı dosyası kapsamında "${aSuc}" suçundan aranmasının bulunduğu anlaşılmıştır.
+                        ${tarih} günü saat ${saat} sıralarında Asayiş Büro Amirliğine bağlı ${aEkip} kod nolu ekip olarak görevimizi ifa ettiğimiz esnada ${yer} üzerinde durumundan şüphelenilen bir şahıs durdurulmuştur. Kimlik bilgileri yapılan kontrol neticesinde tespit edilen <b>${s1}</b> isimli şahsa yönelik yapılan kaba üst aramasında herhangi bir suç unsuruna rastlanılmamıştır. Şahsın yapılan GBT-UYAP sorgulamasında, ${aMahkeme} sayılı dosyası kapsamında aranmasının bulunduğu anlaşılmıştır.
                     </p>
                     <p ${pStyle}>
-                        Aranması bulunduğu anlaşılan şahsa yakalama nedeni açıkça bildirilmiş, yasal hakları yüzüne karşı yüksek sesle okunmuştur. Akabinde şahıs kontrol altına alınmış, şahıs yakalama işlemi sırasında herhangi bir darp veya kötü muameleye maruz kalmadığını beyan etmesi üzerine bahse konu şahıs, ${aHastane} hastanesinden doktor raporu aldırıldıktan sonra işlemlerinin tamamlanması amacıyla ${aTeslim} teslim edilmiştir.
+                        Aranması bulunduğu anlaşılan şahsa yakalama nedeni açıkça bildirilmiş, yasal hakları yüzüne karşı yüksek sesle okunmuştur. Akabinde şahıs kontrol altına alınmış, şahıs yakalama işlemi sırasında herhangi bir darp veya kötü muameleye maruz kalmadığını beyan etmesi üzerine bahse konu şahıs, ${aHastane} Hastanesinden doktor raporu aldırıldıktan sonra işlemlerinin tamamlanması amacıyla ${aTeslim} teslim edilmiştir.
                     </p>
                     <p ${pStyle}>İş bu yakalama ve teslim tutanağı tarafımızca tanzim edilerek birlikte okunmuş ve imza altına alınmıştır.</p>
                     
@@ -1233,21 +1041,6 @@
             if(tur === "ifade") {
                 icerik = `<p ${pStyle}>Dodurga İlçe Emniyet Amirliğimize ${tarih} günü saat ${saat} sıralarında gelen <b>${s1}</b> isimli şahıs, <b>${konu}</b> konusu ile ilgili olarak alınan ifadesinde özetle;</p><p ${pStyle}>"${detay}" beyan etmiştir.</p><p ${pStyle}>İş bu ifade tutanağı şahsın kendi özgür iradesiyle alınmış olup, okutulup doğruluğu anlaşıldıktan sonra birlikte imza altına alınmıştır.</p>`;
             } 
-            else if(tur === "olay_yeri") {
-                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında Haber Merkezinin/Müracaatın bildirmesi üzerine <b>${konu}</b> olayı ile ilgili olarak belirtilen <b>${yer}</b> adresine intikal edilmiş, olay yerinde yapılan inceleme ve tespitlerde;</p><p ${pStyle}>${detay}</p><p ${pStyle}>hususları tespit edilmiş olup, iş bu tutanak olay yerinde tanzimle müştereken imza altına alınmıştır.</p>`;
-            }
-            else if(tur === "muhafaza") {
-                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda; şüpheli/ilgili <b>${s1}</b> isimli şahıstan/yerden elde edilen aşağıda özellikleri belirtilen eşya/suç delili muhafaza altına alınmıştır.</p><p ${pStyle}><b>Muhafaza Altına Alınanlar:</b><br>${detay}</p><p ${pStyle}>İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
-            }
-            else if(tur === "teslim_tesellum") {
-                icerik = `<p ${pStyle}><b>${konu}</b> konusu ile ilgili olarak Emniyet Amirliğimizce muhafaza altında bulunan/elde edilen aşağıda özellikleri belirtilen eşyalar/evraklar; teslim eden <b>${s1}</b> tarafından, teslim alan <b>${s2}</b> isimli şahsa/kuruma eksiksiz ve sağlam olarak teslim edilmiştir.</p><p ${pStyle}><b>Teslim Edilenler:</b><br>${detay}</p><p ${pStyle}>İş bu teslim tesellüm tutanağı tarafımızdan tanzim edilerek imza altına alınmıştır.</p>`;
-            }
-            else if(tur === "adres_tespit") {
-                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında idaremiz Dodurga/ÇORUM sayılı adreste gerçekleşen <b>${konu}</b> olayı ile ilgili olarak;</p><p ${pStyle}><b>${s1}</b> isimli şahsın adres tespiti amacıyla gidilen <b>${yer}</b> adresinde yapılan araştırmada; ${detay}</p><p ${pStyle}>İş bu Adres Tespit Tutanağı tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
-            }
-            else if(tur === "kamera_tanik") {
-                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında idaremiz <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> konusuyla ilgili olarak yapılan tahkikatta; günün Nöbetçi Cumhuriyet Savcısının Kamera ve Tanık araştırması yapılması talimatına istinaden,</p><p ${pStyle}>${detay}</p><p ${pStyle}>İş bu Kamera ve Tanık Araştırma Tutanağı tarafımızca tanzim edilerek birlikte imza altına alınmıştır.</p>`;
-            }
 
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black;">
@@ -1263,15 +1056,13 @@
                             <td style="width: 50%;"><div id="sig-m2" style="height:60px;"></div>${m2}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m2')">İmza Al</button></td>
                         </tr>
                     </table>
-                    ${(tur==='ifade' || tur==='teslim_tesellum') ? `
+                    ${(tur==='ifade') ? `
                     <table style="width: 100%; text-align: center; border: none; font-size: 12pt; margin-top: 40px;">
-                        <tr><td style="width: 100%;"><b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><div id="sig-vat" style="height:60px;"></div>${(tur==='ifade'?s1:s2)}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
+                        <tr><td style="width: 100%;"><b>İfade Veren</b><br><div id="sig-vat" style="height:60px;"></div>${s1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
                     </table>` : ''}
                 </div>
             `;
         }
-        
-        if(typeof window.logIslem === 'function') window.logIslem("Tutanak Çıktısı", `${document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text} oluşturuldu.`);
 
         document.getElementById("previewEditArea").innerHTML = printHTML;
         document.getElementById("previewModal").classList.remove("hidden");
@@ -1296,10 +1087,7 @@
 
     function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); }
     function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
-    function personelPaneliAc() { 
-        document.getElementById("adminModal").classList.remove("hidden"); 
-        if(typeof window.personelYukleFirebase==='function') window.personelYukleFirebase(); 
-    }
+    function personelPaneliAc() { document.getElementById("adminModal").classList.remove("hidden"); if(typeof personelYukleFirebase==='function') personelYukleFirebase(); }
 </script>
 
 <script type="module">
@@ -1315,62 +1103,6 @@
         enableIndexedDbPersistence(db).catch((err) => { console.log("Offline mod hatası", err); });
     } catch(e) {}
 
-    window.logIslem = async function(islemTipi, detay) {
-        if(!db) return;
-        let sicil = localStorage.getItem('aktif_sicil') || "Bilinmiyor";
-        try {
-            await addDoc(collection(db, "sistem_loglari"), {
-                sicil: sicil,
-                islem: islemTipi,
-                detay: detay,
-                tarih: serverTimestamp()
-            });
-        } catch(e) { console.log(e); }
-    }
-
-    window.logYukleFirebase = async function() {
-        if(!db) return;
-        const liste = document.getElementById("adminLogs");
-        try {
-            const q = query(collection(db, "sistem_loglari"), orderBy("tarih", "desc"), limit(50));
-            const snap = await getDocs(q);
-            liste.innerHTML = "";
-            if(snap.empty) { liste.innerHTML = "Log bulunamadı."; return; }
-            
-            snap.forEach((docSnap) => {
-                const data = docSnap.data();
-                const d = data.tarih ? data.tarih.toDate() : new Date();
-                const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR'); 
-                liste.innerHTML += `<div style="border-bottom:1px solid rgba(0,0,0,0.1); padding:6px 0;"><b>${data.sicil}</b> - <i>${tStr}</i><br><span style="color:var(--ios-blue); font-weight:bold;">${data.islem}</span>: ${data.detay}</div>`;
-            });
-        } catch (e) { liste.innerHTML = "Loglar yüklenemedi."; }
-    }
-
-    window.personelDogrula = async function(pSicil, pSifre) {
-        if(!db) { alert("Sistem bağlantı hatası!"); return; }
-        const q = query(collection(db, "personel"));
-        const snap = await getDocs(q);
-        let basarili = false;
-        let pRol = "user";
-        
-        snap.forEach((docSnap) => {
-            const d = docSnap.data();
-            if(d.sicil == pSicil && d.sifre == pSifre) {
-                basarili = true; pRol = d.rol || "user";
-            }
-        });
-
-        if(basarili) {
-            localStorage.setItem('polis_ag_giris_izni', 'true');
-            localStorage.setItem('aktif_rol', pRol);
-            localStorage.setItem('aktif_sicil', pSicil);
-            await window.logIslem("Giriş", "Sisteme giriş yapıldı.");
-            location.reload();
-        } else {
-            alert("Sicil veya Şifre Hatalı!");
-        }
-    }
-
     window.personelEkleFirebase = async function() {
         if(!db) return;
         const s = document.getElementById("yeniPersonelSicil").value;
@@ -1379,7 +1111,6 @@
         if(s && i && p) {
             await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user" });
             alert("Personel Eklendi!");
-            await window.logIslem("Personel İşlemi", `${s} sicil nolu personel eklendi.`);
             document.getElementById("yeniPersonelSicil").value = "";
             document.getElementById("yeniPersonelIsim").value = "";
             document.getElementById("yeniPersonelSifre").value = "";
@@ -1395,16 +1126,12 @@
         liste.innerHTML = "";
         snap.forEach((docSnap) => {
             const data = docSnap.data();
-            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
+            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}')"></i></div>`;
         });
     }
 
-    window.personelSilFirebase = async function(id, sicil) {
-        if(confirm("Silmek istediğinize emin misiniz?")) { 
-            await deleteDoc(doc(db, "personel", id)); 
-            await window.logIslem("Personel İşlemi", `${sicil} sicil nolu personel silindi.`);
-            window.personelYukleFirebase(); 
-        }
+    window.personelSilFirebase = async function(id) {
+        if(confirm("Sil?")) { await deleteDoc(doc(db, "personel", id)); window.personelYukleFirebase(); }
     }
 
     window.kaydetVeArsivle = async function(kaynak) {
@@ -1417,7 +1144,7 @@
             konu = "[BİLGİ NOTU] " + (document.getElementById("konu").value || "İsimsiz");
             btn = document.getElementById("kaydetBtn");
         } else {
-            rawText = document.getElementById("tutDetay").value || "Dilekçe İçeriği...";
+            rawText = document.getElementById("tutDetay").value || "Tutanak İçeriği...";
             konu = "[TUTANAK] " + (document.getElementById("tutKonu").value || document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text);
             btn = document.getElementById("tutKaydetBtn");
         }
@@ -1426,10 +1153,9 @@
         try {
             await addDoc(collection(db, "bilginotlari"), { konu: konu, metin: rawText, tarih: serverTimestamp() });
             btn.innerHTML = 'Kaydedildi';
-            await window.logIslem("Arşiv Kaydı", `${konu} arşive eklendi.`);
             if(window.arsiviYukle) window.arsiviYukle();
         } catch (e) { btn.innerHTML = 'Kuyruğa Alındı'; }
-        setTimeout(() => { btn.innerHTML = (kaynak === 'wp') ? 'Ortak Arşive Gönder' : 'Tutanağı Ortak Arşive Gönder'; }, 2000);
+        setTimeout(() => { btn.innerHTML = 'Ortak Arşive Gönder'; }, 2000);
     }
 
     window.arsiviYukle = async function() {
@@ -1458,11 +1184,7 @@
     }
 
     window.kayitSilFirebase = async function(docId) {
-        if(confirm("Silmek istiyor musunuz?")) { 
-            await deleteDoc(doc(db, "bilginotlari", docId)); 
-            await window.logIslem("Arşiv Silme", `Bir kayıt arşivden silindi.`);
-            window.arsiviYukle(); 
-        }
+        if(confirm("Silmek istiyor musunuz?")) { await deleteDoc(doc(db, "bilginotlari", docId)); window.arsiviYukle(); }
     }
 </script>
 </body>
