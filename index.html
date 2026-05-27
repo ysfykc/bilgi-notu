@@ -70,22 +70,27 @@
         
         button.bot-btn { flex: 1; width: 100%; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 14px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); margin-top:10px;}
         button.bot-btn:active { transform: scale(0.97); }
-        .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
         
-        /* WHATSAPP ÖNİZLEME (ESKİ ORİJİNAL HALİ) */
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5; border: 1px solid rgba(0,0,0,0.05);}
+        /* WHATSAPP ÖNİZLEME (ORİJİNAL) */
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: var(--wp-text); margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5;}
+        .phrase-chip { display: inline-flex; justify-content: center; align-items: center; padding: 8px 10px; background: var(--chip-bg); color: var(--ios-blue); border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; border: 1px solid rgba(0, 122, 255, 0.1); width: 100%;}
+        .phrase-chip:active { transform: scale(0.95); opacity: 0.8;}
+        .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+        .chip-green { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); border-color: rgba(52, 199, 89, 0.3); grid-column: span 2; padding: 12px;}
         
-        /* VARDİYA TAKVİM CSS */
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 15px; text-align: center; width: 100%; box-sizing: border-box;}
-        .cal-header { font-size: 12px; font-weight: bold; color: var(--text-gray); padding: 5px 0; text-transform: uppercase;}
-        .cal-day { background: var(--input-bg); border-radius: 12px; padding: 10px 2px; font-size: 14px; font-weight: 700; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid var(--glass-border);}
-        .cal-shift { font-size: 9px; font-weight: 800; padding: 3px 6px; border-radius: 8px; color: white; text-transform: uppercase; width: 90%; word-wrap: break-word;}
-        
+        /* TAKVİM CSS */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; text-align: center; }
+        .cal-header { font-size: 11px; font-weight: bold; color: var(--text-gray); padding: 5px 0;}
+        .cal-day { background: var(--input-bg); border-radius: 10px; padding: 8px 0; font-size: 14px; font-weight: 600; display:flex; flex-direction:column; align-items:center; gap:4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .cal-shift { font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 6px; color: white; text-transform: uppercase;}
+        .cal-sub { font-size: 9px; font-weight: bold; color: var(--text-gray); }
+
         /* A4 ÖNİZLEME CSS */
         #previewModal { align-items: center; padding: 30px 10px; overflow-y: auto; background: rgba(0,0,0,0.85); flex-direction: column; justify-content: flex-start;}
         .preview-header { width: 100%; max-width: 210mm; padding: 15px 20px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; }
         #previewEditArea { width: 100%; max-width: 210mm; min-height: 297mm; background: white; color: black; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; outline: none; box-sizing: border-box; text-align: justify; margin-bottom: 40px;}
 
+        /* YAZDIRMA ALANI */
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
             body { background: white !important; margin: 0; padding: 0; }
@@ -148,7 +153,7 @@
             </div>
             
             <div class="form-group">
-                <label>Olay Türü (Şablon)</label>
+                <label>Olay Türü</label>
                 <select id="olayTuru" onchange="sablonDegistir()">
                     <option value="asayis">Asayiş Uygulaması</option>
                     <option value="asayis_trafik">Asayiş ve Trafik Uygulaması</option>
@@ -158,7 +163,7 @@
             </div>
 
             <div id="adliAltKutu" class="form-group hidden">
-                <select id="adliTuru" onchange="adliTurSecildi()" style="border: 1px solid var(--ios-blue);">
+                <select id="adliTuru" onchange="adliTurSecildi()">
                     <option value="">Lütfen vaka türünü seçin...</option>
                     <option value="Kasten Yaralama">Kasten Yaralama</option>
                     <option value="Evden Hırsızlık">Evden Hırsızlık</option>
@@ -201,9 +206,17 @@
                     <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
                     <button class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation('ozet')"><i class="fa-solid fa-microphone"></i></button>
                 </div>
+                
+                <div class="quick-phrases">
+                    <span class="phrase-chip chip-green" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right:5px;"></i> Otomatik Giriş Yaz</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evrak İkmalen +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
+                </div>
             </div>
             
-            <label><i class="fa-brands fa-whatsapp"></i> Önizleme</label>
+            <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
             <div style="display:flex; gap:10px;">
@@ -226,7 +239,7 @@
 
             <div class="form-group">
                 <label>Tutanak / Evrak Türü</label>
-                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: rgba(0, 122, 255, 0.05);">
+                <select id="tutTuru" onchange="tutanakSablonDegistir()">
                     <option value="ifade">İfade Tutanağı</option>
                     <option value="olay_yeri">Olay Yeri Görgü Tutanağı</option>
                     <option value="muhafaza">Muhafaza Altına Alma Tutanağı</option>
@@ -308,32 +321,38 @@
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Hesaplama</h2>
             
-            <div class="form-group">
-                <label>Vardiya Sistemi</label>
-                <select id="vardiyaTipi" onchange="vardiyaSecenekleriGuncelle()" style="border: 1px solid var(--ios-blue);">
-                    <option value="12_24">12/24 (Gündüz - Gece - İstirahat)</option>
-                    <option value="12_36">Gerçek 12/36 (Gündüz - Gece - İst - İst)</option>
-                    <option value="cakma_12_36">Çakma 12/36 (Gündüz - Gündüz - Gece - İst - İst)</option>
-                    <option value="24_48">24/48 (Tam Gün - İst - İst)</option>
-                </select>
-            </div>
-            
-            <div class="row">
-                <div class="form-group">
-                    <label>Referans Tarihi</label>
-                    <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()">
-                </div>
-                <div class="form-group">
-                    <label>O Günkü Durum</label>
-                    <select id="vardiyaDurum" onchange="takvimCiz()">
-                        <option value="0">1. Gün (Gündüz)</option>
-                        <option value="1">2. Gün (Gece)</option>
-                        <option value="2">3. Gün (İstirahat)</option>
-                    </select>
-                </div>
+            <div style="background:rgba(0,122,255,0.1); padding:10px; border-radius:12px; margin-bottom:15px; text-align:center;">
+                <b style="color:var(--ios-blue); font-size:14px;">Sistem: Çakma 12/36</b><br>
+                <span style="font-size:12px; color:var(--text-gray);">15 Günlük Periyot (5 Gün/5 Gece/5 İst)</span>
             </div>
 
-            <div class="form-group" style="margin-top:10px;">
+            <div class="form-group">
+                <label>Vardiya Başlangıcı (Referans Tarihiniz)</label>
+                <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()">
+            </div>
+            
+            <div class="form-group">
+                <label>Seçili Tarihteki Durumunuz</label>
+                <select id="vardiyaDurum" onchange="takvimCiz()" style="border: 1px solid var(--ios-blue);">
+                    <option value="0">1. Gündüz</option>
+                    <option value="1">2. Gündüz</option>
+                    <option value="2">3. Gündüz</option>
+                    <option value="3">4. Gündüz</option>
+                    <option value="4">5. Gündüz</option>
+                    <option value="5">1. Gece</option>
+                    <option value="6">1. İstirahat</option>
+                    <option value="7">2. Gece</option>
+                    <option value="8">2. İstirahat</option>
+                    <option value="9">3. Gece</option>
+                    <option value="10">3. İstirahat</option>
+                    <option value="11">4. Gece</option>
+                    <option value="12">4. İstirahat</option>
+                    <option value="13">5. Gece</option>
+                    <option value="14">5. İstirahat</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-top:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:10px; border-radius:12px;">
                     <button class="archive-btn-top" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <b id="takvimAyYazi" style="font-size:15px; text-transform:uppercase;">MAYIS 2026</b>
@@ -346,6 +365,7 @@
                 <div class="cal-header">Per</div><div class="cal-header">Cum</div><div class="cal-header" style="color:red">Cmt</div><div class="cal-header" style="color:red">Paz</div>
             </div>
             <div id="takvimGunler" class="cal-grid" style="margin-top:0;"></div>
+
         </div>
     </div>
     
@@ -374,6 +394,7 @@
             <button class="bot-btn btn-danger" onclick="clearSignature()" style="flex:1; margin:0;">Temizle</button>
             <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
+        <button class="archive-btn-top" style="width:100%; margin-top:10px; background:transparent; color:var(--text-gray);" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
     </div>
 </div>
 
@@ -402,16 +423,20 @@
             <h2>Ortak Arşiv</h2>
             <button class="archive-btn-top btn-danger" onclick="arsiviKapat()">Kapat</button>
         </div>
-        <input type="text" id="archiveSearch" placeholder="Ara..." style="margin-bottom:10px;">
+        <input type="text" id="archiveSearch" placeholder="Ara..." style="margin-bottom:10px;" oninput="arsivFiltrele()">
         <div id="archiveList">Yükleniyor...</div>
     </div>
+</div>
+
+<div class="developer-credit">
+    <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
+    <span class="version-tag">v1.2.0</span>
 </div>
 
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
 
-    // --- YASAL BİLGİLENDİRME ---
     document.addEventListener("DOMContentLoaded", () => {
         if(localStorage.getItem('kullanim_sartlari_kabul') === 'true') {
             document.getElementById("disclaimerModal").classList.add("hidden");
@@ -429,9 +454,6 @@
         if(localStorage.getItem('dark_mode_active') === "true") {
             document.body.classList.add("dark-mode");
             document.getElementById("darkIcon").className = "fa-solid fa-sun";
-        } else {
-            document.body.classList.remove("dark-mode");
-            document.getElementById("darkIcon").className = "fa-solid fa-moon";
         }
 
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
@@ -450,28 +472,22 @@
             document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
             tutanakSablonDegistir();
-            sablonDegistir(); 
-            vardiyaSecenekleriGuncelle();
+            sablonDegistir(); // Asayiş vs konu otomatik doldurulur
+            takvimCiz();
+            metinOlustur(); // Önizlemeyi hemen doldur
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
             document.getElementById("loginScreen").classList.remove("hidden");
         }
     }
 
-    function toggleDarkMode() {
-        document.body.classList.toggle("dark-mode");
-        const isDark = document.body.classList.contains("dark-mode");
-        localStorage.setItem('dark_mode_active', isDark);
-        document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
-    }
-
     function girisYap() {
-        const pSicil = document.getElementById("loginSicil").value;
+        const pSicil = document.getElementById("loginSicil").value.trim().toLowerCase();
         const pSifre = document.getElementById("loginPassword").value;
         
         if(pSifre === SISTEM_SIFRESI) {
             localStorage.setItem('polis_ag_giris_izni', 'true');
-            if(pSicil.toLowerCase() === 'admin') localStorage.setItem('aktif_rol', 'admin');
+            if(pSicil === 'admin') localStorage.setItem('aktif_rol', 'admin');
             location.reload();
         } else alert("Şifre Hatalı!");
     }
@@ -482,6 +498,13 @@
             localStorage.removeItem('aktif_rol');
             location.reload(); 
         }
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem('dark_mode_active', isDark);
+        document.getElementById("darkIcon").className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
     }
 
     function sekmeDegistir(sekme) {
@@ -506,27 +529,10 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU ---
+    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36) ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
-
-    function vardiyaSecenekleriGuncelle() {
-        const sistem = document.getElementById("vardiyaTipi").value;
-        const durumSelect = document.getElementById("vardiyaDurum");
-        durumSelect.innerHTML = "";
-        
-        if(sistem === "12_24") {
-            durumSelect.innerHTML = `<option value="0">1. Gün (Gündüz)</option><option value="1">2. Gün (Gece)</option><option value="2">3. Gün (İstirahat)</option>`;
-        } else if(sistem === "12_36") {
-            durumSelect.innerHTML = `<option value="0">1. Gün (Gündüz)</option><option value="1">2. Gün (Gece)</option><option value="2">3. Gün (İstirahat)</option><option value="3">4. Gün (İstirahat)</option>`;
-        } else if(sistem === "cakma_12_36") {
-            durumSelect.innerHTML = `<option value="0">1. Gün (Gündüz)</option><option value="1">2. Gün (Gündüz)</option><option value="2">3. Gün (Gece)</option><option value="3">4. Gün (İstirahat)</option><option value="4">5. Gün (İstirahat)</option>`;
-        } else if(sistem === "24_48") {
-            durumSelect.innerHTML = `<option value="0">1. Gün (Çalışma)</option><option value="1">2. Gün (İstirahat)</option><option value="2">3. Gün (İstirahat)</option>`;
-        }
-        takvimCiz();
-    }
 
     function ayDegistir(yon) {
         gosterilenAy += yon;
@@ -541,14 +547,17 @@
         container.innerHTML = "";
 
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
-        const sistem = document.getElementById("vardiyaTipi").value;
         const baslangicDurumu = parseInt(document.getElementById("vardiyaDurum").value) || 0;
         
-        let patern = [];
-        if(sistem === "12_24") patern = [{n:"GÜNDÜZ", c:"#FF9500"}, {n:"GECE", c:"#5856D6"}, {n:"İST", c:"#34C759"}];
-        else if(sistem === "12_36") patern = [{n:"GÜNDÜZ", c:"#FF9500"}, {n:"GECE", c:"#5856D6"}, {n:"İST", c:"#34C759"}, {n:"İST", c:"#34C759"}];
-        else if(sistem === "cakma_12_36") patern = [{n:"GÜN", c:"#FF9500"}, {n:"GÜN", c:"#FF9500"}, {n:"GECE", c:"#5856D6"}, {n:"İST", c:"#34C759"}, {n:"İST", c:"#34C759"}];
-        else if(sistem === "24_48") patern = [{n:"ÇALIŞMA", c:"#FF3B30"}, {n:"İST", c:"#34C759"}, {n:"İST", c:"#34C759"}];
+        // Sadece Çakma 12/36 Patern (15 Günlük Periyot)
+        const patern = [
+            {n:"GÜNDÜZ", sub:"1. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"2. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"3. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"4. Gün", c:"#FF9500"}, {n:"GÜNDÜZ", sub:"5. Gün", c:"#FF9500"},
+            {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
+            {n:"GECE", sub:"2. Gece", c:"#5856D6"}, {n:"İST", sub:"2. İst", c:"#34C759"},
+            {n:"GECE", sub:"3. Gece", c:"#5856D6"}, {n:"İST", sub:"3. İst", c:"#34C759"},
+            {n:"GECE", sub:"4. Gece", c:"#5856D6"}, {n:"İST", sub:"4. İst", c:"#34C759"},
+            {n:"GECE", sub:"5. Gece", c:"#5856D6"}, {n:"İST", sub:"5. İst", c:"#34C759"}
+        ];
 
         let ilkGun = new Date(gosterilenYil, gosterilenAy, 1).getDay();
         if(ilkGun === 0) ilkGun = 7; 
@@ -559,27 +568,23 @@
 
         for(let g=1; g<=gunSayisi; g++) {
             let suan = new Date(gosterilenYil, gosterilenAy, g);
-            let pBilgi = {n:"", c:"transparent"};
+            let pBilgi = {n:"", c:"transparent", sub:""};
             
             if(baslangicTarihi) {
-                // Zamanı saat dilimi hatalarına karşı düzelt
                 const bTime = Date.UTC(baslangicTarihi.getFullYear(), baslangicTarihi.getMonth(), baslangicTarihi.getDate());
                 const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
                 let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
                 
-                if(fark >= 0) {
-                    let index = (fark + baslangicDurumu) % patern.length;
-                    pBilgi = patern[index];
-                } else {
-                    let index = ((fark + baslangicDurumu) % patern.length + patern.length) % patern.length;
-                    pBilgi = patern[index];
-                }
+                let index = (baslangicDurumu + fark) % 15;
+                if(index < 0) index += 15;
+
+                pBilgi = patern[index];
             }
 
             container.innerHTML += `
                 <div class="cal-day">
                     <span>${g}</span>
-                    ${pBilgi.n ? `<span class="cal-shift" style="background:${pBilgi.c}">${pBilgi.n}</span>` : ''}
+                    ${pBilgi.n ? `<span class="cal-shift" style="background:${pBilgi.c}">${pBilgi.n}</span><span class="cal-sub">${pBilgi.sub}</span>` : ''}
                 </div>
             `;
         }
@@ -657,61 +662,70 @@
         const container = document.getElementById("sahisListesiContainer");
         container.innerHTML = "";
         sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div class="sahis-card"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+            container.innerHTML += `<div class="sahis-card" style="background:var(--input-bg); padding:10px; border-radius:12px; margin-top:5px; display:flex; justify-content:space-between;"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
         });
     }
 
     function sahisSil(index) { sahislarDizisi.splice(index, 1); sahisListesiniCiz(); metinOlustur(); }
 
-    function tcKontrolEt() {
-        const tc = document.getElementById("sahisTc").value;
-        let valid = false;
-        if (tc.length === 11 && !isNaN(tc) && tc[0] != 0) {
-            let haneler = tc.split('').map(Number);
-            let tekler = haneler[0] + haneler[2] + haneler[4] + haneler[6] + haneler[8];
-            let ciftler = haneler[1] + haneler[3] + haneler[5] + haneler[7];
-            let hane10 = (tekler * 7 - ciftler) % 10;
-            let hane11 = (haneler.slice(0, 10).reduce((a, b) => a + b, 0)) % 10;
-            valid = (haneler[9] === hane10 && haneler[10] === hane11);
-        }
-        document.getElementById("sahisTc").style.boxShadow = valid ? "inset 0 0 0 1.5px var(--ios-green)" : (tc.length===11?"inset 0 0 0 1.5px #FF3B30":"none");
+    function ekleOzet(metin) {
+        const ozetBox = document.getElementById('ozet');
+        let m = ozetBox.value.trim();
+        ozetBox.value = m === "" ? metin : m + "\n\n" + metin;
+        metinOlustur(); 
+    }
+
+    function otomatikGirisEkle() {
+        const trh = document.getElementById("tarih").value || "...";
+        const st = document.getElementById("saat").value || "...";
+        const yer = document.getElementById("olayYeri").value || "...";
+        const kn = document.getElementById("konu").value || "olay";
+        const txt = `${trh} günü saat ${st} sıralarında ${yer} adresinde meydana gelen ${kn} olayı ile ilgili olarak; `;
+        ekleOzet(txt);
     }
 
     function metinOlustur() {
-        const tur = document.getElementById("olayTuru").value;
-        const baslikTuru = document.getElementById("baslikTuru").value;
-        const konu = document.getElementById("konu").value;
-        const tarih = document.getElementById("tarih").value;
-        const saat = document.getElementById("saat").value;
-        const olayYeri = document.getElementById("olayYeri").value;
-        let ozet = document.getElementById("ozet").value;
+        try {
+            const tur = document.getElementById("olayTuru").value || "";
+            const baslikTuru = document.getElementById("baslikTuru").value || "BİLGİ NOTU";
+            const konu = document.getElementById("konu").value || "";
+            const tarih = document.getElementById("tarih").value || "";
+            const saat = document.getElementById("saat").value || "";
+            const olayYeri = document.getElementById("olayYeri").value || "";
+            let ozet = document.getElementById("ozet").value || "";
 
-        let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
-        if(konu) metin += `*Konu:* ${konu}\n`;
-        
-        if(tur === "adli") {
-            let sucNoVal = document.getElementById("sucNo").value.trim();
-            if(sucNoVal && !sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) { sucNoVal = new Date().getFullYear() + "/" + sucNoVal; }
-            if(sucNoVal) metin += `*Suç No:* ${sucNoVal}\n`;
-            if(typeof sahislarDizisi !== 'undefined') {
-                sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
+            let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
+            if(konu) metin += `*Konu:* ${konu}\n`;
+            
+            if(tur === "adli") {
+                let sucNoEl = document.getElementById("sucNo");
+                if(sucNoEl) {
+                    let sucNoVal = sucNoEl.value.trim();
+                    if(sucNoVal && !sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) { sucNoVal = new Date().getFullYear() + "/" + sucNoVal; }
+                    if(sucNoVal) metin += `*Suç No:* ${sucNoVal}\n`;
+                }
+                if(typeof sahislarDizisi !== 'undefined') {
+                    sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
+                }
             }
-        }
-        
-        if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
-        if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
-        
-        if(tur === "asayis" || tur === "asayis_trafik") {
-            if(document.getElementById("sorgulananSahis").value) metin += `*Sorgulanan Şahıs:* ${document.getElementById("sorgulananSahis").value}\n`;
-            if(document.getElementById("sorgulananArac").value) metin += `*Sorgulanan Araç:* ${document.getElementById("sorgulananArac").value}\n`;
-        }
-        
-        if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
-        else metin += `\n`;
-        metin += `*Arz ederim.*`;
+            
+            if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
+            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
+            
+            if(tur === "asayis" || tur === "asayis_trafik") {
+                let sSahis = document.getElementById("sorgulananSahis") ? document.getElementById("sorgulananSahis").value : "";
+                let sArac = document.getElementById("sorgulananArac") ? document.getElementById("sorgulananArac").value : "";
+                if(sSahis) metin += `*Sorgulanan Şahıs:* ${sSahis}\n`;
+                if(sArac) metin += `*Sorgulanan Araç:* ${sArac}\n`;
+            }
+            
+            if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
+            else metin += `\n`;
+            metin += `*Arz ederim.*`;
 
-        document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
-        document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
+            document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+            document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
+        } catch(e) { console.log(e); }
     }
 
     function kopyala() { navigator.clipboard.writeText(document.getElementById("wpOnizleme").getAttribute('data-raw')); alert("Kopyalandı!"); }
@@ -882,27 +896,27 @@
             let sIsim = isimFormatla(pM.filter(p => p !== sSicil).join(" ")) || ".........................";
             
             printHTML = `
-                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black; background: white;">
-                    <div style="text-align: center; font-weight: bold; margin-bottom: 50px; font-size: 13pt;">
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black; background: white; padding: 20px;">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 40px; font-size: 12pt;">
                         DODURGA İLÇE EMNİYET AMİRLİĞİNE
                     </div>
-                    <p ${pStyle}>
-                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} tarafıma, ${iSure} izin verilmesi hususunu;
+                    <p style="text-align: justify; text-indent: 40px; margin-bottom: 10px; line-height: 1.5;">
+                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} tarafıma ${iSure} izin verilmesi hususunu;
                     </p>
-                    <p ${pStyle}>
+                    <p style="text-align: justify; text-indent: 40px; margin-bottom: 40px; line-height: 1.5;">
                         Gereğini bilgilerinize arz ederim.
                     </p>
                     
-                    <table style="width: 100%; border: none; font-size: 12pt; margin-top: 80px; page-break-inside: avoid;">
+                    <table style="width: 100%; border: none; font-size: 12pt; page-break-inside: avoid;">
                         <tr>
-                            <td style="width: 50%; vertical-align: bottom; text-align: left;">
+                            <td style="width: 50%; vertical-align: bottom; text-align: left; padding-right: 20px;">
                                 <b>İzindeki Adres ve Tel:</b><br>
                                 ${iAdres}
                             </td>
                             <td style="width: 50%; vertical-align: top; text-align: center;">
-                                ${new Date().toLocaleDateString('tr-TR')}<br><br><br>
+                                ${new Date().toLocaleDateString('tr-TR')}<br><br>
                                 <div id="sig-m1" style="height:60px;"></div>
-                                <b>${sIsim}</b><br>${sSicil}<br>Polis Memuru
+                                <b>${sIsim}</b><br>Polis Memuru<br>${sSicil}
                                 <br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
                             </td>
                         </tr>
@@ -917,130 +931,41 @@
             const kMeslek = document.getElementById("tutKayipMeslek").value || "..........";
             const kZaman = document.getElementById("tutKayipZaman").value || "..........";
             const kEsyaAdi = document.getElementById("tutKayipEsya").value || "..........";
-            
-            const trStyle = "border: 1px solid black;";
-            const tdL = "border: 1px solid black; padding: 4px; font-weight:bold; width:35%;";
-            const tdR = "border: 1px solid black; padding: 4px;";
+            const trStyle = "border: 1px solid black;"; const tdL = "border: 1px solid black; padding: 4px; font-weight:bold; width:35%;"; const tdR = "border: 1px solid black; padding: 4px;";
             
             printHTML = `
-                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
-                    <div style="text-align: center; font-size: 12pt; line-height: 1.2; margin-bottom:10px;">
-                        T.C.<br>ÇORUM EMNİYET MÜDÜRLÜĞÜ<br>Dodurga Polis Merkezi Amirliği<br><br>
-                        <span style="text-decoration:underline; font-weight:bold; font-size:14pt;">KAYIP EŞYA FORMU</span>
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black;">
+                    <div style="text-align: center; font-size: 11pt; line-height: 1.2; margin-bottom:10px; font-weight:bold;">
+                        KASBES<br>(KİHBİ Araç Silah Belge ve Eşya Sistemi)<br>BİLDİRİM FORMU
                     </div>
                     
-                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 20px;">
-                        <tr style="${trStyle}"><td style="${tdL}">Kayıt No. ${new Date().getFullYear()}/...</td><td style="${tdR}"></td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">ADI-SOYADI</td><td style="${tdR}">${s1}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">BABA-ANNE ADI</td><td style="${tdR}">${kAnneBaba}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">DOĞUM YERİ TARİHİ</td><td style="${tdR}">${kDTarih}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">NÜFUSA KAYITLI OLDUĞU YER</td><td style="${tdR}">${kNufus}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">İKÂMET ADRESİ</td><td style="${tdR}">${yer}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">MESLEĞİ-İŞ ADRESİ-TELEFONU</td><td style="${tdR}">${kMeslek}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">MÜRACAAT TARİH – SAATİ</td><td style="${tdR}">${tarih} - ${saat}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">KAYIP TARİH-SAATİ</td><td style="${tdR}">${kZaman}</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">KAYIP OLDUĞU BÖLGE</td><td style="${tdR}">Kayıtlı İkameti (Belirtilmemiş)</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">MÜRACAAT ŞEKLİ</td><td style="${tdR}">Resen</td></tr>
-                        <tr style="${trStyle}"><td style="${tdL}">KAYIP EŞYA (Ayrıntılı)</td><td style="${tdR}">${kEsyaAdi}</td></tr>
+                    <div style="background:#FFD966; text-align:center; font-weight:bold; border:2px solid black; padding:4px;">MÜRACAATÇI BİLGİLERİ</div>
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; border-top:none; margin-bottom: 20px;">
+                        <tr style="${trStyle}"><td style="${tdL}">T.C. KİMLİK NO / ADI SOYADI</td><td style="${tdR}">${s1}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">BABA ve ANNE ADI</td><td style="${tdR}">${kAnneBaba}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">DOĞUM YERİ ve TARİHİ</td><td style="${tdR}">${kDTarih}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">TELEFON - MESLEK</td><td style="${tdR}">${kMeslek}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">NÜFUSA KAYITLI İL/İLÇE</td><td style="${tdR}">${kNufus}</td></tr>
                     </table>
 
-                    <div style="border-top:2px solid black; border-bottom:2px solid black; padding: 10px 0; margin-bottom:20px;">
-                        <p style="text-align: justify; margin: 0; line-height: 1.5;"><b>KONU ÖZET:</b> ${rawDetay}</p>
-                    </div>
-
-                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-bottom: 40px;">
-                        <tr>
-                            <td style="border: 1px solid black; padding: 4px; width:15%;">TARİH-SAAT:</td>
-                            <td style="border: 1px solid black; padding: 4px; width:45%; text-align:center;">${tarih}</td>
-                            <td style="border: 1px solid black; padding: 4px; text-align:center;">SAAT: ${saat}</td>
-                        </tr>
+                    <div style="background:#FFD966; text-align:center; font-weight:bold; border:2px solid black; padding:4px;">KAYIP BİLGİLERİ</div>
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; border-top:none; margin-bottom: 20px;">
+                        <tr style="${trStyle}"><td style="${tdL}">MÜRACAATIN ALINDIĞI YER</td><td style="${tdR}">Dodurga Polis Merkezi Amirliği</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">MÜRACAAT TARİH-SAATİ</td><td style="${tdR}">${tarih} - ${saat}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">KAYIP TARİHİ ve SAATİ</td><td style="${tdR}">${kZaman}</td></tr>
+                        <tr style="${trStyle}"><td style="${tdL}">KAYIP EDİLEN NESNE/EŞYA</td><td style="${tdR}">${kEsyaAdi}</td></tr>
                     </table>
 
-                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; page-break-inside: avoid;">
+                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; margin-top:50px;">
                         <tr>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
+                            <td style="width: 50%;">
+                                <span style="text-decoration:underline;">İŞLEM YAPAN PERSONEL</span><br><br>
                                 <div id="sig-m1" style="height:60px;"></div>
                                 ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
                             </td>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
+                            <td style="width: 50%;">
+                                <span style="text-decoration:underline;">MÜRACAATTA BULUNAN</span><br><br>
                                 <div id="sig-vat" style="height:60px;"></div>
-                                <b>${s1}</b><br>Ruhsat Sahibi/Müracaatçı
-                                <br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
-                            </td>
-                        </tr>
-                    </table>
-                    
-                    <div style="text-align:center; margin-top:40px; font-weight:bold; font-size:10pt;">
-                        NOT: BU BELGE MÜRACAATÇININ BEYANINA GÖRE TANZİM EDİLMİŞTİR.<br>ADLİ BELGE YERİNE GEÇMEZ.
-                    </div>
-                </div>
-            `;
-        }
-        else if (tur === "dugun_izni") {
-            const dBaba = document.getElementById("tutDugunBaba").value || "..........";
-            const dDTarih = document.getElementById("tutDugunDTarih").value || "..........";
-            const dCesit = document.getElementById("tutDugunCesit").value || "..........";
-            const dMuddet = document.getElementById("tutDugunMuddet").value || "..........";
-            const dNikah = document.getElementById("tutDugunNikah").value || "..........";
-            const dTel = document.getElementById("tutDugunTel").value || "..........";
-
-            printHTML = `
-                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
-                    <div style="text-align: center; font-size: 13pt; margin-bottom: 20px;">
-                        DÜĞÜN MERASİMİ İÇİN İZİN BELGESİ
-                    </div>
-                    <p style="text-indent: 40px; margin-bottom:20px;">İş bu düğün izin vesikası Dodurga İlçe Emniyet Amirliği tarafından verilmiştir.</p>
-                    
-                    <table style="width: 100%; border: none; font-size: 11pt; margin-bottom: 20px;">
-                        <tr><td style="width:150px;">ADI SOYADI</td><td>: ${s1}</td></tr>
-                        <tr><td>BABA ADI</td><td>: ${dBaba}</td></tr>
-                        <tr><td>DOĞUM TARİHİ</td><td>: ${dDTarih}</td></tr>
-                        <tr><td colspan="2">&nbsp;</td></tr>
-                        <tr><td>DÜĞÜN ÇEŞİDİ</td><td>: ${dCesit}</td></tr>
-                        <tr><td>BAŞLAMA TARİHİ</td><td>: ${tarih}</td></tr>
-                        <tr><td>BİTİM TARİHİ</td><td>: ${tarih}</td></tr>
-                        <tr><td>İZİN MÜDDETİ</td><td>: ${dMuddet}</td></tr>
-                        <tr><td>MEDENİ NİKAH</td><td>: ${dNikah}</td></tr>
-                        <tr><td>ADRES</td><td>: ${yer}</td></tr>
-                        <tr><td>TEL</td><td>: ${dTel}</td></tr>
-                    </table>
-
-                    <div style="text-align: center; font-size: 12pt; margin: 20px 0;">
-                        DÜĞÜN MERASİMİNDE UYULACAK TALİMAT
-                    </div>
-                    
-                    <div style="font-size: 10.5pt; line-height: 1.3; text-align: justify; margin-bottom: 20px;">
-                        1-Düğün cemiyetinde toplanan halka sükuneti bozucu aşırı alkol verilmez.<br>
-                        2-Düğün merasimi için izin verilen çalgılar en geç 1 saat süresi sonunda sonlandırılacak.<br>
-                        3-Düğüne kadın sanatçı çengi getirip oynatmak yasaktır.<br>
-                        4-Halkın huzur ve sükunetini bozacak patlayıcı, korkutucu, alet ve edevat kullandırılmayacaktır.<br>
-                        5-Düğün cemiyetinde düğün evi sahibi, mahalle muhtarı ve polislere yardım edecektir.<br>
-                        6-En ufak bir olaydan düğün sahibi sorumlu tutulacaktır.<br>
-                        7-Polis Memurları devamlı düğün mahallinde devriye halinde gezeceklerdir.<br>
-                        8-Herhangi bir olay anında en seri bir şekilde Polis Merkezine haber verilecektir.<br>
-                        9-Düğün merasimi sırasında kesinlikle silah atılmayacaktır. Atılmasına müsaade edilmeyecektir.<br>
-                        10-Silah atıldığı takdirde düğün sahibi ve silah atan hakkında yasal işlem yapılacaktır.<br>
-                        11-İş bu talimat emir verme niteliğindedir. Uymayanlar hakkında T.C.K nın ilgili maddeleri gereğince yasal işlem yapılacaktır.<br>
-                        12-Biri düğün sahibi diğeri de dosyada kalmak üzere bu izin belgesi 2 (iki) suret olarak tanzim edilmiştir.
-                    </div>
-                    
-                    <p style="margin-bottom: 30px;">TEBELLÜĞ TARİHİ: ${tarih}</p>
-
-                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; page-break-inside: avoid;">
-                        <tr>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                TEBLİĞ EDEN<br><br>
-                                <div id="sig-m1" style="height:50px;"></div>
-                                ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
-                            </td>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                HAZIR BULUNAN<br><br>
-                                <div id="sig-m2" style="height:50px;"></div>
-                                ${m2}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m2')">İmza Al</button>
-                            </td>
-                            <td style="width: 33%; vertical-align: top; padding: 10px;">
-                                TEBELLÜĞ EDEN<br><br>
-                                <div id="sig-vat" style="height:50px;"></div>
                                 <b>${s1}</b><br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
                             </td>
                         </tr>
