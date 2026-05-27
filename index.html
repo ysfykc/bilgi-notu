@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu v2.0</title>
+    <title>Bilgi Notu v2.1</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -103,16 +103,17 @@
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         
-        textarea { resize: vertical; min-height: 120px; padding-right: 100px; line-height: 1.5; }
+        /* ÖZET VE AÇIKLAMA KUTUSU GENİŞLETİLDİ (250px) */
+        textarea { resize: vertical; min-height: 250px; padding-right: 60px; line-height: 1.5; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; }
         
+        /* YAPAY ZEKA BUTONU KALDIRILDI, SADECE MİKROFON VE NLP KALDI */
         .action-btn { position: absolute; bottom: 12px; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 17px; cursor: pointer; transition: transform 0.1s; }
         .action-btn:active { transform: scale(0.9); }
         .mic-btn { right: 12px; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue); }
         .nlp-btn { right: 58px; background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
-        .ai-btn { right: 104px; background: rgba(175, 82, 222, 0.15); color: #AF52DE; } /* YENİ YAPAY ZEKA BUTONU */
         .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
@@ -183,7 +184,7 @@
                 <div class="top-btn-group">
                     <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
-                    <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
+                    <button class="archive-btn-top" onclick="arsiviAc()" title="Arşivi Aç"><i class="fa-solid fa-folder-open"></i></button>
                     <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             </div>
@@ -259,9 +260,8 @@
             <div class="form-group">
                 <label>Özet / Açıklama</label>
                 <div class="textarea-wrapper">
-                    <textarea id="ozet" placeholder="Olayın özetini kısaca yazın, Yapay Zeka resmi dile çevirsin..." oninput="metinOlustur()"></textarea>
+                    <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
                     
-                    <button class="action-btn ai-btn" title="Yapay Zekaya Yazdır" onclick="yapayZekaIleYaz('ozet')"><i class="fa-solid fa-robot"></i></button>
                     <button class="action-btn nlp-btn" title="Sihirli Değnek" onclick="akilliMetinAnalizi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                     <button id="micBtn" class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation()"><i class="fa-solid fa-microphone"></i></button>
                 </div>
@@ -306,7 +306,10 @@
         <div class="glass-panel">
             <div class="header-row">
                 <h1><i class="fa-solid fa-file-signature" style="color: var(--ios-blue);"></i> Tutanak Asistanı</h1>
-                <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()"><i class="fa-solid fa-trash-can"></i> Temizle</button>
+                <div class="top-btn-group">
+                    <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
             </div>
 
             <div class="form-group">
@@ -337,8 +340,7 @@
                 <div class="form-group" id="d_detay">
                     <label>Detaylı Açıklama / İfade / Eşya Listesi</label>
                     <div class="textarea-wrapper">
-                        <textarea id="tutDetay" placeholder="Olay detayları veya ifadenin metni buraya (Yapay zekaya yazdırabilirsiniz)..." style="min-height: 120px;"></textarea>
-                        <button class="action-btn ai-btn" title="Yapay Zekaya Yazdır" onclick="yapayZekaIleYaz('tutDetay')" style="right: 12px;"><i class="fa-solid fa-robot"></i></button>
+                        <textarea id="tutDetay" placeholder="Olay detayları veya ifadenin metni buraya..." style="min-height: 250px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -357,7 +359,7 @@
     
     <div class="developer-credit">
         <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v2.0</span>
+        <span class="version-tag">v2.1</span>
     </div>
 </div>
 
@@ -407,7 +409,14 @@
             location.reload();
         } else alert("Hatalı Parola!");
     }
-    function cikisYap() { localStorage.removeItem('polis_ag_giris_izni'); location.reload(); }
+    
+    // ÇIKIŞ YAP BUTONU İŞLEVİ
+    function cikisYap() { 
+        if(confirm("Güvenli çıkış yapmak istiyor musunuz?")) {
+            localStorage.removeItem('polis_ag_giris_izni'); 
+            location.reload(); 
+        }
+    }
 
     function sekmeDegistir(sekme) {
         document.getElementById("tabBilgiNotuBtn").classList.remove("active");
@@ -447,17 +456,24 @@
         icon.classList.toggle("fa-chevron-up", !container.classList.contains("hidden"));
     }
 
+    // EKLENEN/ONARILAN: Hazır Cümleleri Kutuya Atma Fonksiyonu
+    function ekleOzet(metin) {
+        const ozetBox = document.getElementById('ozet');
+        let m = ozetBox.value.trim();
+        ozetBox.value = m === "" ? metin : m + "\n\n" + metin;
+        metinOlustur(); // Kutuyu güncelledikten sonra hemen WhatsApp önizlemesini günceller
+    }
+
     function otomatikGirisEkle() {
         const trh = document.getElementById("tarih").value || "...";
         const st = document.getElementById("saat").value || "...";
         const yer = document.getElementById("olayYeri").value || "...";
         const kn = document.getElementById("konu").value || "olay";
         const txt = `${trh} günü saat ${st} sıralarında ${yer} adresinde meydana gelen ${kn} olayı ile ilgili olarak; `;
-        const ozetBox = document.getElementById('ozet');
-        ozetBox.value = ozetBox.value.trim() === "" ? txt : txt + "\n\n" + ozetBox.value;
-        metinOlustur();
+        ekleOzet(txt);
     }
 
+    // EKLENEN/ONARILAN: Asayiş metninin anında yüklenmesi
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
         const ozetBox = document.getElementById("ozet");
@@ -482,7 +498,7 @@
         else { document.getElementById("baslikTuru").value = "BİLGİ NOTU"; ozetBox.value = ""; }
         
         metinOlustur();
-        checklistCiz();
+        if(typeof checklistCiz === "function") checklistCiz();
     }
     
     function adliTurSecildi() {
@@ -506,7 +522,9 @@
             let sucNoVal = document.getElementById("sucNo").value.trim();
             if(sucNoVal && !sucNoVal.includes("/") && /^\d+$/.test(sucNoVal)) { sucNoVal = new Date().getFullYear() + "/" + sucNoVal; }
             if(sucNoVal) metin += `*Suç No:* ${sucNoVal}\n`;
-            sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
+            if(typeof sahislarDizisi !== 'undefined') {
+                sahislarDizisi.forEach(s => { metin += `*${s.rol}:* ${s.ad}\n`; });
+            }
         }
         
         if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
@@ -542,7 +560,7 @@
         
         if(tur === "ifade") {
             document.getElementById("tutSahis1").placeholder = "İfade Veren (Örn: Müşteki Ali YILMAZ)";
-            document.getElementById("tutDetay").placeholder = "İfade metni (Yapay zekaya yazdırabilirsiniz)...";
+            document.getElementById("tutDetay").placeholder = "İfade metni...";
         } else if (tur === "olay_yeri") {
             document.getElementById("tutSahis1").placeholder = "Hazır Bulunan / Görevli";
             document.getElementById("tutDetay").placeholder = "Olay yeri bulguları...";
@@ -633,7 +651,9 @@
     function formuTemizle() {
         if(confirm("Formu temizlemek istiyor musunuz?")) {
             document.getElementById("konu").value = ""; document.getElementById("olayYeri").value = "";
-            document.getElementById("ozet").value = ""; sahislarDizisi = []; sahisListesiniCiz(); metinOlustur();
+            document.getElementById("ozet").value = ""; sahislarDizisi = [];
+            if(typeof sahisListesiniCiz === 'function') sahisListesiniCiz();
+            metinOlustur();
         }
     }
     function tutanakTemizle() {
@@ -645,54 +665,6 @@
     }
     function arsiviAc() { document.getElementById("archiveModal").classList.remove("hidden"); }
     function arsiviKapat() { document.getElementById("archiveModal").classList.add("hidden"); }
-
-    // ==========================================
-    // YAPAY ZEKA (GEMINI AI) MOTORU
-    // ==========================================
-    async function yapayZekaIleYaz(hedefKutuId) {
-        const kutu = document.getElementById(hedefKutuId);
-        const kisaMetin = kutu.value.trim();
-        
-        if (!kisaMetin) {
-            alert("Lütfen önce olayı kısaca kendi cümlelerinizle yazın.");
-            return;
-        }
-
-        // BURAYA GOOGLE AI STUDIO'DAN ALDIĞIN ŞİFREYİ BÖLEREK YAPIŞTIR
-        const ai_p1 = "BURAYA_1"; 
-        const ai_p2 = "BURAYA_2";
-        const ai_p3 = "BURAYA_3";
-        const apiKey = ai_p1 + ai_p2 + ai_p3;
-
-        if (ai_p1 === "BURAYA_1") {
-            alert("Sistem uyarısı: Lütfen koda Google AI Studio şifrenizi ekleyin.");
-            return;
-        }
-
-        kutu.value = "Yapay Zeka metni resmi formata çeviriyor, lütfen bekleyin...\n\n( " + kisaMetin + " )";
-
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-        const prompt = `Sen tecrübeli bir Türk Polis memurusun. Aşağıda devriyedeki bir polisin aldığı kısa olay notu bulunuyor. Lütfen bu notu, Emniyet teşkilatı resmi tutanak ve bilgi notu jargonuyla hukuki ve resmi bir metne çevir. Sadece üretilen resmi metni ver. Olay Notu: ${kisaMetin}`;
-
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-            const data = await response.json();
-            if (data.candidates && data.candidates.length > 0) {
-                kutu.value = data.candidates[0].content.parts[0].text.trim();
-                if(hedefKutuId === 'ozet') metinOlustur();
-            } else {
-                kutu.value = kisaMetin;
-                alert("Yapay zeka yanıt veremedi.");
-            }
-        } catch (error) {
-            kutu.value = kisaMetin;
-            alert("Bağlantı hatası! AI Şifrenizi kontrol edin.");
-        }
-    }
 </script>
 
 <script type="module">
@@ -734,7 +706,7 @@
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Ağa Eklendi';
             if(window.arsiviYukle) window.arsiviYukle();
         } catch (e) { btn.innerHTML = 'Hata (API Engeli)!'; }
-        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder'; }, 2000);
+        setTimeout(() => { btn.innerHTML = (kaynak === 'wp') ? '<i class="fa-solid fa-cloud-arrow-up"></i> Ortak Arşive Gönder' : '<i class="fa-solid fa-cloud-arrow-up"></i> Tutanağı Ortak Arşive Gönder'; }, 2000);
     }
 
     window.arsiviYukle = async function() {
