@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu v2.2</title>
+    <title>Bilgi Notu v2.3</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -45,24 +45,11 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { 
-            background: var(--body-bg);
-            min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; 
-            transition: background 0.4s ease;
-        }
-
+        body { background: var(--body-bg); min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; transition: background 0.4s ease; }
         .container { max-width: 650px; margin: 0 auto; display: none; }
         
-        #loginScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--body-bg); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
-        }
-        .login-box {
-            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 40px 24px; width: 100%; max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center;
-        }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--body-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .login-box { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px 24px; width: 100%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; }
         .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 20px; }
         .login-box h2 { margin-bottom: 10px; font-weight: 700; color: var(--text-dark); }
         .login-box p { font-size: 14px; color: var(--text-gray); margin-bottom: 30px; }
@@ -73,16 +60,7 @@
         .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: transparent; color: var(--text-gray); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 6px;}
         .tab-btn.active { background: var(--ios-blue); color: white; box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3); }
 
-        .glass-panel { 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 16px; margin-bottom: 16px;
-            box-shadow: 0 8px 30px var(--panel-shadow); 
-            transition: all 0.3s ease;
-        }
-        
-        /* BAŞLIK VE BUTONLAR KÜÇÜLTÜLDÜ - EKRANA TAM SIĞAR */
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; margin-bottom: 16px; box-shadow: 0 8px 30px var(--panel-shadow); transition: all 0.3s ease; }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: nowrap; gap: 4px;}
         h1 { font-size: 15px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0;}
         
@@ -93,14 +71,7 @@
 
         .form-group { margin-bottom: 16px; }
         label { display: block; font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        input, select, textarea { 
-            width: 100%; background: var(--input-bg); 
-            border: 1px solid rgba(0,0,0,0.05); 
-            border-radius: 12px; padding: 12px 14px; 
-            font-size: 15px; color: var(--text-dark); 
-            transition: all 0.3s ease; outline: none;
-        }
+        input, select, textarea { width: 100%; background: var(--input-bg); border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 12px 14px; font-size: 15px; color: var(--text-dark); transition: all 0.3s ease; outline: none; }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { border-color: rgba(255,255,255,0.05); }
         input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         
@@ -141,46 +112,43 @@
         .archive-item { background: var(--input-bg); padding: 14px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); transition: transform 0.1s; }
         .archive-item:active { transform: scale(0.98); }
         
-        /* A4 ÖNİZLEME/DÜZENLEME MODALI CSS (WORD BELGESİ GİBİ) */
-        #previewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto; padding: 30px 10px; }
-        .preview-modal-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-        
-        /* GERÇEK A4 KAĞIDI GÖRÜNÜMÜ */
-        #previewEditArea { 
-            width: 210mm; 
-            min-height: 297mm; 
-            background: white; 
-            color: black; 
-            padding: 20mm; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
-            font-family: "Times New Roman", Times, serif; 
-            font-size: 12pt; 
-            line-height: 1.5; 
-            outline: none; 
-            box-sizing: border-box; 
-            text-align: justify;
-            margin-bottom: 20px;
-        }
-        
-        @media screen and (max-width: 800px) {
-            #previewEditArea { width: 100%; min-height: auto; padding: 15px; }
-        }
-        
         .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
         .check-item input { width: 20px; height: 20px; pointer-events: none; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 14px;}
 
+        /* A4 ÖNİZLEME/DÜZENLEME MODALI CSS (GERÇEK WORD EKRANI) */
+        #previewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; flex-direction: column; align-items: center; }
+        .preview-header { width: 100%; padding: 15px 20px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 10001; }
+        .preview-scroll-area { flex: 1; width: 100%; overflow-y: auto; padding: 20px; display: flex; justify-content: center; }
+        
+        #previewEditArea { 
+            width: 100%; 
+            max-width: 210mm; /* Gerçek A4 Genişliği */
+            min-height: 297mm; /* Gerçek A4 Yüksekliği */
+            background: white; 
+            color: black; 
+            padding: 20mm 15mm; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.4); 
+            font-family: "Times New Roman", Times, serif; 
+            font-size: 12pt; 
+            line-height: 1.5; 
+            outline: none; 
+            box-sizing: border-box; 
+            text-align: justify;
+        }
+
         /* YAZDIRMA (PRINT) ALANI */
         @media print {
+            @page { margin: 1.5cm; size: A4 portrait; }
             body { background: white !important; margin: 0; padding: 0; }
-            #loginScreen, #appContainer, #archiveModal, .no-print { display: none !important; }
-            #previewModal { position: absolute; left:0; top:0; background: none; display: block !important; width: 100%; padding:0; overflow: visible;}
-            .preview-modal-content { max-width: 100%; background: transparent !important; box-shadow: none !important; padding: 0 !important; }
-            #previewEditArea { box-shadow: none !important; padding: 0 !important; width: 100%; min-height: auto; margin: 0;}
-            .print-signatures { display: flex; justify-content: space-between; margin-top: 60px; page-break-inside: avoid;}
-            .print-sig-box { text-align: center; width: 45%; }
+            #loginScreen, #appContainer, #archiveModal, .preview-header, .no-print { display: none !important; }
+            #previewModal { position: static; background: none; display: block !important; padding: 0; }
+            .preview-scroll-area { padding: 0; display: block; overflow: visible; }
+            #previewEditArea { box-shadow: none; padding: 0 !important; max-width: none; min-height: auto; width: 100%; }
+            .print-signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 40px; page-break-inside: avoid;}
+            .print-sig-box { width: 45%; text-align: center; }
         }
     </style>
 </head>
@@ -361,12 +329,12 @@
                 <div class="form-group" id="d_olayYeri"><label>Olay Yeri / Adres</label><input type="text" id="tutOlayYeri" placeholder="Örn: Yunus Emre Bulvarı No:1"></div>
                 <div class="form-group" id="d_konu"><label>Olay / Konu</label><input type="text" id="tutKonu" placeholder="Örn: Kasten Yaralama"></div>
                 
-                <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum</label><input type="text" id="tutSahis1" placeholder="Müşteki/Şüpheli/Teslim Eden vb."></div>
+                <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum</label><input type="text" id="tutSahis1" placeholder="Örn: Ahmet Yılmaz (TC: 12345678901)"></div>
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum</label><input type="text" id="tutSahis2" placeholder="Örn: Ahmet Yılmaz (TC: 12345678901)"></div>
                 
-                <div class="form-group hidden" id="d_izin_turu"><label>İzin Türü ve Mazereti</label><input type="text" id="tutIzinTuru" placeholder="Örn: Yıllık İzin, Mazeret İzni, Babalık İzni"></div>
-                <div class="form-group hidden" id="d_izin_sure"><label>İzin Süresi (Gün) ve Başlama</label><input type="text" id="tutIzinSure" placeholder="Örn: 10 gün izin ve 2 gün yol izni - 20.05.2026 itibariyle"></div>
-                <div class="form-group hidden" id="d_izin_adres"><label>İzni Geçireceği İl / Adres ve Tel</label><input type="text" id="tutIzinAdres" placeholder="Örn: Ankara / 555 123 45 67"></div>
+                <div class="form-group hidden" id="d_izin_detay"><label>İzin Başlangıcı ve Süresi</label><input type="text" id="tutIzinDetay" placeholder="Örn: 28.05.2026 tarihinden itibaren 3 (üç) günlük"></div>
+                <div class="form-group hidden" id="d_izin_tel"><label>İzindeki Telefon</label><input type="text" id="tutIzinTel" placeholder="Örn: 0553 613 97 71"></div>
+                <div class="form-group hidden" id="d_izin_adres"><label>İzindeki Adres</label><input type="text" id="tutIzinAdres" placeholder="Örn: Mamak/ANKARA"></div>
 
                 <div class="form-group" id="d_detay">
                     <label>Detaylı Açıklama / İfade / Eşya Listesi</label>
@@ -377,7 +345,7 @@
             </div>
 
             <hr style="border: 0; height: 1px; background: rgba(0,0,0,0.1); margin: 20px 0;">
-            <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Tutanak Tutanlar / İmza Blokları</label>
+            <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <div class="form-group"><label id="lblMemur1">1. Memur (Sicil - Ad Soyad)</label><input type="text" id="tutMemur1" placeholder="Örn: 123456 Ali YILMAZ"></div>
                 <div class="form-group" id="kutuMemur2"><label>2. Memur (Sicil - Ad Soyad)</label><input type="text" id="tutMemur2" placeholder="Örn: 654321 Veli DEMİR"></div>
@@ -390,21 +358,20 @@
     
     <div class="developer-credit">
         <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v2.2</span>
+        <span class="version-tag">v2.3</span>
     </div>
 </div>
 
 <div id="previewModal" class="hidden">
-    <div class="preview-modal-content">
-        <div class="header-row no-print" style="margin-bottom:15px; width:100%; display:flex; justify-content:space-between;">
-            <h2 style="color:white; margin:0;"><i class="fa-solid fa-pen-to-square"></i> A4 Son Kontrol</h2>
-            <div style="display:flex; gap:10px;">
-                <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:10px 20px;" onclick="window.print()"><i class="fa-solid fa-print"></i> Yazdır</button>
-                <button class="archive-btn-top btn-danger" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
-            </div>
+    <div class="preview-header no-print">
+        <h2 style="margin:0; font-size: 18px;"><i class="fa-solid fa-pen-to-square"></i> A4 Son Kontrol</h2>
+        <div style="display:flex; gap:10px;">
+            <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:8px 16px;" onclick="window.print()"><i class="fa-solid fa-print"></i> Yazdır</button>
+            <button class="archive-btn-top btn-danger" style="padding:8px 16px;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
         </div>
-        <p class="no-print" style="font-size:13px; color:#ddd; margin-bottom:20px; text-align:center;">* Çıktı almadan önce kağıttaki metne tıklayarak düzenleyebilir, harf veya boşluk ekleyebilirsiniz.</p>
-        
+    </div>
+    
+    <div class="preview-scroll-area">
         <div id="previewEditArea" contenteditable="true" spellcheck="false">
             </div>
     </div>
@@ -425,6 +392,8 @@
 
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
+    let sahislarDizisi = []; // Şahıs listesi dizisi onarıldı
+    let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
 
     document.addEventListener("DOMContentLoaded", () => {
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
@@ -485,6 +454,58 @@
     }
 
     // --- BİLGİ NOTU İŞLEMLERİ VE EKLENTİLER ---
+    
+    // Şahıs Ekleme Fonksiyonları (Eksikler Onarıldı)
+    function sahisEkle() {
+        const rol = document.getElementById("sahisRol").value;
+        const ad = document.getElementById("sahisAd").value.trim();
+        const tc = document.getElementById("sahisTc").value.trim();
+        
+        if(ad !== "") { 
+            let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
+            sahislarDizisi.push({ rol, ad: tamAd }); 
+            document.getElementById("sahisAd").value = ""; 
+            document.getElementById("sahisTc").value = ""; 
+            document.getElementById("sahisTc").style.boxShadow = "none";
+            sahisListesiniCiz(); 
+            metinOlustur(); 
+        }
+    }
+
+    function sahisListesiniCiz() {
+        const container = document.getElementById("sahisListesiContainer");
+        container.innerHTML = "";
+        sahislarDizisi.forEach((sahis, index) => {
+            container.innerHTML += `<div class="sahis-card"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+        });
+    }
+
+    function sahisSil(index) {
+        sahislarDizisi.splice(index, 1);
+        sahisListesiniCiz();
+        metinOlustur();
+    }
+
+    function tcDogrula(tc) {
+        if (tc.length !== 11 || isNaN(tc)) return false;
+        if (tc[0] == 0) return false;
+        let haneler = tc.split('').map(Number);
+        let tekler = haneler[0] + haneler[2] + haneler[4] + haneler[6] + haneler[8];
+        let ciftler = haneler[1] + haneler[3] + haneler[5] + haneler[7];
+        let hane10 = (tekler * 7 - ciftler) % 10;
+        let hane11 = (haneler.slice(0, 10).reduce((a, b) => a + b, 0)) % 10;
+        return haneler[9] === hane10 && haneler[10] === hane11;
+    }
+
+    function tcKontrolEt() {
+        const tcInput = document.getElementById("sahisTc");
+        const val = tcInput.value;
+        if(val.length === 11) {
+            if(tcDogrula(val)) tcInput.style.boxShadow = "inset 0 0 0 1.5px var(--ios-green)";
+            else tcInput.style.boxShadow = "inset 0 0 0 1.5px #FF3B30";
+        } else tcInput.style.boxShadow = "none";
+    }
+
     const checklistSablonlari = {
         asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
         asayis_trafik: ["GBT ve araç sorguları koordineli yapıldı mı?", "Sürücü belgeleri ve muayene kontrolleri bitti mi?", "Gerekli durumlarda alkolmetre üfletildi mi?", "Yol güvenlik dubaları dizildi mi?"],
@@ -629,8 +650,8 @@
         document.getElementById("d_sahis2").classList.toggle("hidden", tur !== "teslim_tesellum");
         document.getElementById("d_detay").classList.toggle("hidden", isDilekce);
         
-        document.getElementById("d_izin_turu").classList.toggle("hidden", !isDilekce);
-        document.getElementById("d_izin_sure").classList.toggle("hidden", !isDilekce);
+        document.getElementById("d_izin_detay").classList.toggle("hidden", !isDilekce);
+        document.getElementById("d_izin_tel").classList.toggle("hidden", !isDilekce);
         document.getElementById("d_izin_adres").classList.toggle("hidden", !isDilekce);
         
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce);
@@ -665,13 +686,12 @@
         }
     }
 
-    // NİZAMİ SİCİL VE İMZA AYIRICI 
+    // NİZAMİ SİCİL VE İMZA AYIRICI (Sadece Sicil ve Polis Memuru Basar)
     function formatMemur(memurStr) {
-        if(!memurStr) return ".........................<br>.........................<br>Polis Memuru";
+        if(!memurStr) return ".........................<br>Polis Memuru";
         let parts = memurStr.trim().split(/\s+/);
-        let sicil = parts.find(p => /^\d+$/.test(p)) || "";
-        let isim = parts.filter(p => p !== sicil).join(" ");
-        return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
+        let sicil = parts.find(p => /^\d+$/.test(p)) || memurStr;
+        return `${sicil}<br>Polis Memuru`;
     }
 
     // A4 ÖNİZLEME MOTORU (WORD EKRANI)
@@ -691,8 +711,8 @@
         let printHTML = "";
 
         if (tur === "izin_dilekcesi") {
-            const iTuru = document.getElementById("tutIzinTuru").value || ".........................";
-            const iSure = document.getElementById("tutIzinSure").value || ".........................";
+            const iDetay = document.getElementById("tutIzinDetay").value || ".........................";
+            const iTel = document.getElementById("tutIzinTel").value || ".........................";
             const iAdres = document.getElementById("tutIzinAdres").value || ".........................";
             
             // Dilekçeyi yazan memurun ham isim ve sicili
@@ -706,18 +726,16 @@
                     DODURGA İLÇE EMNİYET AMİRLİĞİNE
                 </div>
                 <div style="text-align: justify; text-indent: 40px; line-height: 2;">
-                    Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iTuru} sebebiyle tarafıma, ${iSure} izin kullanmak istiyorum.<br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İznimi <b>${iAdres}</b> adresinde geçireceğim.<br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gereğini bilgilerinize arz ederim.
+                    Dodurga İlçe Emniyet Amirliği'nde ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} izne ayrılmak istiyorum.<br><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gereğini arz ederim. ${tarih}
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-top: 60px;">
                     <div style="width: 50%;">
-                        <b>İzindeki Adres ve Tel:</b><br>
-                        ${iAdres}
+                        <b>Telefon :</b> ${iTel}<br>
+                        <b>Adres &nbsp;&nbsp;:</b> ${iAdres}
                     </div>
                     <div style="width: 40%; text-align: center;">
-                        ${tarih}<br><br><br>
-                        <b>${sIsim}</b><br>${sSicil}<br>Polis Memuru
+                        <b>${sIsim}</b><br>Polis Memuru
                     </div>
                 </div>
             `;
@@ -758,11 +776,11 @@
                 <div>${icerik}</div>
                 <div style="text-align: left; margin-top: 20px;"><b>Tarih/Saat:</b> ${tarih} - ${saat}</div>
                 
-                <div class="print-signatures">
-                    <div class="print-sig-box">${m1}</div>
-                    <div class="print-sig-box">${m2}</div>
+                <div class="print-signatures" style="display: flex; justify-content: space-between; width: 100%; margin-top: 40px; page-break-inside: avoid;">
+                    <div class="print-sig-box" style="width: 45%; text-align: center;">${m1}</div>
+                    <div class="print-sig-box" style="width: 45%; text-align: center;">${m2}</div>
                 </div>
-                ${(tur==='ifade' || tur==='teslim_tesellum') ? `<div class="print-signatures" style="margin-top:40px;"><div class="print-sig-box" style="margin: 0 auto;"><b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><br><br>${(tur==='ifade'?s1:s2)}</div></div>` : ''}
+                ${(tur==='ifade' || tur==='teslim_tesellum') ? `<div class="print-signatures" style="display: flex; justify-content: space-between; width: 100%; margin-top:40px; page-break-inside: avoid;"><div class="print-sig-box" style="margin: 0 auto; width: 45%; text-align: center;"><b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><br><br>${(tur==='ifade'?s1:s2)}</div></div>` : ''}
             `;
         }
 
@@ -784,7 +802,7 @@
             document.getElementById("tutSahis1").value = ""; document.getElementById("tutSahis2").value = "";
             document.getElementById("tutDetay").value = "";
             document.getElementById("tutMemur1").value = ""; document.getElementById("tutMemur2").value = "";
-            document.getElementById("tutIzinTuru").value = ""; document.getElementById("tutIzinSure").value = "";
+            document.getElementById("tutIzinDetay").value = ""; document.getElementById("tutIzinTel").value = "";
             document.getElementById("tutIzinAdres").value = "";
         }
     }
