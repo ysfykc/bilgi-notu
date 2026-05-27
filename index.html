@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu v2.3</title>
+    <title>Bilgi Notu v2.4</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -118,7 +118,7 @@
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 10px 14px; border-radius: 12px; font-size: 14px;}
 
-        /* A4 ÖNİZLEME/DÜZENLEME MODALI CSS (GERÇEK WORD EKRANI) */
+        /* KUSURSUZ A4 ÖNİZLEME/DÜZENLEME MODALI CSS (GERÇEK WORD EKRANI) */
         #previewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; flex-direction: column; align-items: center; }
         .preview-header { width: 100%; padding: 15px 20px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 10001; }
         .preview-scroll-area { flex: 1; width: 100%; overflow-y: auto; padding: 20px; display: flex; justify-content: center; }
@@ -139,7 +139,7 @@
             text-align: justify;
         }
 
-        /* YAZDIRMA (PRINT) ALANI */
+        /* YAZDIRMA (PRINT) ALANI - SADECE PDF/KAĞIT İÇİN */
         @media print {
             @page { margin: 1.5cm; size: A4 portrait; }
             body { background: white !important; margin: 0; padding: 0; }
@@ -147,8 +147,6 @@
             #previewModal { position: static; background: none; display: block !important; padding: 0; }
             .preview-scroll-area { padding: 0; display: block; overflow: visible; }
             #previewEditArea { box-shadow: none; padding: 0 !important; max-width: none; min-height: auto; width: 100%; }
-            .print-signatures { display: flex; justify-content: space-between; width: 100%; margin-top: 40px; page-break-inside: avoid;}
-            .print-sig-box { width: 45%; text-align: center; }
         }
     </style>
 </head>
@@ -358,7 +356,7 @@
     
     <div class="developer-credit">
         <i class="fa-solid fa-code"></i> Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v2.3</span>
+        <span class="version-tag">v2.4</span>
     </div>
 </div>
 
@@ -392,7 +390,7 @@
 
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
-    let sahislarDizisi = []; // Şahıs listesi dizisi onarıldı
+    let sahislarDizisi = []; 
     let ozelCumleler = JSON.parse(localStorage.getItem('ozel_cumleler')) || [];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -453,15 +451,31 @@
         }
     }
 
-    // --- BİLGİ NOTU İŞLEMLERİ VE EKLENTİLER ---
-    
-    // Şahıs Ekleme Fonksiyonları (Eksikler Onarıldı)
+    // İSİM FORMATLAMA (İlk Harf Büyük, Soyisim Tamamen Büyük)
+    function isimFormatla(metin) {
+        let kelimeler = metin.trim().split(/\s+/);
+        if(kelimeler.length === 0 || metin.trim() === "") return "";
+        if(kelimeler.length === 1) return kelimeler[0].toLocaleUpperCase('tr-TR');
+        
+        let soyad = kelimeler.pop().toLocaleUpperCase('tr-TR');
+        let adKismi = kelimeler.map(k => {
+            if(k.length === 0) return "";
+            let ilkHarf = k.charAt(0).toLocaleUpperCase('tr-TR');
+            let geriKalan = k.slice(1).toLocaleLowerCase('tr-TR');
+            return ilkHarf + geriKalan;
+        }).join(" ");
+        
+        return adKismi + " " + soyad;
+    }
+
+    // ŞAHIS EKLEME VE LİSTELEME
     function sahisEkle() {
         const rol = document.getElementById("sahisRol").value;
-        const ad = document.getElementById("sahisAd").value.trim();
+        const adRaw = document.getElementById("sahisAd").value.trim();
         const tc = document.getElementById("sahisTc").value.trim();
         
-        if(ad !== "") { 
+        if(adRaw !== "") { 
+            const ad = isimFormatla(adRaw);
             let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
             sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
@@ -639,7 +653,7 @@
         window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(rawText), '_blank');
     }
 
-    // --- TUTANAK ASİSTANI VE ŞABLONLAR ---
+    // --- TUTANAK ASİSTANI İŞLEMLERİ ---
     function tutanakSablonDegistir() {
         const tur = document.getElementById("tutTuru").value;
         const isDilekce = (tur === "izin_dilekcesi");
@@ -655,9 +669,6 @@
         document.getElementById("d_izin_adres").classList.toggle("hidden", !isDilekce);
         
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce);
-        
-        document.getElementById("lblTutSahis1").innerText = "İlgili Şahıs / Kurum";
-        document.getElementById("lblMemur1").innerText = "1. Memur (Sicil - Ad Soyad)";
         
         if(tur === "ifade") {
             document.getElementById("lblTutSahis1").innerText = "İfade Veren (Ad Soyad - TC)";
@@ -681,29 +692,37 @@
         } else if (tur === "izin_dilekcesi") {
             document.getElementById("lblMemur1").innerText = "Dilekçeyi Yazan (Sicil - Ad Soyad)";
         } else {
+            document.getElementById("lblTutSahis1").innerText = "İlgili Şahıs / Kurum";
             document.getElementById("tutSahis1").placeholder = "İlgili Şahıs";
             document.getElementById("tutDetay").placeholder = "Detaylar...";
         }
     }
 
-    // NİZAMİ SİCİL VE İMZA AYIRICI (Sadece Sicil ve Polis Memuru Basar)
     function formatMemur(memurStr) {
         if(!memurStr) return ".........................<br>Polis Memuru";
         let parts = memurStr.trim().split(/\s+/);
-        let sicil = parts.find(p => /^\d+$/.test(p)) || memurStr;
-        return `${sicil}<br>Polis Memuru`;
+        let sicil = parts.find(p => /^\d+$/.test(p)) || "";
+        let isimHam = parts.filter(p => p !== sicil).join(" ");
+        let isim = isimFormatla(isimHam);
+        
+        return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
     }
 
-    // A4 ÖNİZLEME MOTORU (WORD EKRANI)
     function tutanakA4Hazirla() {
         const tur = document.getElementById("tutTuru").value;
         const tarih = document.getElementById("tutTarih").value || "....";
         const saat = document.getElementById("tutSaat").value || "....";
         const yer = document.getElementById("tutOlayYeri").value || "..................";
         const konu = document.getElementById("tutKonu").value || "..................";
-        const s1 = document.getElementById("tutSahis1").value || "..................";
-        const s2 = document.getElementById("tutSahis2").value || "..................";
-        const detay = (document.getElementById("tutDetay").value || "..................").replace(/\n/g, '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        
+        const s1Raw = document.getElementById("tutSahis1").value || "..................";
+        const s2Raw = document.getElementById("tutSahis2").value || "..................";
+        const s1 = (s1Raw !== "..................") ? isimFormatla(s1Raw) : s1Raw;
+        const s2 = (s2Raw !== "..................") ? isimFormatla(s2Raw) : s2Raw;
+
+        let rawDetay = document.getElementById("tutDetay").value || "..................";
+        const pStyle = 'style="text-align: justify; text-indent: 40px; margin: 0 0 10px 0; line-height: 1.5;"';
+        const detay = rawDetay.split('\n').filter(line => line.trim() !== '').join(`</p><p ${pStyle}>`);
         
         const m1 = formatMemur(document.getElementById("tutMemur1").value);
         const m2 = formatMemur(document.getElementById("tutMemur2").value);
@@ -715,28 +734,35 @@
             const iTel = document.getElementById("tutIzinTel").value || ".........................";
             const iAdres = document.getElementById("tutIzinAdres").value || ".........................";
             
-            // Dilekçeyi yazan memurun ham isim ve sicili
             let rawM = document.getElementById("tutMemur1").value || "";
             let pM = rawM.trim().split(/\s+/);
             let sSicil = pM.find(p => /^\d+$/.test(p)) || "..........";
-            let sIsim = pM.filter(p => p !== sSicil).join(" ") || ".........................";
+            let sIsimHam = pM.filter(p => p !== sSicil).join(" ") || ".........................";
+            let sIsim = isimFormatla(sIsimHam);
             
             printHTML = `
-                <div style="text-align: center; font-weight: bold; margin-bottom: 50px; font-size: 13pt;">
-                    DODURGA İLÇE EMNİYET AMİRLİĞİNE
-                </div>
-                <div style="text-align: justify; text-indent: 40px; line-height: 2;">
-                    Dodurga İlçe Emniyet Amirliği'nde ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} izne ayrılmak istiyorum.<br><br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gereğini arz ederim. ${tarih}
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 60px;">
-                    <div style="width: 50%;">
-                        <b>Telefon :</b> ${iTel}<br>
-                        <b>Adres &nbsp;&nbsp;:</b> ${iAdres}
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black; background: white;">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 50px; font-size: 12pt;">
+                        DODURGA İLÇE EMNİYET AMİRLİĞİNE
                     </div>
-                    <div style="width: 40%; text-align: center;">
-                        <b>${sIsim}</b><br>Polis Memuru
-                    </div>
+                    <p ${pStyle}>
+                        Dodurga İlçe Emniyet Amirliği'nde ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} izne ayrılmak istiyorum.
+                    </p>
+                    <p ${pStyle}>
+                        Gereğini arz ederim. ${tarih}
+                    </p>
+                    
+                    <table style="width: 100%; border: none; font-size: 12pt; margin-top: 60px; page-break-inside: avoid;">
+                        <tr>
+                            <td style="width: 50%; vertical-align: top; text-align: left; padding-top: 50px;">
+                                <b>Telefon :</b> ${iTel}<br>
+                                <b>Adres &nbsp;&nbsp;:</b> ${iAdres}
+                            </td>
+                            <td style="width: 50%; vertical-align: top; text-align: center;">
+                                <b>${sIsim}</b><br>${sSicil}<br>Polis Memuru
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             `;
         } 
@@ -745,42 +771,60 @@
 
             if(tur === "ifade") {
                 baslik = "İFADE TUTANAĞI";
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dodurga İlçe Emniyet Amirliğimize ${tarih} günü saat ${saat} sıralarında gelen <b>${s1}</b> isimli şahıs, <b>${konu}</b> konusu ile ilgili olarak alınan ifadesinde özetle;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"${detay}" beyan etmiştir.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu ifade tutanağı şahsın kendi özgür iradesiyle alınmış olup, okutulup doğruluğu anlaşıldıktan sonra birlikte imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}>Dodurga İlçe Emniyet Amirliğimize ${tarih} günü saat ${saat} sıralarında gelen <b>${s1}</b> isimli şahıs, <b>${konu}</b> konusu ile ilgili olarak alınan ifadesinde özetle;</p><p ${pStyle}>"${detay}" beyan etmiştir.</p><p ${pStyle}>İş bu ifade tutanağı şahsın kendi özgür iradesiyle alınmış olup, okutulup doğruluğu anlaşıldıktan sonra birlikte imza altına alınmıştır.</p>`;
             } 
             else if(tur === "olay_yeri") {
                 baslik = "OLAY YERİ GÖRGÜ VE TESPİT TUTANAĞI";
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${tarih} günü saat ${saat} sıralarında Haber Merkezinin/Müracaatın bildirmesi üzerine <b>${konu}</b> olayı ile ilgili olarak belirtilen <b>${yer}</b> adresine intikal edilmiş, olay yerinde yapılan inceleme ve tespitlerde;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${detay}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hususları tespit edilmiş olup, iş bu tutanak olay yerinde tanzimle müştereken imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında Haber Merkezinin/Müracaatın bildirmesi üzerine <b>${konu}</b> olayı ile ilgili olarak belirtilen <b>${yer}</b> adresine intikal edilmiş, olay yerinde yapılan inceleme ve tespitlerde;</p><p ${pStyle}>${detay}</p><p ${pStyle}>hususları tespit edilmiş olup, iş bu tutanak olay yerinde tanzimle müştereken imza altına alınmıştır.</p>`;
             }
             else if(tur === "muhafaza") {
                 baslik = "MUHAFAZA ALTINA ALMA TUTANAĞI";
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda; şüpheli/ilgili <b>${s1}</b> isimli şahıstan/yerden elde edilen aşağıda özellikleri belirtilen eşya/suç delili muhafaza altına alınmıştır.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Muhafaza Altına Alınanlar:</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${detay}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda; şüpheli/ilgili <b>${s1}</b> isimli şahıstan/yerden elde edilen aşağıda özellikleri belirtilen eşya/suç delili muhafaza altına alınmıştır.</p><p ${pStyle}><b>Muhafaza Altına Alınanlar:</b><br>${detay}</p><p ${pStyle}>İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
             }
             else if(tur === "teslim_tesellum") {
                 baslik = "TESLİM TESELLÜM TUTANAĞI";
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${konu}</b> konusu ile ilgili olarak Emniyet Amirliğimizce muhafaza altında bulunan/elde edilen aşağıda özellikleri belirtilen eşyalar/evraklar; teslim eden <b>${s1}</b> tarafından, teslim alan <b>${s2}</b> isimli şahsa/kuruma eksiksiz ve sağlam olarak teslim edilmiştir.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Teslim Edilenler:</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${detay}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu teslim tesellüm tutanağı tarafımızdan tanzim edilerek imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}><b>${konu}</b> konusu ile ilgili olarak Emniyet Amirliğimizce muhafaza altında bulunan/elde edilen aşağıda özellikleri belirtilen eşyalar/evraklar; teslim eden <b>${s1}</b> tarafından, teslim alan <b>${s2}</b> isimli şahsa/kuruma eksiksiz ve sağlam olarak teslim edilmiştir.</p><p ${pStyle}><b>Teslim Edilenler:</b><br>${detay}</p><p ${pStyle}>İş bu teslim tesellüm tutanağı tarafımızdan tanzim edilerek imza altına alınmıştır.</p>`;
+            }
+            else if(tur === "adres_tespit") {
+                baslik = "ADRES TESPİT TUTANAĞI";
+                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında idaremiz Dodurga/ÇORUM sayılı adreste gerçekleşen <b>${konu}</b> olayı ile ilgili olarak;</p><p ${pStyle}><b>${s1}</b> isimli şahsın adres tespiti amacıyla gidilen <b>${yer}</b> adresinde yapılan araştırmada; ${detay}</p><p ${pStyle}>İş bu Adres Tespit Tutanağı tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
+            }
+            else if(tur === "kamera_tanik") {
+                baslik = "KAMERA VE TANIK ARAŞTIRMA TUTANAĞI";
+                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında idaremiz <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> konusuyla ilgili olarak yapılan tahkikatta; günün Nöbetçi Cumhuriyet Savcısının Kamera ve Tanık araştırması yapılması talimatına istinaden,</p><p ${pStyle}>${detay}</p><p ${pStyle}>İş bu Kamera ve Tanık Araştırma Tutanağı tarafımızca tanzim edilerek birlikte imza altına alınmıştır.</p>`;
             }
             else if(tur === "dugun_izni") {
                 baslik = "DÜĞÜN VE EĞLENCE İZİN BELGESİ";
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dodurga İlçe Emniyet Amirliğimize müracaat eden <b>${s1}</b> isimli şahsın, <b>${yer}</b> adresinde gerçekleştireceği düğün/eğlence merasimi için gerekli güvenlik tahkikatı yapılmıştır.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Söz konusu eğlencenin ${tarih} tarihinde, saat ${saat} itibariyle bitirilmesi, genel asayişi bozacak taşkınlıklara mahal verilmemesi ve çevreyi rahatsız etmeyecek şekilde yapılması hususu düğün sahibine tebliğ edilmiştir.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Açıklama:</b> ${detay}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu tutanak tanzimle imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}>Dodurga İlçe Emniyet Amirliğimize müracaat eden <b>${s1}</b> isimli şahsın, <b>${yer}</b> adresinde gerçekleştireceği düğün/eğlence merasimi için gerekli güvenlik tahkikatı yapılmıştır.</p><p ${pStyle}>Söz konusu eğlencenin ${tarih} tarihinde, saat ${saat} itibariyle bitirilmesi, genel asayişi bozacak taşkınlıklara mahal verilmemesi ve çevreyi rahatsız etmeyecek şekilde yapılması hususu düğün sahibine tebliğ edilmiştir.</p><p ${pStyle}><b>Açıklama:</b> ${detay}</p><p ${pStyle}>İş bu tutanak tanzimle imza altına alınmıştır.</p>`;
             }
             else {
                 baslik = document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text.toUpperCase();
-                icerik = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda <b>${s1}</b> ile ilgili olarak;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${detay}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.`;
+                icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda <b>${s1}</b> ile ilgili olarak;</p><p ${pStyle}>${detay}</p><p ${pStyle}>İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
             }
 
             printHTML = `
-                <div style="text-align: center; font-weight: bold; margin-bottom: 30px; font-size: 13pt;">
-                    T.C.<br>DODURGA KAYMAKAMLIĞI<br>İlçe Emniyet Amirliği
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: black; background: white;">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 12pt; line-height: 1.2;">
+                        ${baslik}
+                    </div>
+                    ${icerik}
+                    
+                    <table style="width: 100%; text-align: center; border: none; font-size: 12pt; margin-top: 40px; page-break-inside: avoid;">
+                        <tr>
+                            <td style="width: 50%; vertical-align: top; padding: 10px;">${m1}</td>
+                            <td style="width: 50%; vertical-align: top; padding: 10px;">${m2}</td>
+                        </tr>
+                    </table>
+                    ${(tur==='ifade' || tur==='teslim_tesellum') ? `
+                    <table style="width: 100%; text-align: center; border: none; font-size: 12pt; margin-top: 40px; page-break-inside: avoid;">
+                        <tr>
+                            <td style="width: 100%; vertical-align: top; padding: 10px;">
+                                <b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><br><br>
+                                ${(tur==='ifade'?s1:s2)}
+                            </td>
+                        </tr>
+                    </table>` : ''}
                 </div>
-                <div class="print-title">${baslik}</div>
-                <div>${icerik}</div>
-                <div style="text-align: left; margin-top: 20px;"><b>Tarih/Saat:</b> ${tarih} - ${saat}</div>
-                
-                <div class="print-signatures" style="display: flex; justify-content: space-between; width: 100%; margin-top: 40px; page-break-inside: avoid;">
-                    <div class="print-sig-box" style="width: 45%; text-align: center;">${m1}</div>
-                    <div class="print-sig-box" style="width: 45%; text-align: center;">${m2}</div>
-                </div>
-                ${(tur==='ifade' || tur==='teslim_tesellum') ? `<div class="print-signatures" style="display: flex; justify-content: space-between; width: 100%; margin-top:40px; page-break-inside: avoid;"><div class="print-sig-box" style="margin: 0 auto; width: 45%; text-align: center;"><b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><br><br>${(tur==='ifade'?s1:s2)}</div></div>` : ''}
             `;
         }
 
