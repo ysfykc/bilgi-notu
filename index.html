@@ -53,6 +53,25 @@
         #globalDuyuru.hidden { display: none !important; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ARKA PLAN FİLİGRAN LOGO */
+        .watermark-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vw;
+            max-width: 400px;
+            height: 85vw;
+            max-height: 400px;
+            background-image: url('2378.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.05;
+            z-index: 8000;
+            pointer-events: none;
+        }
+
         /* İSTATİSTİK KARTLARI */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { background: var(--ios-blue); color: white; padding: 18px; border-radius: 14px; text-align: center; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2); display:flex; flex-direction:column; justify-content:center; }
@@ -169,10 +188,13 @@
     </div>
 </div>
 
-<!-- ANA UYGULAMA CONTAINER -->
+<!-- ANA UYGULAMA CONTAINER (TÜM BÖLÜMLER BUNUN İÇİNDE SADECE BİRER KERE VAR) -->
 <div class="container" id="appContainer">
+
+    <!-- FİLİGRAN LOGO (YENİ EKLENDİ) -->
+    <div class="watermark-overlay"></div>
     
-    <!-- CANLI DUYURU BANDI -->
+    <!-- CANLI DUYURU BANDI (AŞAMA 1) -->
     <div id="globalDuyuru" class="hidden">
         <i class="fa-solid fa-bell fa-shake"></i>
         <span id="duyuruMetni" style="flex:1;">...</span>
@@ -315,7 +337,6 @@
                     <option value="bakaya">Bakaya/Yoklama Kaçağı Tutanağı</option>
                     <option value="dugun_izni">Düğün/Eğlence İzin Belgesi</option>
                     <option value="izin_dilekcesi">Memur İzin Dilekçesi</option>
-                    <!-- YENİ: KASBES BİLDİRİM FORMU EKLENDİ -->
                     <option value="kasbes">KASBES Bildirim Formu</option>
                 </select>
             </div>
@@ -333,7 +354,6 @@
                 
                 <!-- ÖZEL TUTANAK PANELLERİ -->
 
-                <!-- KASBES PANELİ (YENİ EKLENEN) -->
                 <div id="panel_kasbes" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-file-lines"></i> KASBES Bildirim Formu Detayları</label>
                     
@@ -532,12 +552,13 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- BÖLÜM 5: YÖNETİM PANELİ -->
+    <!-- BÖLÜM 5: YÖNETİM PANELİ (AŞAMA 1 & AŞAMA 2) -->
     <!-- ============================================== -->
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
             
+            <!-- İSTATİSTİK PANELLERİ (AŞAMA 1) -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h4 id="statPersonel">-</h4>
@@ -549,6 +570,7 @@
                 </div>
             </div>
 
+            <!-- CANLI DUYURU YÖNETİMİ (AŞAMA 1) -->
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
                 <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
@@ -569,12 +591,15 @@
             </div>
             
             <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-users"></i> Kayıtlı Personel</h3>
+            <!-- GELİŞMİŞ PERSONEL YÖNETİMİ (AŞAMA 2) -->
             <div id="personelListesi" style="max-height: 200px; overflow-y:auto; margin-bottom:20px;">Yükleniyor...</div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
                 <h3 style="font-size:14px; margin:0;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
+                <!-- LOG İNDİRME BUTONU (AŞAMA 2) -->
                 <button class="archive-btn-top" style="font-size:12px; padding:6px 10px;" onclick="loglariIndirCSV()"><i class="fa-solid fa-file-csv" style="margin-right:4px;"></i> Excel İndir</button>
             </div>
+            <!-- LOG FİLTRELEME (AŞAMA 2) -->
             <input type="text" id="logFiltre" placeholder="Sicil no veya işlem adı ile log ara..." style="background:var(--ios-card); margin-bottom:8px; width:100%; border:1px solid var(--ios-border); padding:10px; border-radius:8px; font-size:13px;" oninput="logFiltrele()">
             
             <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
