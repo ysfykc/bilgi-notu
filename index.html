@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.5.0</title>
+    <title>Bilgi Notu v1.4.1</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -124,12 +124,6 @@
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.2s;}
         .check-item.done span { opacity: 0.5; text-decoration: line-through; }
 
-        /* GÖREV LİSTESİ ÖZEL TABLO (A4 İÇİN) */
-        .gorev-listesi-table { width: 100%; border-collapse: collapse; font-size: 10pt; font-family: 'Times New Roman', Times, serif; text-align: center; margin-bottom: 20px;}
-        .gorev-listesi-table th, .gorev-listesi-table td { border: 1px solid black; padding: 4px; vertical-align: middle;}
-        .gorev-listesi-table th { font-weight: bold; background-color: #f0f0f0; }
-        .gl-header-row { background-color: #ddd; font-weight: bold; text-align: center; }
-
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -175,10 +169,10 @@
     </div>
 </div>
 
-<!-- ANA UYGULAMA CONTAINER -->
+<!-- ANA UYGULAMA CONTAINER (TÜM BÖLÜMLER BUNUN İÇİNDE SADECE BİRER KERE VAR) -->
 <div class="container" id="appContainer">
     
-    <!-- CANLI DUYURU BANDI -->
+    <!-- CANLI DUYURU BANDI (AŞAMA 1) -->
     <div id="globalDuyuru" class="hidden">
         <i class="fa-solid fa-bell fa-shake"></i>
         <span id="duyuruMetni" style="flex:1;">...</span>
@@ -296,7 +290,7 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- BÖLÜM 2: TUTANAK ASİSTANI -->
+    <!-- BÖLÜM 2: TUTANAK ASİSTANI (TAMAMEN DÜZELTİLDİ) -->
     <!-- ============================================== -->
     <div id="tutanakBolumu" style="display:none;">
         <div class="glass-panel">
@@ -336,7 +330,6 @@
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
                 <!-- ÖZEL TUTANAK PANELLERİ -->
-
                 <div id="panel_aranan" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
@@ -458,7 +451,7 @@
     </div>
     
     <!-- ============================================== -->
-    <!-- BÖLÜM 4: AYARLAR -->
+    <!-- BÖLÜM 4: AYARLAR (ŞİFRE DEĞİŞTİRME) -->
     <!-- ============================================== -->
     <div id="ayarlarBolumu" style="display:none;">
         <div class="glass-panel">
@@ -484,13 +477,13 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- BÖLÜM 5: YÖNETİM PANELİ & GÜNLÜK GÖREV LİSTESİ -->
+    <!-- BÖLÜM 5: YÖNETİM PANELİ (AŞAMA 1 & AŞAMA 2) -->
     <!-- ============================================== -->
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
             
-            <!-- İSTATİSTİK PANELLERİ -->
+            <!-- İSTATİSTİK PANELLERİ (AŞAMA 1) -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h4 id="statPersonel">-</h4>
@@ -502,105 +495,36 @@
                 </div>
             </div>
 
-            <!-- GÜNLÜK GÖREV LİSTESİ MODÜLÜ (YENİ / FAZ 3) -->
-            <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
-                <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-blue);"><i class="fa-solid fa-clipboard-list"></i> Günlük Görev Listesi Hazırla</h3>
-                <p style="font-size:11px; color:var(--ios-text-mut); margin-bottom:15px; line-height:1.4;">Personeli ilgili gruplara atayın. İcmal tablosu ve nizami Emniyet çizelgesi otomatik oluşturulacaktır.</p>
-                
-                <div class="row">
-                    <div class="form-group">
-                        <label>Tarih (Başlangıç)</label>
-                        <input type="date" id="glTarih" style="background:var(--ios-card);">
-                    </div>
-                    <div class="form-group">
-                        <label>Onay (Sağ Üst İmza)</label>
-                        <input type="text" id="glAmir" placeholder="Örn: Yusuf KOÇ - Amir V." value="Yusuf KOÇ" style="background:var(--ios-card);">
-                    </div>
-                </div>
-
-                <hr style="border: 0; height: 1px; background: rgba(0,0,0,0.1); margin: 15px 0;">
-                <label style="font-size: 11px; color: var(--ios-text-mut); margin-bottom: 5px;">PERSONEL GÖREVLENDİR</label>
-                
-                <div class="form-group">
-                    <select id="glPersonel" style="background:var(--ios-card);"><option value="">Personel Seçin...</option></select>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <select id="glKategori" style="background:var(--ios-card);">
-                            <option value="Amirlik">Polis Merkezi Amirliği</option>
-                            <option value="Adli">Adli İşlemler Büro</option>
-                            <option value="Aile">Aile İçi ve Kadına Karşı Şid.</option>
-                            <option value="Idari">İdari Büro Amirliği</option>
-                            <option value="Suc">Suç Araştırma Büro</option>
-                            <option value="GrupGenel">Grup Amirliği (Genel)</option>
-                            <option value="Grup1">Grup Amirliği 1. Grup</option>
-                            <option value="Grup2">Grup Amirliği 2. Grup</option>
-                            <option value="Grup3">Grup Amirliği 3. Grup</option>
-                            <option value="Bekci">Çarşı ve Mahalle Bekçileri</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select id="glDurum" style="background:var(--ios-card);">
-                            <option value="Aktif">Aktif Görevli</option>
-                            <option value="Istirahat">Görev İstirahatli</option>
-                            <option value="Izinli">Senelik/Mazeret İzinli</option>
-                            <option value="Raporlu">Doktor Raporlu/Tecrit</option>
-                            <option value="Kurs">Kurs/Geçici Görevli</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group"><input type="text" id="glSaat" placeholder="Saat (Örn: 08.00-19.00)" style="background:var(--ios-card);"></div>
-                    <div class="form-group"><input type="text" id="glUnvan" placeholder="Görev (Ekip Sür. vb)" style="background:var(--ios-card);"></div>
-                </div>
-                <div class="row">
-                    <div class="form-group"><input type="text" id="glTelsiz" placeholder="Telsiz/Plaka (Örn: 82 120)" style="background:var(--ios-card);"></div>
-                    <div class="form-group"><input type="text" id="glAciklama" placeholder="Açıklama" style="background:var(--ios-card);"></div>
-                </div>
-                
-                <button class="bot-btn" style="background:var(--ios-blue);" onclick="gorevListesineEkle()">+ Personeli Ekle</button>
-                
-                <div id="glOnizlemeListesi" style="margin-top:15px; max-height:180px; overflow-y:auto;"></div>
-
-                <button class="bot-btn" style="background:var(--ios-green); margin-top:15px;" onclick="gorevListesiA4Hazirla()">A4 Çizelgesini Çıkar</button>
-            </div>
-
-            <!-- CANLI DUYURU YÖNETİMİ -->
+            <!-- CANLI DUYURU YÖNETİMİ (AŞAMA 1) -->
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
-                <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın..." style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
+                <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
                 <div style="display:flex; gap:10px;">
-                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Kaldır</button>
+                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Yayından Kaldır</button>
                     <button class="bot-btn" style="background:var(--ios-red); margin:0;" onclick="duyuruYayinla()">Tümüne Gönder</button>
                 </div>
             </div>
 
-            <!-- PERSONEL YÖNETİMİ -->
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px;"><i class="fa-solid fa-user-plus"></i> Personel Ekle</h3>
                 <div class="row">
                     <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No" style="background:var(--ios-card);"></div>
-                    <div class="form-group">
-                        <select id="yeniPersonelRutbe" style="background:var(--ios-card);">
-                            <option value="Pol.Me.">Pol.Me.</option>
-                            <option value="Komiser">Komiser</option>
-                            <option value="V.H.İ.">V.H.İ.</option>
-                            <option value="Ç.M.B.">Ç.M.B.</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad" style="background:var(--ios-card);"></div>
                 </div>
-                <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad" style="background:var(--ios-card);"></div>
-                <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle" style="background:var(--ios-card); margin-bottom:10px;">
+                <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle" style="background:var(--ios-card);">
                 <button class="bot-btn" onclick="personelEkleFirebase()">Kaydet</button>
             </div>
             
             <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-users"></i> Kayıtlı Personel</h3>
+            <!-- GELİŞMİŞ PERSONEL YÖNETİMİ (AŞAMA 2) -->
             <div id="personelListesi" style="max-height: 200px; overflow-y:auto; margin-bottom:20px;">Yükleniyor...</div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
                 <h3 style="font-size:14px; margin:0;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
+                <!-- LOG İNDİRME BUTONU (AŞAMA 2) -->
                 <button class="archive-btn-top" style="font-size:12px; padding:6px 10px;" onclick="loglariIndirCSV()"><i class="fa-solid fa-file-csv" style="margin-right:4px;"></i> Excel İndir</button>
             </div>
+            <!-- LOG FİLTRELEME (AŞAMA 2) -->
             <input type="text" id="logFiltre" placeholder="Sicil no veya işlem adı ile log ara..." style="background:var(--ios-card); margin-bottom:8px; width:100%; border:1px solid var(--ios-border); padding:10px; border-radius:8px; font-size:13px;" oninput="logFiltrele()">
             
             <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
@@ -611,7 +535,7 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.5.0</span>
+        <span class="version-tag">v1.4.1</span>
     </div>
 
 </div>
@@ -692,10 +616,6 @@
     let seciliVardiyaDurumu = 0; 
     let seciliVardiyaGunu = 1;
     let globalLogs = []; 
-    
-    // YENİ: GÖREV LİSTESİ DEĞİŞKENLERİ
-    let aktifPersoneller = []; // Firebase'den gelen ham liste
-    let gunlukGorevler = []; // Yöneticinin listeye ekledikleri
 
     const checklistSablonlari = {
         asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
@@ -743,7 +663,6 @@
             
             if(localStorage.getItem('aktif_rol') === 'admin') {
                 document.getElementById("bBtn4").classList.remove("hidden");
-                document.getElementById("glTarih").valueAsDate = new Date(); // Görev listesi için tarih
             }
             
             const bugun = new Date();
@@ -754,8 +673,10 @@
             document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
             tutanakSablonDegistir();
+            
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
+
             setTimeout(checklistCiz, 100); 
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
@@ -1159,12 +1080,14 @@
             const isAranan = (tur === "aranan_sahis");
             const isBakaya = (tur === "bakaya");
 
+            // 1. ÖZEL PANELLERİ GİZLE
             const specialDivs = ["panel_izin", "panel_dugun", "panel_aranan", "panel_bakaya"];
             specialDivs.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.classList.add("hidden");
             });
 
+            // 2. ORTAK ALANLARI YÖNET
             const hideCommon = isDilekce || isBakaya;
             
             const d_olayYeri = document.getElementById("d_olayYeri");
@@ -1188,7 +1111,10 @@
             const tutMemur2 = document.getElementById("tutMemur2");
             if(tutMemur2) tutMemur2.parentElement.classList.toggle("hidden", isDilekce);
             
-            if(isDilekce) document.getElementById("panel_izin").classList.remove("hidden");
+            // 3. SEÇİLİ ÖZEL PANELİ AÇ
+            if(isDilekce) {
+                document.getElementById("panel_izin").classList.remove("hidden");
+            }
             if(isDugun) {
                 document.getElementById("panel_dugun").classList.remove("hidden");
                 if(d_olayYeri) d_olayYeri.classList.remove("hidden"); 
@@ -1204,6 +1130,7 @@
                 if(d_tarih_saat) d_tarih_saat.classList.remove("hidden"); 
             }
 
+            // 4. ETİKETLERİ DÜZENLE
             let lbl1 = document.getElementById("lblTutSahis1");
             if(lbl1 && !hideCommon) {
                 lbl1.innerText = "İlgili Şahıs / Kurum (TC - Ad Soyad)";
@@ -1717,9 +1644,8 @@
         const s = document.getElementById("yeniPersonelSicil").value;
         const i = document.getElementById("yeniPersonelIsim").value;
         const p = document.getElementById("yeniPersonelSifre").value;
-        const r = document.getElementById("yeniPersonelRutbe").value;
         if(s && i && p) {
-            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user", aktif: true, rutbe: r });
+            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user", aktif: true });
             alert("Personel Eklendi!");
             await window.logIslem("Personel İşlemi", `${s} sicil nolu personel eklendi.`);
             document.getElementById("yeniPersonelSicil").value = "";
@@ -1732,258 +1658,26 @@
     window.personelYukleFirebase = async function() {
         if(!db) return;
         const liste = document.getElementById("personelListesi");
-        const sel = document.getElementById("glPersonel");
-        
         const q = query(collection(db, "personel"));
         const snap = await getDocs(q);
         liste.innerHTML = "";
-        
-        if(sel) {
-            sel.innerHTML = '<option value="">Personel Seçin...</option>';
-        }
-        
-        aktifPersoneller = [];
-
         snap.forEach((docSnap) => {
             const data = docSnap.data();
-            const r = data.rutbe || "Pol.Me.";
-            aktifPersoneller.push({ id: docSnap.id, sicil: data.sicil, isim: data.isim, rutbe: r });
-
             const isAktif = data.aktif !== false; 
             const durumRenk = isAktif ? "var(--ios-green)" : "var(--ios-text-mut)";
             const durumIcon = isAktif ? "fa-user-check" : "fa-user-lock";
 
             liste.innerHTML += `
             <div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;">
-                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim} (${r})</span>
+                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim}</span>
                 <div style="display:flex; gap:12px; font-size:16px;">
                     <i class="fa-solid fa-key" style="color:var(--ios-blue); cursor:pointer;" onclick="sifreSifirlaFirebase('${docSnap.id}', '${data.sicil}')" title="Şifre Sıfırla"></i>
                     <i class="fa-solid ${durumIcon}" style="color:${durumRenk}; cursor:pointer;" onclick="durumDegistirFirebase('${docSnap.id}', '${data.sicil}', ${isAktif})" title="Askıya Al / Aktif Et"></i>
                     <i class="fa-solid fa-trash" style="color:var(--ios-red); cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')" title="Personeli Sil"></i>
                 </div>
             </div>`;
-
-            if(sel) {
-                sel.innerHTML += `<option value="${data.sicil}">${data.sicil} - ${data.isim} (${r})</option>`;
-            }
         });
     }
-
-    // GÖREV LİSTESİ FONKSİYONLARI (FAZ 3)
-    window.gorevListesineEkle = function() {
-        const sicil = document.getElementById("glPersonel").value;
-        if(!sicil) { alert("Lütfen bir personel seçin!"); return; }
-        
-        const personel = aktifPersoneller.find(p => p.sicil == sicil);
-        const kategori = document.getElementById("glKategori").value;
-        const durum = document.getElementById("glDurum").value;
-        const saat = document.getElementById("glSaat").value || "-";
-        const unvan = document.getElementById("glUnvan").value || "-";
-        const telsiz = document.getElementById("glTelsiz").value || "-";
-        const aciklama = document.getElementById("glAciklama").value || "-";
-
-        gunlukGorevler.push({
-            sicil: personel.sicil,
-            isim: personel.isim,
-            rutbe: personel.rutbe,
-            kategori: kategori,
-            durum: durum,
-            saat: saat,
-            unvan: unvan,
-            telsiz: telsiz,
-            aciklama: aciklama
-        });
-
-        document.getElementById("glSaat").value = "";
-        document.getElementById("glUnvan").value = "";
-        document.getElementById("glTelsiz").value = "";
-        document.getElementById("glAciklama").value = "";
-        
-        gorevListesiniCiz();
-    }
-
-    window.gorevListesiniCiz = function() {
-        const listDiv = document.getElementById("glOnizlemeListesi");
-        listDiv.innerHTML = "";
-        gunlukGorevler.forEach((g, idx) => {
-            listDiv.innerHTML += `
-            <div style="background:var(--ios-card); padding:8px; border-radius:8px; margin-bottom:5px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
-                <div><b>${g.sicil} ${g.isim}</b> <br> ${g.kategori} | ${g.durum} | ${g.saat}</div>
-                <i class="fa-solid fa-xmark" style="color:var(--ios-red); cursor:pointer; font-size:16px; padding:5px;" onclick="gorevdenSil(${idx})"></i>
-            </div>`;
-        });
-    }
-
-    window.gorevdenSil = function(idx) {
-        gunlukGorevler.splice(idx, 1);
-        gorevListesiniCiz();
-    }
-
-    window.gorevListesiA4Hazirla = function() {
-        if(gunlukGorevler.length === 0) {
-            alert("Lütfen önce listeye personel ekleyin!");
-            return;
-        }
-
-        const trh = document.getElementById("glTarih").valueAsDate || new Date();
-        const yarin = new Date(trh);
-        yarin.setDate(yarin.getDate() + 1);
-
-        const basTarih = trh.toLocaleDateString('tr-TR');
-        const bitTarih = yarin.toLocaleDateString('tr-TR');
-        let rawAmir = document.getElementById("glAmir").value || "Amir İmzası";
-        const amirHtml = rawAmir.split('\n').join('<br>');
-
-        // İCMAL HESAPLAMA
-        let icmal = {
-            Komiser: { gnl:0, izn:0, rap:0, kurs:0 },
-            PolMe: { gnl:0, izn:0, rap:0, kurs:0 },
-            VHI: { gnl:0, izn:0, rap:0, kurs:0 },
-            CMB: { gnl:0, izn:0, rap:0, kurs:0 }
-        };
-
-        aktifPersoneller.forEach(p => {
-            if(p.rutbe.includes("Komiser")) icmal.Komiser.gnl++;
-            else if(p.rutbe.includes("Pol.Me.")) icmal.PolMe.gnl++;
-            else if(p.rutbe.includes("V.H.İ.")) icmal.VHI.gnl++;
-            else if(p.rutbe.includes("Ç.M.B.")) icmal.CMB.gnl++;
-        });
-
-        gunlukGorevler.forEach(g => {
-            let rKey = "";
-            if(g.rutbe.includes("Komiser")) rKey = "Komiser";
-            else if(g.rutbe.includes("Pol.Me.")) rKey = "PolMe";
-            else if(g.rutbe.includes("V.H.İ.")) rKey = "VHI";
-            else if(g.rutbe.includes("Ç.M.B.")) rKey = "CMB";
-
-            if(rKey) {
-                if(g.durum === "Izinli") icmal[rKey].izn++;
-                if(g.durum === "Raporlu") icmal[rKey].rap++;
-                if(g.durum === "Kurs") icmal[rKey].kurs++;
-            }
-        });
-
-        const getTop = (key) => icmal.Komiser[key] + icmal.PolMe[key] + icmal.VHI[key] + icmal.CMB[key];
-
-        const hazKom = icmal.Komiser.gnl - (icmal.Komiser.izn + icmal.Komiser.rap + icmal.Komiser.kurs);
-        const hazPol = icmal.PolMe.gnl - (icmal.PolMe.izn + icmal.PolMe.rap + icmal.PolMe.kurs);
-        const hazVHI = icmal.VHI.gnl - (icmal.VHI.izn + icmal.VHI.rap + icmal.VHI.kurs);
-        const hazCMB = icmal.CMB.gnl - (icmal.CMB.izn + icmal.CMB.rap + icmal.CMB.kurs);
-
-        // A4 HTML OLUŞTURMA
-        let html = `
-            <div style="font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; line-height:1.2;">
-                <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">
-                    T.C.<br>DODURGA İLÇE EMNİYET AMİRLİĞİ<br>Dodurga Polis Merkezi Amirliği
-                </div>
-                
-                <p style="text-indent: 40px; text-align: justify; margin-bottom: 5px;">
-                    Dodurga Polis Merkezi Amirliği ${basTarih} günü saat 08:00 ile ${bitTarih} günü saat 08:00 arası Günlük Görev Listesi aşağıya çıkarılmıştır.
-                </p>
-
-                <div style="text-align:right; font-weight:bold; margin-bottom:10px; margin-right:20px;">
-                    ${amirHtml}
-                </div>
-
-                <table class="gorev-listesi-table">
-                    <thead>
-                        <tr>
-                            <th>İcmal</th><th>Komiser</th><th>Pol.Mem.</th><th>V.H.İ.</th><th>Ç.Mah.Bek</th><th>Toplam</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td style="text-align:left;">Senelik/Maz./Ref./İd.</td><td>${icmal.Komiser.izn}</td><td>${icmal.PolMe.izn}</td><td>${icmal.VHI.izn}</td><td>${icmal.CMB.izn}</td><td>${getTop('izn')}</td></tr>
-                        <tr><td style="text-align:left;">Dr. Raporlu/Tecrit</td><td>${icmal.Komiser.rap}</td><td>${icmal.PolMe.rap}</td><td>${icmal.VHI.rap}</td><td>${icmal.CMB.rap}</td><td>${getTop('rap')}</td></tr>
-                        <tr><td style="text-align:left;">Kurs/Geçici/Dış Gör.</td><td>${icmal.Komiser.kurs}</td><td>${icmal.PolMe.kurs}</td><td>${icmal.VHI.kurs}</td><td>${icmal.CMB.kurs}</td><td>${getTop('kurs')}</td></tr>
-                        <tr style="font-weight:bold;"><td style="text-align:left;">Hazır Mevcut</td><td>${hazKom}</td><td>${hazPol}</td><td>${hazVHI}</td><td>${hazCMB}</td><td>${hazKom+hazPol+hazVHI+hazCMB}</td></tr>
-                        <tr style="font-weight:bold;"><td style="text-align:left;">Genel Mevcut</td><td>${icmal.Komiser.gnl}</td><td>${icmal.PolMe.gnl}</td><td>${icmal.VHI.gnl}</td><td>${icmal.CMB.gnl}</td><td>${getTop('gnl')}</td></tr>
-                    </tbody>
-                </table>
-
-                <table class="gorev-listesi-table" style="margin-top:10px;">
-                    <thead>
-                        <tr class="gl-header-row">
-                            <th style="width:5%;">S.N</th><th style="width:10%;">Sicili</th><th style="width:10%;">Rütbe</th><th style="width:20%;">Adı Soyadı</th>
-                            <th style="width:10%;">Görev<br>Saati</th><th style="width:20%;">Görev Unvanı/Görevi</th><th style="width:10%;">Telsiz<br>Plaka</th><th style="width:15%;">Açıklama</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
-
-        const katSirasi = [
-            { id: "Amirlik", ad: "Polis Merkezi Amirliği" },
-            { id: "Adli", ad: "Adli İşlemler Büro Amirliği" },
-            { id: "Aile", ad: "Aile İçi ve Kadına Karşı Şiddetle Mücadele Büro Amirliği" },
-            { id: "Idari", ad: "İdari Büro Amirliği" },
-            { id: "Suc", ad: "Suç Araştırma ve Soruşturma Büro Amirliği" },
-            { id: "GrupGenel", ad: "Grup Amirliği" },
-            { id: "Grup1", ad: "Grup Amirliği 1. Grup" },
-            { id: "Grup2", ad: "Grup Amirliği 2. Grup" },
-            { id: "Grup3", ad: "Grup Amirliği 3. Grup" },
-            { id: "Bekci", ad: "Çarşı Ve Mahalle Bekçileri" }
-        ];
-
-        let aktifListe = gunlukGorevler.filter(g => g.durum === "Aktif" || g.durum === "Istirahat");
-        let siraNo = 1;
-
-        katSirasi.forEach(kat => {
-            let buKatGorevleri = aktifListe.filter(g => g.kategori === kat.id);
-            if(buKatGorevleri.length > 0) {
-                html += `<tr><td colspan="8" style="background:#f0f0f0; font-weight:bold;">${kat.ad}</td></tr>`;
-                buKatGorevleri.forEach(g => {
-                    let aciklama = g.durum === "Istirahat" ? "Görev İstirahatli" : g.aciklama;
-                    html += `<tr>
-                        <td>${siraNo++}</td>
-                        <td>${g.sicil}</td>
-                        <td>${g.rutbe}</td>
-                        <td>${g.isim}</td>
-                        <td>${g.saat}</td>
-                        <td>${g.unvan}</td>
-                        <td>${g.telsiz}</td>
-                        <td>${aciklama}</td>
-                    </tr>`;
-                });
-            }
-        });
-
-        html += `</tbody></table>`;
-
-        // PASİF PERSONEL TABLOSU
-        let pasifListe = gunlukGorevler.filter(g => g.durum !== "Aktif" && g.durum !== "Istirahat");
-        
-        if(pasifListe.length > 0) {
-            html += `
-                <table class="gorev-listesi-table" style="margin-top:20px;">
-                    <thead>
-                        <tr><th colspan="6" style="background:#f0f0f0; font-weight:bold;">Birlikte Aktif Görev Yapmayan Personel Listesi</th></tr>
-                        <tr class="gl-header-row">
-                            <th style="width:5%;">S.N</th><th style="width:10%;">Sicili</th><th style="width:10%;">Rütbe</th>
-                            <th style="width:25%;">Adı Soyadı</th><th style="width:30%;">Açıklama</th><th style="width:20%;">Durumu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            let pSira = 1;
-            pasifListe.forEach(p => {
-                let pDurum = p.durum === "Izinli" ? "İzinli" : (p.durum === "Raporlu" ? "Raporlu" : "Kurs/Geçici Gör.");
-                html += `<tr>
-                    <td>${pSira++}</td>
-                    <td>${p.sicil}</td>
-                    <td>${p.rutbe}</td>
-                    <td>${p.isim}</td>
-                    <td>${p.aciklama}</td>
-                    <td>${pDurum}</td>
-                </tr>`;
-            });
-            html += `</tbody></table>`;
-        }
-
-        html += `</div>`;
-        document.getElementById("previewEditArea").innerHTML = html;
-        document.getElementById("previewModal").classList.remove("hidden");
-    }
-
-    // --- MEVCUT JS KODLARI ---
 
     window.sifreSifirlaFirebase = async function(id, sicil) {
         const yeniSifre = prompt(`${sicil} sicil numaralı personel için YENİ ŞİFRE belirleyin:`);
@@ -2013,6 +1707,127 @@
             await deleteDoc(doc(db, "personel", id)); 
             await window.logIslem("Personel İşlemi", `${sicil} sicil nolu personel silindi.`);
             window.personelYukleFirebase(); 
+        }
+    }
+
+    window.kaydetVeArsivle = async function(kaynak) {
+        if(!navigator.onLine) { alert("İnternet yok, not yerel hafızaya kaydedildi, internet gelince otomatik yüklenecek."); }
+        else if(!db) { alert("Sistem bağlantı hatası!"); return; }
+        
+        let rawText = ""; let konu = ""; let btn = null;
+        if(kaynak === 'wp') {
+            rawText = document.getElementById("wpOnizleme").getAttribute('data-raw');
+            konu = "[BİLGİ NOTU] " + (document.getElementById("konu").value || "İsimsiz");
+            btn = document.getElementById("kaydetBtn");
+        } else {
+            rawText = document.getElementById("tutDetay").value || "Dilekçe İçeriği...";
+            konu = "[TUTANAK] " + (document.getElementById("tutKonu").value || document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text);
+            btn = document.getElementById("tutKaydetBtn");
+        }
+
+        btn.innerHTML = 'Gönderiliyor...';
+        try {
+            await addDoc(collection(db, "bilginotlari"), { konu: konu, metin: rawText, tarih: serverTimestamp() });
+            btn.innerHTML = 'Kaydedildi';
+            await window.logIslem("Arşiv Kaydı", `${konu} arşive eklendi.`);
+            if(window.arsiviYukle) window.arsiviYukle();
+        } catch (e) { btn.innerHTML = 'Kuyruğa Alındı'; }
+        setTimeout(() => { btn.innerHTML = (kaynak === 'wp') ? 'Ağa Gönder' : 'Ortak Arşive Gönder'; }, 2000);
+    }
+
+    window.arsiviYukle = async function() {
+        if(!db) return;
+        const liste = document.getElementById("archiveList");
+        try {
+            const q = query(collection(db, "bilginotlari"), orderBy("tarih", "desc"), limit(20));
+            const querySnapshot = await getDocs(q);
+            liste.innerHTML = "";
+            if(querySnapshot.empty) { liste.innerHTML = "<div style='text-align:center;'>Kayıt bulunamadı.</div>"; return; }
+            
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const d = data.tarih ? data.tarih.toDate() : new Date();
+                const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR'); 
+                
+                const div = document.createElement("div"); div.className = "archive-item";
+                div.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; border:1px solid var(--ios-border); padding:10px; border-radius:10px; margin-bottom:8px; background:var(--ios-card);">
+                                    <div><b style="color:var(--ios-blue); font-size:14px;">${data.konu}</b><br><small style="color:var(--ios-text-mut);">${tStr}</small></div>
+                                    <i class="fa-solid fa-trash" style="color:var(--ios-red); padding:10px;" onclick="event.stopPropagation(); kayitSilFirebase('${docSnap.id}')"></i>
+                                 </div>`;
+                div.addEventListener('click', () => { navigator.clipboard.writeText(data.metin); alert("Not kopyalandı!"); });
+                liste.appendChild(div);
+            });
+        } catch (error) {}
+    }
+
+    window.kayitSilFirebase = async function(docId) {
+        if(confirm("Silmek istiyor musunuz?")) { 
+            await deleteDoc(doc(db, "bilginotlari", docId)); 
+            await window.logIslem("Arşiv Silme", `Bir kayıt arşivden silindi.`);
+            window.arsiviYukle(); 
+        }
+    }
+
+    window.sifreGuncelle = async function() {
+        const eskiSifre = document.getElementById("ayarEskiSifre").value;
+        const yeniSifre = document.getElementById("ayarYeniSifre").value;
+        const yeniSifreTekrar = document.getElementById("ayarYeniSifreTekrar").value;
+        const aktifSicil = localStorage.getItem('aktif_sicil');
+
+        if(!eskiSifre || !yeniSifre || !yeniSifreTekrar) {
+            alert("Lütfen tüm alanları doldurun!");
+            return;
+        }
+
+        if(yeniSifre !== yeniSifreTekrar) {
+            alert("Yeni şifreler eşleşmiyor!");
+            return;
+        }
+
+        if(aktifSicil === 'Admin' || aktifSicil === 'admin') {
+            alert("Sistem yöneticisi şifresi bu ekrandan değiştirilemez.");
+            return;
+        }
+
+        if(!db) {
+            alert("İnternet bağlantısı yok veya sistem hatası!");
+            return;
+        }
+
+        try {
+            const q = query(collection(db, "personel"));
+            const snap = await getDocs(q);
+            let docId = null;
+            let gercekEskiSifre = null;
+            
+            snap.forEach((d) => {
+                if(d.data().sicil == aktifSicil) {
+                    docId = d.id;
+                    gercekEskiSifre = d.data().sifre;
+                }
+            });
+
+            if(!docId) {
+                alert("Kullanıcı kaydı bulunamadı.");
+                return;
+            }
+
+            if(gercekEskiSifre !== eskiSifre) {
+                alert("Mevcut şifrenizi hatalı girdiniz!");
+                return;
+            }
+
+            await updateDoc(doc(db, "personel", docId), { sifre: yeniSifre });
+            await window.logIslem("Şifre Değişimi", `${aktifSicil} sicil nolu personel şifresini güncelledi.`);
+            
+            alert("Şifreniz başarıyla güncellendi!");
+            document.getElementById("ayarEskiSifre").value = "";
+            document.getElementById("ayarYeniSifre").value = "";
+            document.getElementById("ayarYeniSifreTekrar").value = "";
+            
+        } catch (e) {
+            alert("Şifre güncellenirken hata oluştu!");
+            console.log(e);
         }
     }
 </script>
