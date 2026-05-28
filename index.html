@@ -81,7 +81,7 @@
         button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
         .btn-secondary { background: #5856D6; } 
 
-        /* TUTANAKLARA ÖZEL DOLDURMA PANELLERİ (TAMAMEN DÜZELTİLDİ) */
+        /* TUTANAKLARA ÖZEL DOLDURMA PANELLERİ (ÇÖZÜM BURADA UYGULANDI) */
         .tutanak-ozel-panel { background: var(--ios-input-bg); border: 1px solid var(--ios-border); padding: 16px; border-radius: 12px; margin-bottom: 16px; }
         .tutanak-ozel-panel label.panel-title { color: var(--ios-blue); font-size: 14px; margin-bottom: 12px; font-weight: 700; display:flex; align-items:center; gap:6px; text-transform:none;}
         .tutanak-ozel-panel input { background: var(--ios-card); margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.05);}
@@ -301,8 +301,8 @@
                 <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis1" placeholder="TC ve İsim"></div>
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
-                <div id="panel_aranan" class="form-group hidden tutanak-ozel-panel">
-                    <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
+                <div id="panel_aranan" class="tutanak-ozel-panel hidden">
+                    <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Yakalama Detayları</label>
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
                     <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No">
                     <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı">
@@ -310,8 +310,8 @@
                     <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim (Örn: Polis Merkezi)">
                 </div>
 
-                <div id="panel_bakaya" class="form-group hidden tutanak-ozel-panel">
-                    <label class="panel-title"><i class="fa-solid fa-address-card"></i> Bakaya / Yoklama Kaçağı Bilgileri</label>
+                <div id="panel_bakaya" class="tutanak-ozel-panel hidden">
+                    <label class="panel-title"><i class="fa-solid fa-address-card"></i> Bakaya Şahıs Bilgileri</label>
                     <input type="number" id="tutBakayaTC" placeholder="T.C. Kimlik No" maxlength="11">
                     <input type="text" id="tutBakayaAd" placeholder="Adı Soyadı">
                     <input type="text" id="tutBakayaBaba" placeholder="Baba Adı">
@@ -320,16 +320,10 @@
                     <input type="text" id="tutBakayaAdres" placeholder="İkamet Adresi ve Telefonu">
                 </div>
 
-                <div id="panel_dugun" class="form-group hidden tutanak-ozel-panel">
+                <div id="panel_dugun" class="tutanak-ozel-panel hidden">
                     <label class="panel-title"><i class="fa-solid fa-ring"></i> Düğün İzin Detayları</label>
                     <div class="row">
-                        <div class="form-group"><input type="text" id="tutDugunAd" placeholder="Düğün Sahibinin Adı Soyadı"></div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group"><input type="text" id="tutDugunAdres" placeholder="Düğün Adresi"></div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group"><input type="text" id="tutDugunBaba" placeholder="Baba Adı"></div>
+                        <div class="form-group"><input type="text" id="tutDugunBaba" placeholder="Düğün Sahibinin Baba Adı"></div>
                         <div class="form-group"><input type="text" id="tutDugunDTarih" placeholder="D.Tarihi"></div>
                     </div>
                     <div class="row">
@@ -338,7 +332,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group"><input type="text" id="tutDugunBaslama" placeholder="Başlama T. (Örn: 28.05.2026)"></div>
-                        <div class="form-group"><input type="text" id="tutDugunBitim" placeholder="Bitim T."></div>
+                        <div class="form-group"><input type="text" id="tutDugunBitim" placeholder="Bitim T. (Örn: 29.05.2026)"></div>
                     </div>
                     <div class="row">
                         <div class="form-group"><input type="text" id="tutDugunNikah" placeholder="Medeni Nikah (Yapıldı vb.)"></div>
@@ -346,7 +340,7 @@
                     </div>
                 </div>
 
-                <div id="panel_izin" class="form-group hidden tutanak-ozel-panel">
+                <div id="panel_izin" class="tutanak-ozel-panel hidden">
                     <label class="panel-title"><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</label>
                     <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)">
                     <input type="text" id="tutIzinSure" placeholder="İzin Süresi (Örn: 10 gün)">
@@ -366,7 +360,7 @@
             <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
-                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
+                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
@@ -446,7 +440,9 @@
         <span class="version-tag">v1.3.2</span>
     </div>
 
-</div> <div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
+</div>
+
+<div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
     <button class="bottom-tab-btn active" id="bBtn1" onclick="sekmeDegistir('bilgiNotu')">
         <i class="fa-brands fa-whatsapp"></i>
         <span>Bildirim</span>
@@ -523,7 +519,6 @@
             baslat();
         }
         
-        // Modal dışına tıklayınca kapanma
         document.getElementById("previewModal").addEventListener("click", function(e) {
             if(e.target === this) { this.classList.add('hidden'); }
         });
@@ -568,7 +563,6 @@
 
             tutanakSablonDegistir();
             
-            // AÇILIŞTA ASAYİŞ METNİ GELMESİ
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
 
@@ -620,7 +614,6 @@
         }
     }
 
-    // YENİ ALT MENÜ SEKME SİSTEMİ
     function sekmeDegistir(sekme) {
         document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
         
@@ -648,7 +641,7 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 TAM ÇÖZÜM) ---
+    // --- VARDİYA HESAPLAMA MOTORU ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
@@ -685,14 +678,13 @@
         let gunOffset = seciliVardiyaGunu - 1;
 
         if (seciliVardiyaDurumu === 0) {
-            baslangicDurumu = gunOffset; // 0-4 (Gündüz)
+            baslangicDurumu = gunOffset; 
         } else if (seciliVardiyaDurumu === 5) {
-            baslangicDurumu = 5 + (gunOffset * 2); // 5, 7, 9, 11, 13 (Gece)
+            baslangicDurumu = 5 + (gunOffset * 2); 
         } else if (seciliVardiyaDurumu === 10) {
-            baslangicDurumu = 6 + (gunOffset * 2); // 6, 8, 10, 12, 14 (İst)
+            baslangicDurumu = 6 + (gunOffset * 2); 
         }
         
-        // Çakma 12/36 Patern (15 Gün)
         const patern = [
             {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
             {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
@@ -733,12 +725,10 @@
         }
     }
 
-    // --- İSİM FORMATLAMA ---
     function isimFormatla(metin) {
         let kelimeler = metin.trim().split(/\s+/);
         if(kelimeler.length === 0 || metin.trim() === "") return "";
         if(kelimeler.length === 1) return kelimeler[0].toLocaleUpperCase('tr-TR');
-        
         let soyad = kelimeler.pop().toLocaleUpperCase('tr-TR');
         let adKismi = kelimeler.map(k => {
             if(k.length === 0) return "";
@@ -749,7 +739,6 @@
         return adKismi + " " + soyad;
     }
 
-    // --- BİLGİ NOTU İŞLEMLERİ ---
     function checklistCiz() {
         const tur = document.getElementById("olayTuru").value;
         const container = document.getElementById("checkListItemsContainer");
@@ -966,64 +955,84 @@
         document.querySelectorAll('.mic-btn').forEach(b=>b.classList.remove('recording'));
     }
 
-    // --- TUTANAK ASİSTANI İŞLEMLERİ (YENİDEN VE KESİN OLARAK YAZILDI) ---
+    // --- TUTANAK ASİSTANI İŞLEMLERİ (HATASIZ ÇALIŞAN KISIM) ---
     function tutanakSablonDegistir() {
-        const tur = document.getElementById("tutTuru").value;
-        const isDilekce = (tur === "izin_dilekcesi");
-        const isDugun = (tur === "dugun_izni");
-        const isAranan = (tur === "aranan_sahis");
-        const isBakaya = (tur === "bakaya");
+        try {
+            const tur = document.getElementById("tutTuru").value;
+            const isDilekce = (tur === "izin_dilekcesi");
+            const isDugun = (tur === "dugun_izni");
+            const isAranan = (tur === "aranan_sahis");
+            const isBakaya = (tur === "bakaya");
 
-        // 1. ÖZEL PANELLERİ GİZLE
-        const specialDivs = ["panel_izin", "panel_dugun", "panel_aranan", "panel_bakaya"];
-        specialDivs.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add("hidden");
-        });
+            // 1. ÖZEL PANELLERİ GİZLE
+            const specialDivs = ["panel_izin", "panel_dugun", "panel_aranan", "panel_bakaya"];
+            specialDivs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add("hidden");
+            });
 
-        // 2. ORTAK ALANLARI YÖNET
-        const hideCommon = isDilekce || isBakaya;
-        document.getElementById("tutOlayYeri").parentElement.classList.toggle("hidden", hideCommon);
-        document.getElementById("tutKonu").parentElement.classList.toggle("hidden", hideCommon);
-        document.getElementById("tutSahis1").parentElement.classList.toggle("hidden", hideCommon);
-        document.getElementById("tutSahis2").parentElement.classList.toggle("hidden", tur !== "teslim_tesellum");
-        document.getElementById("tutDetay").parentElement.parentElement.classList.toggle("hidden", isDilekce || isBakaya || isAranan || isDugun);
-        document.getElementById("tutTarih").parentElement.parentElement.classList.toggle("hidden", isDilekce); 
-        document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce);
-        
-        // 3. SEÇİLİ ÖZEL PANELİ AÇ
-        if(isDilekce) document.getElementById("panel_izin").classList.remove("hidden");
-        if(isDugun) {
-            document.getElementById("panel_dugun").classList.remove("hidden");
-            document.getElementById("tutOlayYeri").parentElement.classList.remove("hidden"); 
-            document.getElementById("tutSahis1").parentElement.classList.remove("hidden"); 
-        }
-        if(isAranan) {
-            document.getElementById("panel_aranan").classList.remove("hidden");
-            document.getElementById("tutOlayYeri").parentElement.classList.remove("hidden"); 
-            document.getElementById("tutSahis1").parentElement.classList.remove("hidden"); 
-        }
-        if(isBakaya) {
-            document.getElementById("panel_bakaya").classList.remove("hidden");
-            document.getElementById("tutTarih").parentElement.parentElement.classList.remove("hidden"); 
-        }
+            // 2. ORTAK ALANLARI YÖNET
+            const hideCommon = isDilekce || isBakaya;
+            
+            const d_olayYeri = document.getElementById("d_olayYeri");
+            if(d_olayYeri) d_olayYeri.classList.toggle("hidden", hideCommon);
+            
+            const d_konu = document.getElementById("d_konu");
+            if(d_konu) d_konu.classList.toggle("hidden", hideCommon);
+            
+            const d_sahis1 = document.getElementById("d_sahis1");
+            if(d_sahis1) d_sahis1.classList.toggle("hidden", hideCommon);
+            
+            const d_sahis2 = document.getElementById("d_sahis2");
+            if(d_sahis2) d_sahis2.classList.toggle("hidden", tur !== "teslim_tesellum");
+            
+            const d_detay = document.getElementById("d_detay");
+            if(d_detay) d_detay.classList.toggle("hidden", isDilekce || isBakaya || isAranan || isDugun);
+            
+            const d_tarih_saat = document.getElementById("d_tarih_saat");
+            if(d_tarih_saat) d_tarih_saat.classList.toggle("hidden", isDilekce); 
+            
+            const tutMemur2 = document.getElementById("tutMemur2");
+            if(tutMemur2) tutMemur2.classList.toggle("hidden", isDilekce);
+            
+            // 3. SEÇİLİ ÖZEL PANELİ AÇ
+            if(isDilekce) {
+                document.getElementById("panel_izin").classList.remove("hidden");
+            }
+            if(isDugun) {
+                document.getElementById("panel_dugun").classList.remove("hidden");
+                if(d_olayYeri) d_olayYeri.classList.remove("hidden"); 
+                if(d_sahis1) d_sahis1.classList.remove("hidden"); 
+            }
+            if(isAranan) {
+                document.getElementById("panel_aranan").classList.remove("hidden");
+                if(d_olayYeri) d_olayYeri.classList.remove("hidden"); 
+                if(d_sahis1) d_sahis1.classList.remove("hidden"); 
+            }
+            if(isBakaya) {
+                document.getElementById("panel_bakaya").classList.remove("hidden");
+                if(d_tarih_saat) d_tarih_saat.classList.remove("hidden"); 
+            }
 
-        // 4. ETİKETLERİ DÜZENLE
-        let lbl1 = document.getElementById("lblTutSahis1");
-        if(lbl1) {
-            lbl1.innerText = "İlgili Şahıs / Kurum (TC - Ad Soyad)";
-            if(tur === "ifade") lbl1.innerText = "İfade Veren (TC - Ad Soyad)";
-            else if (tur === "teslim_tesellum") lbl1.innerText = "Teslim Eden (TC - Ad Soyad)";
-            else if (tur === "adres_tespit") lbl1.innerText = "Aranan Şahıs (TC - Ad Soyad)";
-            else if (tur === "aranan_sahis") lbl1.innerText = "Yakalanan Şahıs (TC - Ad Soyad)";
-            else if (tur === "dugun_izni") lbl1.innerText = "Düğün Sahibi (TC - Ad Soyad)";
-        }
-        
-        let lblYeri = document.querySelector("#tutOlayYeri").previousElementSibling;
-        if(lblYeri) {
-            lblYeri.innerText = "Olay Yeri / Adres";
-            if (tur === "dugun_izni") lblYeri.innerText = "Düğün Adresi";
-            if (tur === "aranan_sahis") lblYeri.innerText = "Yakalandığı Mahalle/Sokak";
+            // 4. ETİKETLERİ DÜZENLE
+            let lbl1 = document.getElementById("lblTutSahis1");
+            if(lbl1) {
+                lbl1.innerText = "İlgili Şahıs / Kurum (TC - Ad Soyad)";
+                if(tur === "ifade") lbl1.innerText = "İfade Veren (TC - Ad Soyad)";
+                else if (tur === "teslim_tesellum") lbl1.innerText = "Teslim Eden (TC - Ad Soyad)";
+                else if (tur === "adres_tespit") lbl1.innerText = "Aranan Şahıs (TC - Ad Soyad)";
+                else if (tur === "aranan_sahis") lbl1.innerText = "Yakalanan Şahıs (TC - Ad Soyad)";
+                else if (tur === "dugun_izni") lbl1.innerText = "Düğün Sahibi (TC - Ad Soyad)";
+            }
+            
+            let lblYeri = document.querySelector("#d_olayYeri label");
+            if(lblYeri) {
+                lblYeri.innerText = "Olay Yeri / Adres";
+                if (tur === "dugun_izni") lblYeri.innerText = "Düğün Adresi";
+                if (tur === "aranan_sahis") lblYeri.innerText = "Yakalandığı Mahalle/Sokak";
+            }
+        } catch(e) {
+            console.error("Tutanak Sablon Degistir Hatası:", e);
         }
     }
 
@@ -1140,8 +1149,6 @@
             `;
         } 
         else if (tur === "dugun_izni") {
-            const dAd = isimFormatla(document.getElementById("tutDugunAd").value) || s1;
-            const dAdres = document.getElementById("tutDugunAdres").value || yer;
             const dBaba = document.getElementById("tutDugunBaba").value || "..........";
             const dDTarih = document.getElementById("tutDugunDTarih").value || "..........";
             const dCesit = document.getElementById("tutDugunCesit").value || "..........";
@@ -1150,6 +1157,8 @@
             const dTel = document.getElementById("tutDugunTel").value || "..........";
             const dBaslama = document.getElementById("tutDugunBaslama").value || tarih;
             const dBitim = document.getElementById("tutDugunBitim").value || tarih;
+            const dAd = document.getElementById("tutDugunAd").value || s1;
+            const dAdres = document.getElementById("tutDugunAdres").value || yer;
 
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
@@ -1217,7 +1226,7 @@
         }
         else if (tur === "aranan_sahis") {
             const aEkip = document.getElementById("tutArananEkip").value || "....";
-            const aMahalle = document.getElementById("tutArananMahalle").value || yer;
+            const aMahalle = document.getElementById("tutArananMahalle").value || "..................";
             const aMahkeme = document.getElementById("tutArananMahkeme").value || "..................";
             const aSuc = document.getElementById("tutArananSuc").value || "..................";
             const aHastane = document.getElementById("tutArananHastane").value || "..................";
