@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.3.1</title>
+    <title>Bilgi Notu v1.3.2</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -59,12 +59,9 @@
 
         .form-group { margin-bottom: 14px; width: 100%; }
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
-        input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 500; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
-        input:focus, select:focus, textarea:focus { border: 1px solid var(--ios-blue); background: var(--ios-card); box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1); }
-        
-        /* ÖZET ALANI GENİŞLETİLDİ */
-        textarea { resize: vertical; min-height: 200px; padding-right: 45px; line-height: 1.4; }
-        
+        input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
+        input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
+        textarea { resize: vertical; min-height: 180px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
@@ -84,7 +81,7 @@
         button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
         .btn-secondary { background: #5856D6; } 
 
-        /* VARDİYA UI (KUSURSUZ iOS SEGMENT) */
+        /* VARDİYA UI (iOS SEGMENT) */
         .ios-segment-group { display: flex; background: var(--ios-input-bg); padding: 3px; border-radius: 9px; margin-bottom: 15px; gap: 2px;}
         .ios-segment-btn { flex: 1; padding: 8px 0; text-align: center; font-size: 13px; font-weight: 600; border-radius: 7px; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
         .ios-segment-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0,0,0,0.12); color: var(--ios-text);}
@@ -106,7 +103,8 @@
 
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--ios-bg); padding: 12px; border-radius: 10px; font-size: 14px;}
         .checklist-title { font-size: 14px; font-weight: 600; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.2s;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer;}
+        .check-item input { width: 20px; height: 20px; accent-color: var(--ios-blue); } 
         .check-item.done span { opacity: 0.5; text-decoration: line-through; }
 
         @media print {
@@ -247,7 +245,7 @@
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
+                <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
                 <button class="bot-btn" style="background:var(--ios-input-bg); color:var(--ios-blue);" onclick="kopyala()">Kopyala</button>
                 <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
             </div>
@@ -300,12 +298,15 @@
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
                 <div class="form-group hidden" id="d_aranan_detay">
-                    <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananMahalle" placeholder="Yakalandığı Mahalle/Sokak" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananHastane" placeholder="Doktor Raporu Alınan Hastane" style="margin-bottom:8px;">
-                    <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim/Amirlik">
+                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
+                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
+                        <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)" style="margin-bottom:8px;">
+                        <input type="text" id="tutArananMahalle" placeholder="Yakalandığı Mahalle/Sokak" style="margin-bottom:8px;">
+                        <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No" style="margin-bottom:8px;">
+                        <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı" style="margin-bottom:8px;">
+                        <input type="text" id="tutArananHastane" placeholder="Doktor Raporu Alınan Hastane" style="margin-bottom:8px;">
+                        <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim/Amirlik">
+                    </div>
                 </div>
 
                 <div class="form-group hidden" id="d_bakaya_detay">
@@ -355,7 +356,7 @@
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()"><i class="fa-regular fa-file-lines"></i> A4 Önizleme ve Düzenle</button>
-            <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
+            <button class="bot-btn btn-secondary" id="tutKaydetBtn" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
         </div>
     </div>
 
@@ -389,9 +390,9 @@
 
             <div class="form-group" style="margin-top:25px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-card); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
-                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
-                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
 
@@ -428,10 +429,12 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.3.1</span>
+        <span class="version-tag">v1.3.2</span>
     </div>
 
-</div> <div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
+</div>
+
+<div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
     <button class="bottom-tab-btn active" id="bBtn1" onclick="sekmeDegistir('bilgiNotu')">
         <i class="fa-brands fa-whatsapp"></i>
         <span>Bildirim</span>
@@ -470,7 +473,7 @@
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
         <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none; cursor:crosshair;"></canvas>
         <div style="display:flex; gap:10px; margin-top:15px;">
-            <button class="bot-btn" style="background:var(--ios-red); flex:1; margin:0;" onclick="clearSignature()">Temizle</button>
+            <button class="bot-btn btn-danger" onclick="clearSignature()" style="flex:1; margin:0;">Temizle</button>
             <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
         <button class="bot-btn" style="background:transparent; border:1px solid var(--ios-border); color:var(--ios-text-mut); margin-top:10px;" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
@@ -510,7 +513,6 @@
             baslat();
         }
         
-        // Modal dışına tıklayınca kapanma
         document.getElementById("previewModal").addEventListener("click", function(e) {
             if(e.target === this) { this.classList.add('hidden'); }
         });
@@ -555,7 +557,6 @@
 
             tutanakSablonDegistir();
             
-            // AÇILIŞTA ŞAK DİYE ASAYİŞ METNİ GELMESİ
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
 
@@ -667,7 +668,18 @@
         container.innerHTML = "";
 
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
-        let baslangicDurumu = seciliVardiyaDurumu + (seciliVardiyaGunu - 1); 
+        
+        // HATALI OLAN HESAPLAMA BURADA DÜZELTİLDİ:
+        let baslangicDurumu = 0;
+        let gunOffset = seciliVardiyaGunu - 1;
+
+        if (seciliVardiyaDurumu === 0) {
+            baslangicDurumu = gunOffset; // 0-4 (Gündüz)
+        } else if (seciliVardiyaDurumu === 5) {
+            baslangicDurumu = 5 + (gunOffset * 2); // 5, 7, 9, 11, 13 (Gece)
+        } else if (seciliVardiyaDurumu === 10) {
+            baslangicDurumu = 6 + (gunOffset * 2); // 6, 8, 10, 12, 14 (İst)
+        }
         
         // Çakma 12/36 Patern (15 Gün)
         const patern = [
@@ -695,9 +707,8 @@
                 const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
                 let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
                 
-                let index = (fark - baslangicDurumu) % 15;
+                let index = (fark + baslangicDurumu) % 15;
                 if(index < 0) { index = (15 + (index % 15)) % 15; } 
-                else { index = index % 15; }
 
                 pBilgi = patern[index];
             }
@@ -887,11 +898,8 @@
             }
             
             if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
+            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
             
-            // TARIH/SAAT SATIRINDA 1 SATIR BOSLUK EKLENDI
-            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`; 
-            
-            // SORGULANAN ŞAHIS/ARAÇ AYRI ALT ALTA YAPILDI
             if(tur === "asayis" || tur === "asayis_trafik") {
                 let sSahis = document.getElementById("sorgulananSahis") ? document.getElementById("sorgulananSahis").value : "";
                 let sArac = document.getElementById("sorgulananArac") ? document.getElementById("sorgulananArac").value : "";
@@ -955,7 +963,7 @@
         const isAranan = (tur === "aranan_sahis");
         const isBakaya = (tur === "bakaya");
 
-        // Tüm özel alanları gizle
+        // Tüm özel alanları gizle (EKSİKLİK DÜZELTİLDİ: DOM'a Geri Eklendiler)
         const specialDivs = ["d_izin_detay", "d_dugun_detay", "d_aranan_detay", "d_bakaya_detay"];
         specialDivs.forEach(id => {
             const el = document.getElementById(id);
