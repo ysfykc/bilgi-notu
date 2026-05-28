@@ -169,10 +169,10 @@
     </div>
 </div>
 
-<!-- ANA UYGULAMA CONTAINER (TÜM BÖLÜMLER BUNUN İÇİNDE SADECE BİRER KERE VAR) -->
+<!-- ANA UYGULAMA CONTAINER -->
 <div class="container" id="appContainer">
     
-    <!-- CANLI DUYURU BANDI (AŞAMA 1) -->
+    <!-- CANLI DUYURU BANDI -->
     <div id="globalDuyuru" class="hidden">
         <i class="fa-solid fa-bell fa-shake"></i>
         <span id="duyuruMetni" style="flex:1;">...</span>
@@ -290,7 +290,7 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- BÖLÜM 2: TUTANAK ASİSTANI (TAMAMEN DÜZELTİLDİ) -->
+    <!-- BÖLÜM 2: TUTANAK ASİSTANI -->
     <!-- ============================================== -->
     <div id="tutanakBolumu" style="display:none;">
         <div class="glass-panel">
@@ -315,6 +315,8 @@
                     <option value="bakaya">Bakaya/Yoklama Kaçağı Tutanağı</option>
                     <option value="dugun_izni">Düğün/Eğlence İzin Belgesi</option>
                     <option value="izin_dilekcesi">Memur İzin Dilekçesi</option>
+                    <!-- YENİ: KASBES BİLDİRİM FORMU EKLENDİ -->
+                    <option value="kasbes">KASBES Bildirim Formu</option>
                 </select>
             </div>
 
@@ -330,6 +332,59 @@
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
                 <!-- ÖZEL TUTANAK PANELLERİ -->
+
+                <!-- KASBES PANELİ (YENİ EKLENEN) -->
+                <div id="panel_kasbes" class="form-group hidden tutanak-ozel-panel">
+                    <label class="panel-title"><i class="fa-solid fa-file-lines"></i> KASBES Bildirim Formu Detayları</label>
+                    
+                    <label style="color:var(--ios-blue); font-size:11px;">MÜRACAATÇI BİLGİLERİ</label>
+                    <input type="number" id="tutKasbesTC" placeholder="T.C. Kimlik No">
+                    <input type="text" id="tutKasbesAd" placeholder="Adı ve Soyadı">
+                    <input type="text" id="tutKasbesAnneBaba" placeholder="Baba ve Anne Adı">
+                    <input type="text" id="tutKasbesDogum" placeholder="Doğum Yeri ve Tarihi">
+                    <input type="text" id="tutKasbesTel" placeholder="Telefon Numarası">
+                    <input type="text" id="tutKasbesAdres" placeholder="İkamet Adresi">
+
+                    <label style="color:var(--ios-blue); font-size:11px; margin-top:10px;">KAYIP BİLGİLERİ</label>
+                    <input type="text" id="tutKasbesMurYer" placeholder="Müracaatın Alındığı Yer">
+                    <input type="text" id="tutKasbesMurTarih" placeholder="Müracaat Tarih-Saati-Sayısı">
+                    <input type="text" id="tutKasbesKayipYer" placeholder="Kayıp Yeri">
+                    <input type="text" id="tutKasbesKayipTarih" placeholder="Kayıp Tarihi ve Saati">
+
+                    <label style="color:var(--ios-blue); font-size:11px; margin-top:10px;">PLAKA BİLGİSİ</label>
+                    <div class="row" style="margin-bottom:5px;">
+                        <label><input type="radio" name="kasbesPlakaDurum" value="KAYIP"> Kayıp</label>
+                        <label><input type="radio" name="kasbesPlakaDurum" value="BULUNAN"> Bulunan</label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutKasbesPlakaNo" placeholder="Plaka No"></div>
+                        <div class="form-group"><input type="text" id="tutKasbesPlakaAdet" placeholder="Adeti"></div>
+                    </div>
+                    <input type="text" id="tutKasbesPlakaSeri1" placeholder="Plaka Seri No 1">
+                    <input type="text" id="tutKasbesPlakaSeri2" placeholder="Plaka Seri No 2">
+                    <label style="margin-top:5px; font-weight:normal; text-transform:none; color:var(--ios-text);"><input type="checkbox" id="tutKasbesPlakaSerisiz"> Serisiz Plaka</label>
+
+                    <label style="color:var(--ios-blue); font-size:11px; margin-top:15px;">TESCİL BELGESİ</label>
+                    <div class="row" style="margin-bottom:5px;">
+                        <label><input type="radio" name="kasbesTescilDurum" value="KAYIP"> Kayıp</label>
+                        <label><input type="radio" name="kasbesTescilDurum" value="BULUNAN"> Bulunan</label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutKasbesTescilPlaka" placeholder="Plaka No"></div>
+                        <div class="form-group"><input type="text" id="tutKasbesTescilSeri" placeholder="Belge Harf ve Seri No"></div>
+                    </div>
+
+                    <label style="color:var(--ios-blue); font-size:11px; margin-top:10px;">EŞYA / BELGE</label>
+                    <div class="row" style="margin-bottom:5px;">
+                        <label><input type="radio" name="kasbesEsyaDurum" value="KAYIP"> Kayıp</label>
+                        <label><input type="radio" name="kasbesEsyaDurum" value="BULUNAN"> Bulunan</label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutKasbesEsyaSeri" placeholder="Seri Nosu ve Adeti"></div>
+                        <div class="form-group"><input type="text" id="tutKasbesEsyaMarka" placeholder="Marka ve Cinsi"></div>
+                    </div>
+                </div>
+
                 <div id="panel_aranan" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
@@ -477,13 +532,12 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- BÖLÜM 5: YÖNETİM PANELİ (AŞAMA 1 & AŞAMA 2) -->
+    <!-- BÖLÜM 5: YÖNETİM PANELİ -->
     <!-- ============================================== -->
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
             
-            <!-- İSTATİSTİK PANELLERİ (AŞAMA 1) -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h4 id="statPersonel">-</h4>
@@ -495,7 +549,6 @@
                 </div>
             </div>
 
-            <!-- CANLI DUYURU YÖNETİMİ (AŞAMA 1) -->
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
                 <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
@@ -516,15 +569,12 @@
             </div>
             
             <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-users"></i> Kayıtlı Personel</h3>
-            <!-- GELİŞMİŞ PERSONEL YÖNETİMİ (AŞAMA 2) -->
             <div id="personelListesi" style="max-height: 200px; overflow-y:auto; margin-bottom:20px;">Yükleniyor...</div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
                 <h3 style="font-size:14px; margin:0;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
-                <!-- LOG İNDİRME BUTONU (AŞAMA 2) -->
                 <button class="archive-btn-top" style="font-size:12px; padding:6px 10px;" onclick="loglariIndirCSV()"><i class="fa-solid fa-file-csv" style="margin-right:4px;"></i> Excel İndir</button>
             </div>
-            <!-- LOG FİLTRELEME (AŞAMA 2) -->
             <input type="text" id="logFiltre" placeholder="Sicil no veya işlem adı ile log ara..." style="background:var(--ios-card); margin-bottom:8px; width:100%; border:1px solid var(--ios-border); padding:10px; border-radius:8px; font-size:13px;" oninput="logFiltrele()">
             
             <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
@@ -727,6 +777,7 @@
 
     function sekmeDegistir(sekme) {
         document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
+        if(document.querySelectorAll('.tab-btn')) document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
         document.getElementById("bilgiNotuBolumu").style.display = "none";
         document.getElementById("tutanakBolumu").style.display = "none";
@@ -736,31 +787,31 @@
 
         if(sekme === 'bilgiNotu') {
             document.getElementById("bBtn1").classList.add("active");
+            if(document.getElementById("tabBilgiNotuBtn")) document.getElementById("tabBilgiNotuBtn").classList.add("active");
             document.getElementById("bilgiNotuBolumu").style.display = "block";
             checklistCiz();
         } else if(sekme === 'tutanak') {
             document.getElementById("bBtn2").classList.add("active");
+            if(document.getElementById("tabTutanakBtn")) document.getElementById("tabTutanakBtn").classList.add("active");
             document.getElementById("tutanakBolumu").style.display = "block";
         } else if(sekme === 'vardiya') {
             document.getElementById("bBtn3").classList.add("active");
+            if(document.getElementById("tabVardiyaBtn")) document.getElementById("tabVardiyaBtn").classList.add("active");
             document.getElementById("vardiyaBolumu").style.display = "block";
             takvimCiz();
         } else if(sekme === 'ayarlar') {
             document.getElementById("bBtn5").classList.add("active");
+            if(document.getElementById("tabAyarlarBtn")) document.getElementById("tabAyarlarBtn").classList.add("active");
             document.getElementById("ayarlarBolumu").style.display = "block";
         } else if(sekme === 'yonetim') {
             document.getElementById("bBtn4").classList.add("active");
+            if(document.getElementById("tabYonetimBtn")) document.getElementById("tabYonetimBtn").classList.add("active");
             document.getElementById("yonetimBolumu").style.display = "block";
             if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
             if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
             if(typeof window.istatistikleriYukle === 'function') window.istatistikleriYukle();
         }
     }
-
-    // --- VARDİYA HESAPLAMA MOTORU ---
-    let gosterilenAy = new Date().getMonth();
-    let gosterilenYil = new Date().getFullYear();
-    const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 
     function setDurum(val, element) {
         seciliVardiyaDurumu = parseInt(val);
@@ -1035,7 +1086,6 @@
     function kopyala() { navigator.clipboard.writeText(document.getElementById("wpOnizleme").getAttribute('data-raw')); alert("Kopyalandı!"); }
     function whatsappGonder() { window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(document.getElementById("wpOnizleme").getAttribute('data-raw')), '_blank'); }
 
-    // --- MİKROFON SESLE YAZMA ---
     let recognition;
     let isRecording = false;
     let dictationTarget = 'ozet';
@@ -1071,7 +1121,6 @@
         document.querySelectorAll('.mic-btn').forEach(b=>b.classList.remove('recording'));
     }
 
-    // --- TUTANAK ASİSTANI İŞLEMLERİ ---
     function tutanakSablonDegistir() {
         try {
             const tur = document.getElementById("tutTuru").value;
@@ -1079,16 +1128,15 @@
             const isDugun = (tur === "dugun_izni");
             const isAranan = (tur === "aranan_sahis");
             const isBakaya = (tur === "bakaya");
+            const isKasbes = (tur === "kasbes");
 
-            // 1. ÖZEL PANELLERİ GİZLE
-            const specialDivs = ["panel_izin", "panel_dugun", "panel_aranan", "panel_bakaya"];
+            const specialDivs = ["panel_izin", "panel_dugun", "panel_aranan", "panel_bakaya", "panel_kasbes"];
             specialDivs.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.classList.add("hidden");
             });
 
-            // 2. ORTAK ALANLARI YÖNET
-            const hideCommon = isDilekce || isBakaya;
+            const hideCommon = isDilekce || isBakaya || isKasbes;
             
             const d_olayYeri = document.getElementById("d_olayYeri");
             if(d_olayYeri) d_olayYeri.classList.toggle("hidden", hideCommon);
@@ -1103,18 +1151,22 @@
             if(d_sahis2) d_sahis2.classList.toggle("hidden", tur !== "teslim_tesellum");
             
             const d_detay = document.getElementById("d_detay");
-            if(d_detay) d_detay.classList.toggle("hidden", isDilekce || isBakaya || isAranan || isDugun);
+            if(d_detay) d_detay.classList.toggle("hidden", isDilekce || isBakaya || isAranan || isDugun || isKasbes);
             
             const d_tarih_saat = document.getElementById("d_tarih_saat");
-            if(d_tarih_saat) d_tarih_saat.classList.toggle("hidden", isDilekce); 
+            if(d_tarih_saat) d_tarih_saat.classList.toggle("hidden", isDilekce || isKasbes); 
             
             const tutMemur2 = document.getElementById("tutMemur2");
-            if(tutMemur2) tutMemur2.parentElement.classList.toggle("hidden", isDilekce);
-            
-            // 3. SEÇİLİ ÖZEL PANELİ AÇ
-            if(isDilekce) {
-                document.getElementById("panel_izin").classList.remove("hidden");
+            if(tutMemur2) {
+                tutMemur2.parentElement.classList.toggle("hidden", isDilekce);
+                if (isKasbes) {
+                    tutMemur2.classList.add("hidden");
+                } else {
+                    tutMemur2.classList.remove("hidden");
+                }
             }
+            
+            if(isDilekce) document.getElementById("panel_izin").classList.remove("hidden");
             if(isDugun) {
                 document.getElementById("panel_dugun").classList.remove("hidden");
                 if(d_olayYeri) d_olayYeri.classList.remove("hidden"); 
@@ -1129,8 +1181,10 @@
                 document.getElementById("panel_bakaya").classList.remove("hidden");
                 if(d_tarih_saat) d_tarih_saat.classList.remove("hidden"); 
             }
+            if(isKasbes) {
+                document.getElementById("panel_kasbes").classList.remove("hidden");
+            }
 
-            // 4. ETİKETLERİ DÜZENLE
             let lbl1 = document.getElementById("lblTutSahis1");
             if(lbl1 && !hideCommon) {
                 lbl1.innerText = "İlgili Şahıs / Kurum (TC - Ad Soyad)";
@@ -1402,6 +1456,170 @@
                 </div>
             `;
         }
+        else if (tur === "kasbes") {
+            const kTC = document.getElementById("tutKasbesTC").value || "";
+            const kAd = document.getElementById("tutKasbesAd").value || "";
+            const kAnneBaba = document.getElementById("tutKasbesAnneBaba").value || "";
+            const kDogum = document.getElementById("tutKasbesDogum").value || "";
+            const kTel = document.getElementById("tutKasbesTel").value || "";
+            const kAdres = document.getElementById("tutKasbesAdres").value || "";
+
+            const kMurYer = document.getElementById("tutKasbesMurYer").value || "";
+            const kMurTarih = document.getElementById("tutKasbesMurTarih").value || "";
+            const kKayipYer = document.getElementById("tutKasbesKayipYer").value || "";
+            const kKayipTarih = document.getElementById("tutKasbesKayipTarih").value || "";
+
+            const pDurum = document.querySelector('input[name="kasbesPlakaDurum"]:checked') ? document.querySelector('input[name="kasbesPlakaDurum"]:checked').value : "";
+            const pNo = document.getElementById("tutKasbesPlakaNo").value || "";
+            const pAdet = document.getElementById("tutKasbesPlakaAdet").value || "";
+            const pS1 = document.getElementById("tutKasbesPlakaSeri1").value || "";
+            const pS2 = document.getElementById("tutKasbesPlakaSeri2").value || "";
+            const pSerisiz = document.getElementById("tutKasbesPlakaSerisiz").checked;
+
+            const tDurum = document.querySelector('input[name="kasbesTescilDurum"]:checked') ? document.querySelector('input[name="kasbesTescilDurum"]:checked').value : "";
+            const tPlaka = document.getElementById("tutKasbesTescilPlaka").value || "";
+            const tSeri = document.getElementById("tutKasbesTescilSeri").value || "";
+
+            const eDurum = document.querySelector('input[name="kasbesEsyaDurum"]:checked') ? document.querySelector('input[name="kasbesEsyaDurum"]:checked').value : "";
+            const eSeri = document.getElementById("tutKasbesEsyaSeri").value || "";
+            const eMarka = document.getElementById("tutKasbesEsyaMarka").value || "";
+
+            const cb = (cond) => cond ? '<span style="font-size:14pt; line-height:1;">&#9745;</span>' : '<span style="font-size:14pt; line-height:1;">&#9744;</span>';
+
+            printHTML = `
+                <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white; padding:0; margin:0;">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 5px; line-height:1.2;">
+                        <span style="font-size:16pt;">KASBES</span><br>
+                        <span style="font-weight:normal; font-size:11pt;">(KİHBİ Araç Silah Belge ve Eşya Sistemi)</span><br>
+                        <span style="font-size:14pt; letter-spacing: 2px;">BİLDİRİM FORMU</span>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px;">
+                        <tr>
+                            <td colspan="2" style="background-color: #ffe699; text-align: center; font-weight: bold; border: 1px solid black; padding: 4px; font-size:10pt;">MÜRACAATÇI BİLGİLERİ</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%; border: 1px solid black; padding: 4px;"><div style="float:left;">T.C. KİMLİK NO</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="width: 60%; border: 1px solid black; padding: 4px;">${kTC}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px;"><div style="float:left;">ADI ve SOYADI</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="border: 1px solid black; padding: 4px;">${kAd}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px;"><div style="float:left;">BABA ve ANNE ADI</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="border: 1px solid black; padding: 4px;">${kAnneBaba}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px;"><div style="float:left;">DOĞUM YERİ ve TARİHİ</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="border: 1px solid black; padding: 4px;">${kDogum}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px;"><div style="float:left;">TELEFON NUMARASI</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="border: 1px solid black; padding: 4px;">${kTel}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px; height:45px; vertical-align:top;"><div style="float:left;">İKAMET ADRESİ</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td style="border: 1px solid black; padding: 4px; vertical-align:top;">${kAdres}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black;">
+                        <tr>
+                            <td colspan="5" style="background-color: #ffe699; text-align: center; font-weight: bold; border: 1px solid black; padding: 4px; font-size:10pt;">KAYIP BİLGİLERİ</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="width: 40%; border: 1px solid black; padding: 4px;"><div style="float:left;">MÜRACAATIN ALINDIĞI YER</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td colspan="3" style="width: 60%; border: 1px solid black; padding: 4px;">${kMurYer}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 4px;"><div style="float:left;">MÜRACAAT TARİH-SAATİ-SAYISI</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td colspan="3" style="border: 1px solid black; padding: 4px;">${kMurTarih}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 4px;"><div style="float:left;">KAYIP YERİ</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td colspan="3" style="border: 1px solid black; padding: 4px;">${kKayipYer}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 4px;"><div style="float:left;">KAYIP TARİHİ ve SAATİ</div><div style="float:right;">:</div><div style="clear:both;"></div></td>
+                            <td colspan="3" style="border: 1px solid black; padding: 4px;">${kKayipTarih}</td>
+                        </tr>
+
+                        <!-- PLAKA ROW -->
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px; width:15%; font-size:9pt; vertical-align:middle;">
+                                KAYIP &nbsp;&nbsp;&nbsp;&nbsp;${cb(pDurum === 'KAYIP')}<br><br>
+                                BULUNAN &nbsp;${cb(pDurum === 'BULUNAN')}
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; font-weight:bold; width:15%; font-size:10pt;">PLAKA</td>
+                            <td style="border: 1px solid black; text-align:center; vertical-align:top; width:20%; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">PLAKA NO</div>
+                                <div style="padding:4px; height: 35px;">${pNo}</div>
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; vertical-align:top; width:15%; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">PLAKA<br>ADETİ</div>
+                                <div style="padding:4px; height: 25px;">${pAdet}</div>
+                            </td>
+                            <td style="border: 1px solid black; text-align:left; vertical-align:top; width:35%; padding:0;">
+                                <div style="border-bottom: 1px solid black; text-align:center; padding:2px; font-size:9pt;">PLAKA SERİ NOSU</div>
+                                <div style="padding: 1px 4px;">1- ${pS1}</div>
+                                <div style="border-bottom: 1px solid black; padding: 1px 4px 2px 4px;">2- ${pS2}</div>
+                                <div style="padding: 2px 4px; font-size:9pt;">${cb(pSerisiz)} Serisiz Plaka</div>
+                            </td>
+                        </tr>
+
+                        <!-- TESCİL BELGESİ ROW -->
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px; font-size:9pt; vertical-align:middle;">
+                                KAYIP &nbsp;&nbsp;&nbsp;&nbsp;${cb(tDurum === 'KAYIP')}<br><br>
+                                BULUNAN &nbsp;${cb(tDurum === 'BULUNAN')}
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; font-weight:bold; font-size:10pt;">TESCİL<br>BELGESİ</td>
+                            <td colspan="2" style="border: 1px solid black; text-align:center; vertical-align:top; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">PLAKA NO</div>
+                                <div style="padding:4px; height: 30px;">${tPlaka}</div>
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; vertical-align:top; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">BELGE HARF ve SERİ NO</div>
+                                <div style="padding:4px; height: 30px;">${tSeri}</div>
+                            </td>
+                        </tr>
+
+                        <!-- EŞYA BELGE ROW -->
+                        <tr>
+                            <td style="border: 1px solid black; padding: 4px; font-size:9pt; vertical-align:middle;">
+                                KAYIP &nbsp;&nbsp;&nbsp;&nbsp;${cb(eDurum === 'KAYIP')}<br><br>
+                                BULUNAN &nbsp;${cb(eDurum === 'BULUNAN')}
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; font-weight:bold; font-size:10pt;">EŞYA<br>BELGE</td>
+                            <td colspan="2" style="border: 1px solid black; text-align:center; vertical-align:top; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">SERİ NOSU ve ADETİ</div>
+                                <div style="padding:4px; height: 30px;">${eSeri}</div>
+                            </td>
+                            <td style="border: 1px solid black; text-align:center; vertical-align:top; padding:0;">
+                                <div style="border-bottom: 1px solid black; padding:2px; font-size:9pt;">MARKA ve CİNSİ</div>
+                                <div style="padding:4px; height: 30px;">${eMarka}</div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; margin-top: 30px;">
+                        <tr>
+                            <td style="width: 50%; vertical-align:top;">
+                                <span style="text-decoration:underline;">İŞLEM YAPAN PERSONEL</span><br><br>
+                                <div id="sig-m1" style="height:60px;"></div>
+                                ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
+                            </td>
+                            <td style="width: 50%; vertical-align:top;">
+                                <span style="text-decoration:underline;">MÜRACAATTA BULUNAN</span><br><br>
+                                <div id="sig-vat" style="height:60px;"></div>
+                                <b>${kAd}</b><br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+        }
         else {
             // STANDART TUTANAKLAR
             let baslik = document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text.toUpperCase();
@@ -1464,6 +1682,7 @@
     function tutanakTemizle() {
         if(confirm("Tutanağı temizlemek istiyor musunuz?")) {
             document.querySelectorAll("#tutanakBolumu input[type='text'], #tutanakBolumu input[type='number'], #tutanakBolumu textarea").forEach(el => el.value = "");
+            document.querySelectorAll("#tutanakBolumu input[type='radio'], #tutanakBolumu input[type='checkbox']").forEach(el => el.checked = false);
             const bugun = new Date();
             const trh = `${String(bugun.getDate()).padStart(2, '0')}.${String(bugun.getMonth() + 1).padStart(2, '0')}.${bugun.getFullYear()}`;
             const st = `${String(bugun.getHours()).padStart(2, '0')}:${String(bugun.getMinutes()).padStart(2, '0')}`;
