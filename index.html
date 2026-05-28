@@ -2,8 +2,8 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bilgi Notu v1.2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Bilgi Notu v1.3.0</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -11,91 +11,98 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* GERÇEK iOS TASARIM SİSTEMİ */
+        /* GERÇEK iOS TASARIM DİLİ */
         :root { 
-            --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-text: #000000; --ios-text-mut: #8E8E93; 
-            --ios-blue: #007AFF; --ios-green: #34C759; --ios-red: #FF3B30; --ios-border: #E5E5EA;
-            --ios-input: #FFFFFF; --wp-bg: #E1F6C6;
+            --ios-bg: #F2F2F7; 
+            --ios-card: #FFFFFF; 
+            --ios-text: #000000; 
+            --ios-text-mut: #8E8E93; 
+            --ios-blue: #007AFF; 
+            --ios-green: #34C759; 
+            --ios-red: #FF3B30; 
+            --ios-input-bg: #E5E5EA; /* iOS Native Input Gray */
+            --wp-bg: #E1F6C6;
+            --bottom-bar-bg: rgba(255, 255, 255, 0.85);
         }
 
         body.dark-mode {
-            --ios-bg: #000000; --ios-card: #1C1C1E; --ios-text: #FFFFFF; --ios-text-mut: #98989D; 
-            --ios-blue: #0A84FF; --ios-green: #30D158; --ios-red: #FF453A; --ios-border: #38383A;
-            --ios-input: #1C1C1E; --wp-bg: #054C44;
+            --ios-bg: #000000; 
+            --ios-card: #1C1C1E; 
+            --ios-text: #FFFFFF; 
+            --ios-text-mut: #98989D; 
+            --ios-blue: #0A84FF; 
+            --ios-green: #30D158; 
+            --ios-red: #FF453A; 
+            --ios-input-bg: #2C2C2E; 
+            --wp-bg: #054C44;
+            --bottom-bar-bg: rgba(28, 28, 30, 0.85);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--ios-bg); min-height: 100vh; padding: 12px; color: var(--ios-text); padding-bottom: 40px; transition: background 0.3s ease; display: block; overflow-x: hidden; }
-        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; }
+        body { background: var(--ios-bg); color: var(--ios-text); transition: background 0.3s ease; display: block; overflow-x: hidden; padding-bottom: 90px; /* Alt menü için boşluk */ }
+        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; padding: 12px; }
         
-        /* GİRİŞ EKRANI VE YASAL UYARI */
+        /* GİRİŞ VE MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
         .modal-content { background: var(--ios-bg); width: 100%; max-width: 450px; max-height: 90vh; border-radius: 14px; padding: 24px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
 
         #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--ios-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-        .login-box { background: var(--ios-card); border-radius: 14px; padding: 30px 24px; width: 100%; max-width: 350px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; }
+        .login-box { background: var(--ios-card); border-radius: 20px; padding: 40px 24px; width: 100%; max-width: 350px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; }
         .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 15px; }
         .login-box h2 { margin-bottom: 8px; font-weight: 700; font-size:22px; color: var(--ios-text); }
-        .login-box input { text-align: center; font-size: 16px; margin-bottom: 12px; width: 100%; background: var(--ios-bg); border: 1px solid var(--ios-border); color:var(--ios-text); border-radius: 10px; padding: 14px;}
-        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
+        .login-box input { text-align: center; font-size: 16px; margin-bottom: 12px; width: 100%; background: var(--ios-input-bg); border: none; color:var(--ios-text); border-radius: 12px; padding: 14px;}
+        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
 
-        /* iOS SEGMENTED CONTROL (SEKMELER) */
-        .tab-container { display: flex; background: rgba(118, 118, 128, 0.12); padding: 3px; border-radius: 9px; margin-bottom: 20px; overflow-x: auto;}
-        .tab-btn { flex: 1; min-width:75px; padding: 8px 4px; border-radius: 7px; border: none; background: transparent; color: var(--ios-text); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; white-space: nowrap; transition: 0.2s;}
-        .tab-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); }
+        /* YENİ ALT MENÜ BAR (iOS TAB BAR) */
+        .bottom-tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bottom-bar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(128,128,128,0.2); display: flex; justify-content: space-around; padding: 10px 10px 25px 10px; z-index: 9000; }
+        .bottom-tab-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ios-text-mut); font-size: 10px; font-weight: 600; gap: 4px; flex: 1; cursor: pointer; transition: 0.2s; }
+        .bottom-tab-btn i { font-size: 22px; margin-bottom: 2px;}
+        .bottom-tab-btn.active { color: var(--ios-blue); }
 
-        /* KARTLAR VE KUTULAR */
-        .glass-panel { background: var(--ios-card); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; width: 100%; }
-        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--ios-border); padding-bottom:12px;}
-        h1 { font-size: 17px; font-weight: 700; margin: 0; color: var(--ios-text); display:flex; align-items:center; gap:6px;}
+        /* KARTLAR VE KUTULAR (iOS NATIVE) */
+        .glass-panel { background: var(--ios-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: block; width: 100%; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;}
+        h1 { font-size: 22px; font-weight: 700; margin: 0; color: var(--ios-text); display:flex; align-items:center; gap:8px;}
         
         .top-btn-group { display: flex; gap: 8px; }
-        .archive-btn-top { background: var(--ios-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 8px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; }
+        .archive-btn-top { background: var(--ios-input-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 10px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; font-weight:600;}
         .archive-btn-top:active { opacity: 0.6;}
         .btn-danger { color: var(--ios-red); }
 
         .form-group { margin-bottom: 14px; width: 100%; }
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
-        input, select, textarea { width: 100%; background: var(--ios-input); border: 1px solid var(--ios-border); border-radius: 10px; padding: 12px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
-        input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); }
+        input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
+        input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
         textarea { resize: vertical; min-height: 120px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
         
-        .action-btn { position: absolute; bottom: 10px; right: 10px; border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; font-size: 15px; cursor: pointer; background: var(--ios-bg); color: var(--ios-blue);}
+        .action-btn { position: absolute; bottom: 10px; right: 10px; border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; background: var(--ios-card); color: var(--ios-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
         .action-btn.recording { background: var(--ios-red); color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
         .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .phrase-chip { background: var(--ios-bg); color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; border: 1px solid var(--ios-border); width: 100%;}
+        .phrase-chip { background: var(--ios-input-bg); color: var(--ios-blue); padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; width: 100%; transition: 0.2s;}
         .phrase-chip:active { opacity: 0.6; }
-        .chip-green { color: var(--ios-green); grid-column: span 2; font-weight: 600;}
+        .chip-green { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); grid-column: span 2; font-weight: 600;}
         
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 12px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: #000; margin-top: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); line-height: 1.4; word-wrap: break-word;}
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 14px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: #000; margin-top: 10px; line-height: 1.4; word-wrap: break-word;}
         
         button.bot-btn { flex: 1; width: 100%; background: var(--ios-blue); color: white; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top:10px; transition: 0.1s;}
         button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
         .btn-secondary { background: #5856D6; } 
 
-        /* KASBES ÖZEL KUTULAR (Geliştirildi) */
-        .kasbes-panel { background: var(--ios-bg); border: 1px solid var(--ios-border); padding: 16px; border-radius: 12px; margin-bottom: 16px;}
-        .kasbes-panel h3 { color: var(--ios-blue); font-size: 14px; margin-bottom: 12px; text-transform:uppercase; font-weight:700;}
-        .kasbes-panel input, .kasbes-panel select { margin-bottom: 8px; background: var(--ios-card);}
-        
-        /* TAKVİM CSS HİZALAMASI */
-        .vardiya-radio-group { display: flex; flex-direction: column; gap: 10px; background: var(--ios-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px;}
-        .v-radio-label { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--ios-text); cursor: pointer; }
-        .v-radio-label input[type="radio"] { width: 20px; height: 20px; margin: 0; accent-color: var(--ios-blue); }
-        .vardiya-btn-group { display: flex; gap: 8px; margin-top: 10px; }
-        .v-day-btn { flex: 1; background: var(--ios-card); border: 1px solid var(--ios-border); border-radius: 8px; padding: 10px 0; text-align: center; font-weight: 600; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
-        .v-day-btn.active { background: var(--ios-blue); color: white; border-color: var(--ios-blue); }
+        /* YENİ VARDİYA UI (iOS Segmented Tarzı) */
+        .ios-segment-group { display: flex; background: var(--ios-input-bg); padding: 3px; border-radius: 10px; margin-bottom: 15px; gap: 2px;}
+        .ios-segment-btn { flex: 1; padding: 10px 0; text-align: center; font-size: 13px; font-weight: 600; border-radius: 8px; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
+        .ios-segment-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0,0,0,0.1); color: var(--ios-text);}
 
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; text-align: center; width:100%;}
         .cal-header { font-size: 11px; font-weight: 700; color: var(--ios-text-mut); padding: 5px 0; text-transform:uppercase;}
-        .cal-day { background: var(--ios-bg); border-radius: 8px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px;}
-        .cal-shift { font-size: 10px; font-weight: 700; padding: 3px 0; border-radius: 4px; color: white; margin-top:4px; width: 90%;}
+        .cal-day { background: var(--ios-input-bg); border-radius: 10px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 60px;}
+        .cal-shift { font-size: 10px; font-weight: 700; padding: 4px 0; border-radius: 6px; color: white; margin-top:4px; width: 90%; text-transform: uppercase;}
         .cal-sub { font-size: 9px; font-weight: 600; color: var(--ios-text-mut); margin-top:3px; }
 
         /* A4 ÖNİZLEME MODALI */
@@ -107,18 +114,18 @@
         .developer-credit { width: 100%; text-align: center; margin: 20px 0; font-size: 12px; color: var(--ios-text-mut); font-weight: 500;}
         .developer-credit b { font-weight: 600; color: var(--ios-blue); }
 
-        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--ios-bg); padding: 12px; border-radius: 10px; font-size: 14px;}
-        .checklist-title { font-size: 13px; font-weight: 600; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer;}
+        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--ios-input-bg); padding: 12px; border-radius: 10px; font-size: 14px;}
+        .checklist-title { font-size: 14px; font-weight: 600; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-input-bg); padding: 12px; border-radius: 10px; cursor: pointer;}
         .check-item input { width: 20px; height: 20px; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
 
-        /* YAZDIRMA (SARI KASBES RENKLERİ İÇİN EXACT) */
+        /* YAZDIRMA */
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             body { background: white !important; margin: 0; padding: 0; display: block; }
-            #loginScreen, #appContainer, .modal-overlay, .preview-header, .no-print, .developer-credit { display: none !important; }
+            #loginScreen, #appContainer, .bottom-tab-bar, .modal-overlay, .preview-header, .no-print, .developer-credit { display: none !important; }
             #previewModal { position: static; background: none; display: block !important; padding: 0; }
             #previewEditArea { box-shadow: none; padding: 0 !important; max-width: none; min-height: auto; width: 100%; margin: 0;}
         }
@@ -139,10 +146,10 @@
                 <li style="margin-bottom:6px;">Girilen hiçbir veri uygulama geliştiricisi tarafından görülmez, işlenmez veya <b>hiçbir sunucuya aktarılmaz.</b></li>
                 <li style="margin-bottom:6px;">Tüm bilgiler yalnızca kullanıcının kendi cihazında yerel olarak saklanır.</li>
                 <li style="margin-bottom:6px;">Bu alan herhangi bir resmi kayıt, doğrulama veya denetim amacı taşımaz.</li>
-                <li>Doğabilecek <b>tüm hukuki ve idari sorumluluk tamamen kullanıcıya aittir.</b></li>
+                <li>Doğabilecek <b>hukuki ve idari sorumluluk tamamen kullanıcıya aittir.</b></li>
             </ul>
         </div>
-        <button class="bot-btn" style="background:var(--ios-blue); margin-top:20px;" onclick="kabulEtDisclaimer()">Okudum, Anladım</button>
+        <button class="bot-btn" style="margin-top:20px;" onclick="kabulEtDisclaimer()">Okudum, Anladım</button>
     </div>
 </div>
 
@@ -157,15 +164,8 @@
     </div>
 </div>
 
-<div class="container" id="appContainer">
+<div class="container" id="appContainer" style="display: none;">
     
-    <div class="tab-container">
-        <button class="tab-btn active" id="tabBilgiNotuBtn" onclick="sekmeDegistir('bilgiNotu')"><i class="fa-brands fa-whatsapp"></i> Bildirim</button>
-        <button class="tab-btn" id="tabTutanakBtn" onclick="sekmeDegistir('tutanak')"><i class="fa-solid fa-file-signature"></i> Tutanak</button>
-        <button class="tab-btn" id="tabVardiyaBtn" onclick="sekmeDegistir('vardiya')"><i class="fa-regular fa-calendar-days"></i> Vardiya</button>
-        <button class="tab-btn hidden" id="tabYonetimBtn" onclick="sekmeDegistir('yonetim')" style="color:var(--ios-red);"><i class="fa-solid fa-user-shield"></i> Yönetim</button>
-    </div>
-
     <div id="bilgiNotuBolumu">
         <div class="glass-panel">
             <div class="header-row">
@@ -248,7 +248,7 @@
                 
                 <div class="quick-phrases">
                     <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right:5px;"></i> Otomatik Giriş Yaz</span>
-                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evrak İkmalen +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
@@ -370,10 +370,9 @@
                             <input type="text" id="kEsyaMarka" placeholder="Marka ve Cinsi">
                         </div>
                     </div>
-                    
                     <div class="kasbes-panel">
                         <h3>Konu Özeti</h3>
-                        <textarea id="kOzet" placeholder="Kayıp eşya ile ilgili detayı ve özeti buraya yazın..." style="min-height:100px; margin:0; border:none;"></textarea>
+                        <textarea id="kOzet" placeholder="Kayıp eşya ile ilgili detayı ve özeti buraya yazın..." style="min-height:100px;"></textarea>
                     </div>
                 </div>
 
@@ -393,7 +392,7 @@
                     <label>Detaylı Açıklama / Tutanak Metni</label>
                     <div class="textarea-wrapper">
                         <textarea id="tutDetay" placeholder="Açıklamaları buraya girin..."></textarea>
-                        <button class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation('tutDetay')"><i class="fa-solid fa-microphone"></i></button>
+                        <button class="action-btn mic-btn" onclick="toggleDictation('tutDetay')"><i class="fa-solid fa-microphone"></i></button>
                     </div>
                 </div>
             </div>
@@ -414,34 +413,32 @@
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
             
-            <div class="vardiya-radio-group">
-                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
-                <label class="v-radio-label"><input type="radio" checked> Çakma 12/36 (5 Gün / 10 Gece-İst)</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
+            <div class="ios-segment-group" style="margin-bottom: 15px;">
+                <div class="ios-segment-btn active" style="flex:1;">Çakma 12/36 (5 Gün / 10 Gece-İst)</div>
             </div>
 
-            <div class="form-group" style="background:var(--ios-bg); border:1px solid var(--ios-border); padding:16px; border-radius:12px;">
-                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:10px;">REFERANS TARİHİ</label>
-                <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="background:var(--ios-card);">
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">REFERANS TARİHİ</label>
+            <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="margin-bottom: 15px;">
                 
-                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:15px; margin-bottom:10px;">BUGÜN DURUMUNUZ NEDİR?</label>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="0" checked onchange="takvimCiz()"> Gündüz</label>
-                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="5" onchange="takvimCiz()"> Gece</label>
-                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="10" onchange="takvimCiz()"> İstirahat</label>
-                </div>
-                
-                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:20px; margin-bottom:10px;">KAÇINCI GÜNDESİNİZ?</label>
-                <div class="vardiya-btn-group" id="gunSecici">
-                    <div class="v-day-btn active" onclick="setGun(1)">1</div>
-                    <div class="v-day-btn" onclick="setGun(2)">2</div>
-                    <div class="v-day-btn" onclick="setGun(3)">3</div>
-                    <div class="v-day-btn" onclick="setGun(4)">4</div>
-                    <div class="v-day-btn" onclick="setGun(5)">5</div>
-                </div>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">BUGÜN DURUMUNUZ NEDİR?</label>
+            <div class="ios-segment-group" id="durumSecici">
+                <div class="ios-segment-btn active" onclick="setDurum(0, this)">Gündüz</div>
+                <div class="ios-segment-btn" onclick="setDurum(5, this)">Gece</div>
+                <div class="ios-segment-btn" onclick="setDurum(10, this)">İstirahat</div>
+            </div>
+            
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:10px;">KAÇINCI GÜNDESİNİZ?</label>
+            <div class="ios-segment-group" id="gunSecici">
+                <div class="ios-segment-btn active" onclick="setGun(1, this)">1</div>
+                <div class="ios-segment-btn" onclick="setGun(2, this)">2</div>
+                <div class="ios-segment-btn" onclick="setGun(3, this)">3</div>
+                <div class="ios-segment-btn" onclick="setGun(4, this)">4</div>
+                <div class="ios-segment-btn" onclick="setGun(5, this)">5</div>
             </div>
 
             <div class="form-group" style="margin-top:20px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-bg); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
+                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-card); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
                     <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
                     <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
@@ -459,21 +456,21 @@
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
-            <div style="background:var(--ios-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
+            <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px;">Personel Ekle</h3>
                 <div class="row">
-                    <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No"></div>
-                    <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad"></div>
+                    <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No" style="background:var(--ios-card);"></div>
+                    <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad" style="background:var(--ios-card);"></div>
                 </div>
-                <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle">
+                <input type="text" id="yeniPersonelSifre" placeholder="Sisteme Giriş Şifresi Belirle" style="background:var(--ios-card);">
                 <button class="bot-btn" onclick="personelEkleFirebase()">Kaydet</button>
             </div>
             
             <h3 style="font-size:14px; margin-bottom:5px;">Kayıtlı Personel</h3>
             <div id="personelListesi" style="max-height: 150px; overflow-y:auto; margin-bottom:15px;">Yükleniyor...</div>
 
-            <h3 style="font-size:14px; margin-bottom:5px;">Sistem Logları (Son 50 Hareket)</h3>
-            <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
+            <h3 style="font-size:14px; margin-bottom:5px;">Sistem Logları</h3>
+            <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
                 Loglar yükleniyor...
             </div>
         </div>
@@ -481,16 +478,35 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.2.0</span>
+        <span class="version-tag">v1.3.0</span>
     </div>
 
-</div> <div id="previewModal" class="modal-overlay hidden">
+</div> <div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
+    <button class="bottom-tab-btn active" id="bBtn1" onclick="sekmeDegistir('bilgiNotu')">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Bildirim</span>
+    </button>
+    <button class="bottom-tab-btn" id="bBtn2" onclick="sekmeDegistir('tutanak')">
+        <i class="fa-solid fa-file-signature"></i>
+        <span>Tutanak</span>
+    </button>
+    <button class="bottom-tab-btn" id="bBtn3" onclick="sekmeDegistir('vardiya')">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>Vardiya</span>
+    </button>
+    <button class="bottom-tab-btn hidden" id="bBtn4" onclick="sekmeDegistir('yonetim')" style="color:var(--ios-red);">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Yönetim</span>
+    </button>
+</div>
+
+<div id="previewModal" class="modal-overlay hidden">
     <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
         <div class="preview-header no-print">
             <h2 style="margin:0; font-size: 16px;"><i class="fa-solid fa-pen-to-square"></i> A4 Son Kontrol</h2>
             <div style="display:flex; gap:10px;">
                 <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:8px 12px; border:none;" onclick="window.print()">Yazdır / PDF</button>
-                <button class="archive-btn-top" style="background:var(--ios-red); color:white; padding:8px 12px; border:none;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
+                <button class="archive-btn-top btn-danger" style="padding:8px 12px; border:none;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
             </div>
         </div>
         <div style="flex: 1; width: 100%; overflow-y: auto; display: flex; justify-content: center; padding: 20px 0;">
@@ -504,8 +520,8 @@
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
         <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none; cursor:crosshair;"></canvas>
         <div style="display:flex; gap:10px; margin-top:15px;">
-            <button class="bot-btn" style="background:var(--ios-red); flex:1;" onclick="clearSignature()">Temizle</button>
-            <button class="bot-btn" style="background:var(--ios-green); flex:2;" onclick="saveSignature()">İmzayı Ekle</button>
+            <button class="bot-btn" style="background:var(--ios-red); flex:1; margin:0;" onclick="clearSignature()">Temizle</button>
+            <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
         <button class="bot-btn" style="background:transparent; border:1px solid var(--ios-border); color:var(--ios-text-mut); margin-top:10px;" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
     </div>
@@ -525,7 +541,15 @@
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
+    let seciliVardiyaDurumu = 0; // 0:Gün, 5:Gece, 10:İst
     let seciliVardiyaGunu = 1;
+
+    const checklistSablonlari = {
+        asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
+        asayis_trafik: ["GBT ve araç sorguları koordineli yapıldı mı?", "Sürücü belgeleri ve muayene kontrolleri bitti mi?", "Gerekli durumlarda alkolmetre üfletildi mi?", "Yol güvenlik dubaları dizildi mi?"],
+        adli: ["Günün Nöbetçi Cumhuriyet Savcısına detaylı bilgi verildi mi?", "Müşteki/Şüpheli/Mağdur doktor raporları alındı mı?", "Olay aleti/Suç unsuru delil torbasına alındı mı?", "İfade alma işlemlerine geçildi mi?"],
+        trafik: ["Kaza Tespit Tutanağı usulüne uygun dolduruldu mu?", "Sürücülerin alkol testleri rapora işlendi mi?", "Yaralı varsa ambulans sevk durumu takip edildi mi?", "Yolu kapatan araçlar için çekici koordine edildi mi?"]
+    };
 
     document.addEventListener("DOMContentLoaded", () => {
         if(localStorage.getItem('kullanim_sartlari_kabul') === 'true') {
@@ -561,10 +585,12 @@
 
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
             document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("appContainer").style.display = "block";
+            document.getElementById("appContainer").style.display = "block"; 
+            document.getElementById("bottomTabBar").style.display = "flex"; 
             
             if(localStorage.getItem('aktif_rol') === 'admin') {
                 document.getElementById("tabYonetimBtn").classList.remove("hidden");
+                document.getElementById("bBtn4").classList.remove("hidden");
             }
             
             const bugun = new Date();
@@ -580,6 +606,7 @@
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
 
+            setTimeout(checklistCiz, 200); // Checklist'in dolması için kısa bir süre
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
@@ -628,10 +655,10 @@
     }
 
     function sekmeDegistir(sekme) {
-        document.getElementById("tabBilgiNotuBtn").classList.remove("active");
-        document.getElementById("tabTutanakBtn").classList.remove("active");
-        document.getElementById("tabVardiyaBtn").classList.remove("active");
-        document.getElementById("tabYonetimBtn").classList.remove("active");
+        // Üst sekmeler (web için)
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        // Alt sekmeler (mobil için)
+        document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
         
         document.getElementById("bilgiNotuBolumu").style.display = "none";
         document.getElementById("tutanakBolumu").style.display = "none";
@@ -640,32 +667,43 @@
 
         if(sekme === 'bilgiNotu') {
             document.getElementById("tabBilgiNotuBtn").classList.add("active");
+            document.getElementById("bBtn1").classList.add("active");
             document.getElementById("bilgiNotuBolumu").style.display = "block";
             checklistCiz();
         } else if(sekme === 'tutanak') {
             document.getElementById("tabTutanakBtn").classList.add("active");
+            document.getElementById("bBtn2").classList.add("active");
             document.getElementById("tutanakBolumu").style.display = "block";
         } else if(sekme === 'vardiya') {
             document.getElementById("tabVardiyaBtn").classList.add("active");
+            document.getElementById("bBtn3").classList.add("active");
             document.getElementById("vardiyaBolumu").style.display = "block";
             takvimCiz();
         } else if(sekme === 'yonetim') {
             document.getElementById("tabYonetimBtn").classList.add("active");
+            document.getElementById("bBtn4").classList.add("active");
             document.getElementById("yonetimBolumu").style.display = "block";
             if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
             if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36) ---
+    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 - MODERN) ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 
-    function setGun(gun) {
+    function setDurum(val, element) {
+        seciliVardiyaDurumu = val;
+        document.querySelectorAll('#durumSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+        takvimCiz();
+    }
+
+    function setGun(gun, element) {
         seciliVardiyaGunu = gun;
-        document.querySelectorAll('.v-day-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
+        document.querySelectorAll('#gunSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
         takvimCiz();
     }
 
@@ -682,9 +720,9 @@
         container.innerHTML = "";
 
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
-        let radioDurum = document.querySelector('input[name="vardiyaDurum"]:checked').value; 
-        let baslangicDurumu = parseInt(radioDurum) + (seciliVardiyaGunu - 1); 
+        let baslangicDurumu = seciliVardiyaDurumu + (seciliVardiyaGunu - 1); 
         
+        // Çakma 12/36 Patern
         const patern = [
             {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
             {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
@@ -719,30 +757,45 @@
 
             container.innerHTML += `
                 <div class="cal-day">
-                    <span style="color:var(--text-dark);">${g}</span>
+                    <span style="color:var(--ios-text);">${g}</span>
                     ${pBilgi.n ? `<span class="cal-shift" style="background:${pBilgi.c}">${pBilgi.n}</span><span class="cal-sub">${pBilgi.sub}</span>` : ''}
                 </div>
             `;
         }
     }
 
-    // --- İSİM FORMATLAMA ---
-    function isimFormatla(metin) {
-        let kelimeler = metin.trim().split(/\s+/);
-        if(kelimeler.length === 0 || metin.trim() === "") return "";
-        if(kelimeler.length === 1) return kelimeler[0].toLocaleUpperCase('tr-TR');
+    // --- BİLGİ NOTU İŞLEMLERİ ---
+    function checklistCiz() {
+        const tur = document.getElementById("olayTuru").value;
+        const container = document.getElementById("checkListItemsContainer");
+        if(!container) return;
+        container.innerHTML = "";
+        const gorevler = checklistSablonlari[tur] || ["Gerekli çevre güvenlik önlemleri kontrol edildi mi?"];
         
-        let soyad = kelimeler.pop().toLocaleUpperCase('tr-TR');
-        let adKismi = kelimeler.map(k => {
-            if(k.length === 0) return "";
-            let ilkHarf = k.charAt(0).toLocaleUpperCase('tr-TR');
-            let geriKalan = k.slice(1).toLocaleLowerCase('tr-TR');
-            return ilkHarf + geriKalan;
-        }).join(" ");
-        return adKismi + " " + soyad;
+        gorevler.forEach((gorev, idx) => {
+            container.innerHTML += `
+                <div class="check-item" id="chk-div-${idx}" onclick="window.toggleCheckItem(${idx}, event)">
+                    <input type="checkbox" id="chk-${idx}" style="pointer-events:none;">
+                    <span>${gorev}</span>
+                </div>`;
+        });
     }
 
-    // --- BİLGİ NOTU İŞLEMLERİ ---
+    window.toggleCheckItem = function(idx, event) {
+        const box = document.getElementById('chk-' + idx);
+        const div = document.getElementById('chk-div-' + idx);
+        box.checked = !box.checked;
+        div.classList.toggle("done", box.checked);
+    }
+
+    function toggleChecklist() {
+        const container = document.getElementById("checkListItemsContainer");
+        const icon = document.getElementById("checklistIcon");
+        container.classList.toggle("hidden");
+        icon.classList.toggle("fa-chevron-down", container.classList.contains("hidden"));
+        icon.classList.toggle("fa-chevron-up", !container.classList.contains("hidden"));
+    }
+
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
         const ozetBox = document.getElementById("ozet");
@@ -784,6 +837,20 @@
     function adliTurSecildi() {
         const secim = document.getElementById("adliTuru").value;
         if (secim) { document.getElementById("konu").value = secim; metinOlustur(); }
+    }
+
+    function isimFormatla(metin) {
+        let kelimeler = metin.trim().split(/\s+/);
+        if(kelimeler.length === 0 || metin.trim() === "") return "";
+        if(kelimeler.length === 1) return kelimeler[0].toLocaleUpperCase('tr-TR');
+        let soyad = kelimeler.pop().toLocaleUpperCase('tr-TR');
+        let adKismi = kelimeler.map(k => {
+            if(k.length === 0) return "";
+            let ilkHarf = k.charAt(0).toLocaleUpperCase('tr-TR');
+            let geriKalan = k.slice(1).toLocaleLowerCase('tr-TR');
+            return ilkHarf + geriKalan;
+        }).join(" ");
+        return adKismi + " " + soyad;
     }
     
     function sahisEkle() {
@@ -930,20 +997,23 @@
         const isAranan = (tur === "aranan_sahis");
         const isBakaya = (tur === "bakaya");
 
+        // Tüm özel alanları gizle
         document.getElementById("d_izin_detay").classList.add("hidden");
         document.getElementById("d_dugun_detay").classList.add("hidden");
         document.getElementById("d_kayip_detay").classList.add("hidden");
         document.getElementById("d_aranan_detay").classList.add("hidden");
         document.getElementById("d_bakaya_detay").classList.add("hidden");
 
+        // Genel Gizle/Göster
         document.getElementById("d_olayYeri").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_konu").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_sahis1").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_sahis2").classList.toggle("hidden", tur !== "teslim_tesellum");
-        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isAranan); // KASBES'te Özet açıldı
+        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isKayip || isBakaya || isAranan);
         document.getElementById("d_tarih_saat").classList.toggle("hidden", isDilekce); 
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce || isKayip);
         
+        // Şablona Özel Aç
         if(isDilekce) document.getElementById("d_izin_detay").classList.remove("hidden");
         if(isDugun) document.getElementById("d_dugun_detay").classList.remove("hidden");
         if(isKayip) document.getElementById("d_kayip_detay").classList.remove("hidden");
@@ -1034,9 +1104,9 @@
         const s1 = (s1Raw !== "..................") ? isimFormatla(s1Raw) : s1Raw;
         const s2 = (s2Raw !== "..................") ? isimFormatla(s2Raw) : s2Raw;
 
-        let rawDetay = document.getElementById("tutDetay").value || "";
+        let rawDetay = document.getElementById("tutDetay").value || "..................";
         const pStyle = 'style="text-align: justify; text-indent: 40px; margin: 0 0 10px 0; line-height: 1.5;"';
-        let detay = rawDetay ? rawDetay.split('\n').filter(line => line.trim() !== '').join(`</p><p ${pStyle}>`) : "..................";
+        const detay = rawDetay.split('\n').filter(line => line.trim() !== '').join(`</p><p ${pStyle}>`);
         
         const m1 = formatMemur(document.getElementById("tutMemur1").value);
         const m2 = formatMemur(document.getElementById("tutMemur2").value);
@@ -1513,7 +1583,7 @@
         liste.innerHTML = "";
         snap.forEach((docSnap) => {
             const data = docSnap.data();
-            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
+            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
         });
     }
 
