@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.3.2</title>
+    <title>Bilgi Notu v1.3.1</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -61,7 +61,7 @@
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
         input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
         input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
-        textarea { resize: vertical; min-height: 180px; padding-right: 45px; line-height: 1.4; }
+        textarea { resize: vertical; min-height: 120px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
@@ -81,7 +81,12 @@
         button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
         .btn-secondary { background: #5856D6; } 
 
-        /* VARDİYA UI (iOS SEGMENT) */
+        /* TUTANAKLARA ÖZEL DOLDURMA PANELLERİ (YENİ EKLENDİ) */
+        .tutanak-ozel-panel { background: var(--ios-input-bg); border: 1px solid var(--ios-border); padding: 16px; border-radius: 12px; margin-bottom: 16px; }
+        .tutanak-ozel-panel h3 { color: var(--ios-blue); font-size: 14px; margin-bottom: 12px; font-weight: 700; display:flex; align-items:center; gap:6px;}
+        .tutanak-ozel-panel input { background: var(--ios-card); margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.05);}
+
+        /* VARDİYA UI */
         .ios-segment-group { display: flex; background: var(--ios-input-bg); padding: 3px; border-radius: 9px; margin-bottom: 15px; gap: 2px;}
         .ios-segment-btn { flex: 1; padding: 8px 0; text-align: center; font-size: 13px; font-weight: 600; border-radius: 7px; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
         .ios-segment-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0,0,0,0.12); color: var(--ios-text);}
@@ -103,8 +108,7 @@
 
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--ios-bg); padding: 12px; border-radius: 10px; font-size: 14px;}
         .checklist-title { font-size: 14px; font-weight: 600; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer;}
-        .check-item input { width: 20px; height: 20px; accent-color: var(--ios-blue); } 
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.2s;}
         .check-item.done span { opacity: 0.5; text-decoration: line-through; }
 
         @media print {
@@ -245,7 +249,7 @@
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
+                <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
                 <button class="bot-btn" style="background:var(--ios-input-bg); color:var(--ios-blue);" onclick="kopyala()">Kopyala</button>
                 <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
             </div>
@@ -272,7 +276,7 @@
 
             <div class="form-group">
                 <label>Tutanak / Evrak Türü</label>
-                <select id="tutTuru" onchange="tutanakSablonDegistir()">
+                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: var(--ios-card);">
                     <option value="ifade">İfade Tutanağı</option>
                     <option value="olay_yeri">Olay Yeri Görgü Tutanağı</option>
                     <option value="muhafaza">Muhafaza Altına Alma Tutanağı</option>
@@ -294,49 +298,51 @@
             <div id="tutOrtakAlanlar">
                 <div class="form-group" id="d_olayYeri"><label>Olay Yeri / Adres</label><input type="text" id="tutOlayYeri" placeholder="Örn: Yunus Emre Bulvarı No:1"></div>
                 <div class="form-group" id="d_konu"><label>Olay / Konu</label><input type="text" id="tutKonu" placeholder="Örn: Kasten Yaralama"></div>
-                <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum</label><input type="text" id="tutSahis1" placeholder="TC ve İsim"></div>
-                <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
+                <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis1" placeholder="TC ve İsim"></div>
+                <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
-                <div class="form-group hidden" id="d_aranan_detay">
-                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
-                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
-                        <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)" style="margin-bottom:8px;">
-                        <input type="text" id="tutArananMahalle" placeholder="Yakalandığı Mahalle/Sokak" style="margin-bottom:8px;">
-                        <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No" style="margin-bottom:8px;">
-                        <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı" style="margin-bottom:8px;">
-                        <input type="text" id="tutArananHastane" placeholder="Doktor Raporu Alınan Hastane" style="margin-bottom:8px;">
-                        <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim/Amirlik">
+                <div id="panel_aranan" class="tutanak-ozel-panel hidden">
+                    <h3><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</h3>
+                    <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
+                    <input type="text" id="tutArananMahalle" placeholder="Yakalandığı Mahalle/Sokak">
+                    <input type="text" id="tutArananMahkeme" placeholder="Arandığı Mahkeme/Dosya No">
+                    <input type="text" id="tutArananSuc" placeholder="Arandığı Suç Adı">
+                    <input type="text" id="tutArananHastane" placeholder="Doktor Raporu Alınan Hastane">
+                    <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim (Örn: Polis Merkezi)">
+                </div>
+
+                <div id="panel_bakaya" class="tutanak-ozel-panel hidden">
+                    <h3><i class="fa-solid fa-address-card"></i> Bakaya Şahıs Bilgileri</h3>
+                    <input type="text" id="tutBakayaBaba" placeholder="Baba Adı">
+                    <input type="text" id="tutBakayaNufus" placeholder="Nüfusa Kayıtlı Olduğu İl/İlçe">
+                    <input type="text" id="tutBakayaAdres" placeholder="İkamet Adresi ve Telefonu">
+                </div>
+
+                <div id="panel_dugun" class="tutanak-ozel-panel hidden">
+                    <h3><i class="fa-solid fa-ring"></i> Düğün İzin Detayları</h3>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutDugunBaba" placeholder="Düğün Sahibinin Baba Adı"></div>
+                        <div class="form-group"><input type="text" id="tutDugunDTarih" placeholder="Düğün Sahibinin Doğum Tarihi"></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi (Sünnet/Düğün vs)"></div>
+                        <div class="form-group"><input type="text" id="tutDugunMuddet" placeholder="İzin Müddeti (Örn: 17:00-23:30)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutDugunBaslama" placeholder="Başlama Tarihi (Örn: 28.05.2026)"></div>
+                        <div class="form-group"><input type="text" id="tutDugunBitim" placeholder="Bitim Tarihi (Örn: 29.05.2026)"></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group"><input type="text" id="tutDugunNikah" placeholder="Medeni Nikah (Yapıldı/Yapılmadı)"></div>
+                        <div class="form-group"><input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Telefon"></div>
                     </div>
                 </div>
 
-                <div class="form-group hidden" id="d_bakaya_detay">
-                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
-                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-address-card"></i> Bakaya Şahıs Bilgileri</label>
-                        <input type="text" id="tutBakayaBaba" placeholder="Baba Adı" style="margin-bottom:8px;">
-                        <input type="text" id="tutBakayaNufus" placeholder="Nüfusa Kayıtlı Olduğu İl/İlçe" style="margin-bottom:8px;">
-                        <input type="text" id="tutBakayaAdres" placeholder="İkamet Adresi ve Telefonu">
-                    </div>
-                </div>
-
-                <div class="form-group hidden" id="d_dugun_detay">
-                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
-                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-ring"></i> Düğün İzin Detayları</label>
-                        <input type="text" id="tutDugunBaba" placeholder="Düğün Sahibinin Baba Adı" style="margin-bottom:8px;">
-                        <input type="text" id="tutDugunDTarih" placeholder="Düğün Sahibinin Doğum Tarihi" style="margin-bottom:8px;">
-                        <input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi (Sünnet/Düğün vs)" style="margin-bottom:8px;">
-                        <input type="text" id="tutDugunMuddet" placeholder="İzin Müddeti (Örn: 17:00-23:30)" style="margin-bottom:8px;">
-                        <input type="text" id="tutDugunNikah" placeholder="Medeni Nikah (Yapıldı/Yapılmadı)" style="margin-bottom:8px;">
-                        <input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Telefon Numarası">
-                    </div>
-                </div>
-
-                <div class="form-group hidden" id="d_izin_detay">
-                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
-                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</label>
-                        <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)" style="margin-bottom:8px;">
-                        <input type="text" id="tutIzinSure" placeholder="İzin Süresi (Örn: 10 gün)" style="margin-bottom:8px;">
-                        <input type="text" id="tutIzinAdres" placeholder="İzni Geçireceği Adres ve Telefon">
-                    </div>
+                <div id="panel_izin" class="tutanak-ozel-panel hidden">
+                    <h3><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</h3>
+                    <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)">
+                    <input type="text" id="tutIzinSure" placeholder="İzin Süresi (Örn: 10 gün)">
+                    <input type="text" id="tutIzinAdres" placeholder="İzni Geçireceği Adres ve Telefon">
                 </div>
 
                 <div class="form-group" id="d_detay">
@@ -355,8 +361,8 @@
                 <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
             </div>
             
-            <button class="bot-btn" onclick="tutanakA4Hazirla()"><i class="fa-regular fa-file-lines"></i> A4 Önizleme ve Düzenle</button>
-            <button class="bot-btn btn-secondary" id="tutKaydetBtn" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
+            <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
+            <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
         </div>
     </div>
 
@@ -364,22 +370,22 @@
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
             
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:5px; display:block;">VARDİYA SİSTEMİ</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
             <div class="ios-segment-group" style="margin-bottom: 15px;">
                 <div class="ios-segment-btn active" style="flex:1; cursor:default;">Çakma 12/36 (5 Gün / 10 Gece-İst)</div>
             </div>
 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:5px; display:block;">REFERANS TARİHİ</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">REFERANS TARİHİ</label>
             <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="margin-bottom: 15px; background:var(--ios-card);">
                 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:15px; margin-bottom:10px; display:block;">BUGÜN DURUMUNUZ NEDİR?</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">BUGÜN DURUMUNUZ NEDİR?</label>
             <div class="ios-segment-group" id="durumSecici">
                 <div class="ios-segment-btn active" onclick="setDurum(0, this)">Gündüz</div>
                 <div class="ios-segment-btn" onclick="setDurum(5, this)">Gece</div>
                 <div class="ios-segment-btn" onclick="setDurum(10, this)">İstirahat</div>
             </div>
             
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:20px; margin-bottom:10px; display:block;">KAÇINCI GÜNDESİNİZ?</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:10px;">KAÇINCI GÜNDESİNİZ?</label>
             <div class="ios-segment-group" id="gunSecici">
                 <div class="ios-segment-btn active" onclick="setGun(1, this)">1</div>
                 <div class="ios-segment-btn" onclick="setGun(2, this)">2</div>
@@ -388,11 +394,11 @@
                 <div class="ios-segment-btn" onclick="setGun(5, this)">5</div>
             </div>
 
-            <div class="form-group" style="margin-top:25px;">
+            <div class="form-group" style="margin-top:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-card); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
-                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
-                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
 
@@ -429,7 +435,7 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.3.2</span>
+        <span class="version-tag">v1.3.1</span>
     </div>
 
 </div>
@@ -494,8 +500,6 @@
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
-    
-    // Vardiya Takibi
     let seciliVardiyaDurumu = 0; // 0:Gün, 5:Gece, 10:İst
     let seciliVardiyaGunu = 1;
 
@@ -557,6 +561,7 @@
 
             tutanakSablonDegistir();
             
+            // AÇILIŞTA ASAYİŞ METNİ
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
 
@@ -608,7 +613,6 @@
         }
     }
 
-    // YENİ ALT MENÜ SEKME SİSTEMİ
     function sekmeDegistir(sekme) {
         document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
         
@@ -636,7 +640,7 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 TAM ÇÖZÜM) ---
+    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 KUSURSUZ) ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
@@ -669,19 +673,17 @@
 
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
         
-        // HATALI OLAN HESAPLAMA BURADA DÜZELTİLDİ:
         let baslangicDurumu = 0;
         let gunOffset = seciliVardiyaGunu - 1;
 
         if (seciliVardiyaDurumu === 0) {
-            baslangicDurumu = gunOffset; // 0-4 (Gündüz)
+            baslangicDurumu = gunOffset; // 0-4
         } else if (seciliVardiyaDurumu === 5) {
-            baslangicDurumu = 5 + (gunOffset * 2); // 5, 7, 9, 11, 13 (Gece)
+            baslangicDurumu = 5 + (gunOffset * 2); // 5, 7, 9, 11, 13
         } else if (seciliVardiyaDurumu === 10) {
-            baslangicDurumu = 6 + (gunOffset * 2); // 6, 8, 10, 12, 14 (İst)
+            baslangicDurumu = 6 + (gunOffset * 2); // 6, 8, 10, 12, 14
         }
         
-        // Çakma 12/36 Patern (15 Gün)
         const patern = [
             {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
             {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
@@ -898,6 +900,7 @@
             }
             
             if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
+            
             if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
             
             if(tur === "asayis" || tur === "asayis_trafik") {
@@ -963,12 +966,11 @@
         const isAranan = (tur === "aranan_sahis");
         const isBakaya = (tur === "bakaya");
 
-        // Tüm özel alanları gizle (EKSİKLİK DÜZELTİLDİ: DOM'a Geri Eklendiler)
-        const specialDivs = ["d_izin_detay", "d_dugun_detay", "d_aranan_detay", "d_bakaya_detay"];
-        specialDivs.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add("hidden");
-        });
+        // Tüm özel alanları gizle
+        document.getElementById("panel_izin").classList.add("hidden");
+        document.getElementById("panel_dugun").classList.add("hidden");
+        document.getElementById("panel_aranan").classList.add("hidden");
+        document.getElementById("panel_bakaya").classList.add("hidden");
 
         // Genel Gizle/Göster
         const hideCommon = isDilekce || isBakaya;
@@ -976,23 +978,44 @@
         document.getElementById("d_konu").classList.toggle("hidden", hideCommon);
         document.getElementById("d_sahis1").classList.toggle("hidden", hideCommon);
         document.getElementById("d_sahis2").classList.toggle("hidden", tur !== "teslim_tesellum");
-        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isBakaya || isAranan);
+        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isBakaya || isAranan || isDugun);
         document.getElementById("d_tarih_saat").classList.toggle("hidden", isDilekce); 
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce);
         
         // Şablona Özel Aç
-        if(isDilekce) document.getElementById("d_izin_detay").classList.remove("hidden");
-        if(isDugun) document.getElementById("d_dugun_detay").classList.remove("hidden");
-        if(isAranan) document.getElementById("d_aranan_detay").classList.remove("hidden");
-        if(isBakaya) document.getElementById("d_bakaya_detay").classList.remove("hidden");
-        
+        if(isDilekce) document.getElementById("panel_izin").classList.remove("hidden");
+        if(isDugun) {
+            document.getElementById("panel_dugun").classList.remove("hidden");
+            document.getElementById("d_olayYeri").classList.remove("hidden"); 
+            document.getElementById("d_sahis1").classList.remove("hidden"); 
+        }
+        if(isAranan) {
+            document.getElementById("panel_aranan").classList.remove("hidden");
+            document.getElementById("d_olayYeri").classList.remove("hidden"); 
+            document.getElementById("d_sahis1").classList.remove("hidden"); 
+        }
+        if(isBakaya) {
+            document.getElementById("panel_bakaya").classList.remove("hidden");
+            document.getElementById("d_sahis1").classList.remove("hidden"); 
+            document.getElementById("d_tarih_saat").classList.remove("hidden"); 
+        }
+
         let lbl1 = document.getElementById("lblTutSahis1");
         if(lbl1) {
-            lbl1.innerText = "İlgili Şahıs / Kurum";
-            if(tur === "ifade") lbl1.innerText = "İfade Veren (Ad Soyad - TC)";
-            else if (tur === "teslim_tesellum") lbl1.innerText = "Teslim Eden (Ad Soyad/Birim)";
-            else if (tur === "adres_tespit") lbl1.innerText = "Aranan Şahıs (Ad Soyad - TC)";
-            else if (tur === "aranan_sahis") lbl1.innerText = "Yakalanan Şahıs (TC ve Ad Soyad)";
+            lbl1.innerText = "İlgili Şahıs / Kurum (TC - Ad Soyad)";
+            if(tur === "ifade") lbl1.innerText = "İfade Veren (TC - Ad Soyad)";
+            else if (tur === "teslim_tesellum") lbl1.innerText = "Teslim Eden (TC - Ad Soyad)";
+            else if (tur === "adres_tespit") lbl1.innerText = "Aranan Şahıs (TC - Ad Soyad)";
+            else if (tur === "aranan_sahis") lbl1.innerText = "Yakalanan Şahıs (TC - Ad Soyad)";
+            else if (tur === "dugun_izni") lbl1.innerText = "Düğün Sahibi (TC - Ad Soyad)";
+            else if (tur === "bakaya") lbl1.innerText = "Yükümlü (TC - Ad Soyad)";
+        }
+        
+        let lblYeri = document.querySelector("#d_olayYeri label");
+        if(lblYeri) {
+            lblYeri.innerText = "Olay Yeri / Adres";
+            if (tur === "dugun_izni") lblYeri.innerText = "Düğün Adresi";
+            if (tur === "aranan_sahis") lblYeri.innerText = "Yakalandığı Mahalle/Sokak";
         }
     }
 
@@ -1115,6 +1138,8 @@
             const dMuddet = document.getElementById("tutDugunMuddet").value || "..........";
             const dNikah = document.getElementById("tutDugunNikah").value || "..........";
             const dTel = document.getElementById("tutDugunTel").value || "..........";
+            const dBaslama = document.getElementById("tutDugunBaslama").value || tarih;
+            const dBitim = document.getElementById("tutDugunBitim").value || tarih;
 
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: black; background: white;">
@@ -1129,8 +1154,8 @@
                         <tr><td>DOĞUM TARİHİ</td><td>: ${dDTarih}</td></tr>
                         <tr><td colspan="2">&nbsp;</td></tr>
                         <tr><td>DÜĞÜN ÇEŞİDİ</td><td>: ${dCesit}</td></tr>
-                        <tr><td>BAŞLAMA TARİHİ</td><td>: ${tarih}</td></tr>
-                        <tr><td>BİTİM TARİHİ</td><td>: ${tarih}</td></tr>
+                        <tr><td>BAŞLAMA TARİHİ</td><td>: ${dBaslama}</td></tr>
+                        <tr><td>BİTİM TARİHİ</td><td>: ${dBitim}</td></tr>
                         <tr><td>İZİN MÜDDETİ</td><td>: ${dMuddet}</td></tr>
                         <tr><td>MEDENİ NİKAH</td><td>: ${dNikah}</td></tr>
                         <tr><td>ADRES</td><td>: ${yer}</td></tr>
