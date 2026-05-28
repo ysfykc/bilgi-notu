@@ -12,7 +12,7 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* YEPYENİ MODERN VE FERAH TASARIM (Gönderdiğin Fotoğraflara Göre Uyarlandı) */
+        /* MODERN VE FERAH TASARIM */
         :root { 
             --ios-blue: #007AFF; --ios-green: #34C759; --bg-color: #F4F7FB; --card-bg: #FFFFFF; 
             --text-dark: #1E293B; --text-gray: #64748B; --input-bg: #F8FAFC; --border-color: #E2E8F0;
@@ -29,7 +29,6 @@
         body { background: var(--bg-color); min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; transition: background 0.3s ease; display: block; overflow-x: hidden; }
         .container { max-width: 650px; margin: 0 auto; display: none; width: 100%; position: relative; }
         
-        /* MODALLAR VE LOGİN EKRANI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(5px); }
         .modal-content { background: var(--card-bg); width: 100%; max-width: 500px; max-height: 90vh; border-radius: 20px; padding: 24px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
 
@@ -41,12 +40,10 @@
         .login-box input { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 15px; width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color:var(--text-dark); border-radius: 12px; padding: 14px;}
         .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
 
-        /* YENİ SEKME TASARIMI (Beyaz Üstüne Mavi Seçili) */
         .tab-container { display: flex; gap: 8px; margin-bottom: 15px; background: var(--card-bg); padding: 8px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); overflow-x: auto; border: 1px solid var(--border-color);}
         .tab-btn { flex: 1; min-width:80px; padding: 12px 6px; border-radius: 14px; border: none; background: transparent; color: var(--text-gray); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 6px; white-space: nowrap;}
         .tab-btn.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); }
 
-        /* BEYAZ KARTLAR */
         .glass-panel { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: block; width: 100%; }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: nowrap; gap: 4px;}
         h1 { font-size: 16px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; color: var(--ios-blue);}
@@ -82,7 +79,7 @@
         button.bot-btn:active { transform: scale(0.97); }
         .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
         
-        /* TAKVİM CSS HİZALAMASI (FOTOĞRAFTAKİ GİBİ MODERN) */
+        /* TAKVİM CSS HİZALAMASI */
         .vardiya-radio-group { display: flex; flex-direction: column; gap: 10px; background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color);}
         .v-radio-label { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--text-dark); cursor: pointer; }
         .v-radio-label input[type="radio"] { width: 20px; height: 20px; margin: 0; accent-color: var(--ios-blue); }
@@ -110,7 +107,7 @@
         /* KASBES ÖZEL KUTULAR */
         .kasbes-panel { background: var(--input-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; margin-bottom: 12px;}
         .kasbes-panel label { color: var(--ios-blue); font-size: 12px; margin-bottom: 10px;}
-        
+
         .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 12px 14px; border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color);}
         .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
@@ -154,7 +151,7 @@
     <div class="login-box">
         <i class="fa-solid fa-shield-halved"></i>
         <h2>Bilgi Notu</h2>
-        <p style="color:white; margin-bottom:20px; font-size:13px; opacity:0.8;">Erişim için Sicil ve Şifrenizi giriniz.</p>
+        <p style="color:var(--text-gray); margin-bottom:20px; font-size:13px;">Erişim için Sicil ve Şifrenizi giriniz.</p>
         <input type="text" id="loginSicil" placeholder="Sicil">
         <input type="password" id="loginPassword" placeholder="Parola" onkeypress="if(event.key === 'Enter') girisYap()">
         <button onclick="girisYap()">Giriş Yap</button>
@@ -289,7 +286,7 @@
 
             <div class="form-group">
                 <label>Tutanak / Evrak Türü</label>
-                <select id="tutTuru" onchange="tutanakSablonDegistir()">
+                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: rgba(0, 122, 255, 0.05);">
                     <option value="ifade">İfade Tutanağı</option>
                     <option value="olay_yeri">Olay Yeri Görgü Tutanağı</option>
                     <option value="muhafaza">Muhafaza Altına Alma Tutanağı</option>
@@ -333,22 +330,22 @@
                 <div class="form-group hidden" id="d_kayip_detay">
                     <div class="kasbes-panel">
                         <label><i class="fa-solid fa-user"></i> Müracaatçı Bilgileri</label>
-                        <input type="text" id="kTC" placeholder="T.C. Kimlik No" style="margin-bottom:8px;">
-                        <input type="text" id="kAd" placeholder="Adı Soyadı" style="margin-bottom:8px;">
+                        <input type="number" id="kTC" placeholder="T.C. Kimlik No" style="margin-bottom:8px;">
+                        <input type="text" id="kAd" placeholder="Adı ve Soyadı" style="margin-bottom:8px;">
                         <input type="text" id="kAnneBaba" placeholder="Baba ve Anne Adı (Örn: Ahmet - Ayşe)" style="margin-bottom:8px;">
                         <input type="text" id="kDTarih" placeholder="Doğum Yeri ve Tarihi" style="margin-bottom:8px;">
                         <input type="text" id="kTel" placeholder="Telefon Numarası" style="margin-bottom:8px;">
-                        <input type="text" id="kAdres" placeholder="İkamet Adresi" style="margin-bottom:8px;">
+                        <input type="text" id="kAdres" placeholder="İkamet Adresi">
                     </div>
                     <div class="kasbes-panel">
                         <label><i class="fa-solid fa-circle-info"></i> Kayıp Bilgileri</label>
                         <input type="text" id="kAlinanYer" placeholder="Müracaatın Alındığı Yer" value="Dodurga Polis Merkezi Amirliği" style="margin-bottom:8px;">
-                        <input type="text" id="kKayipYeri" placeholder="Kayıp Yeri" style="margin-bottom:8px;">
-                        <input type="text" id="kKayipZaman" placeholder="Kayıp Tarihi ve Saati" style="margin-bottom:8px;">
+                        <input type="text" id="kKayipYeri" placeholder="Kayıp Yeri (Örn: Çarşı Merkezi)" style="margin-bottom:8px;">
+                        <input type="text" id="kKayipZaman" placeholder="Kayıp Tarihi ve Saati">
                     </div>
                     <div class="kasbes-panel">
-                        <label><i class="fa-solid fa-box-open"></i> Kayıp Türü (Seçiniz)</label>
-                        <select id="kTip" onchange="kasbesTipDegistir()" style="margin-bottom:8px;">
+                        <label><i class="fa-solid fa-box-open"></i> Kayıp Türü</label>
+                        <select id="kTip" onchange="kasbesTipDegistir()" style="margin-bottom:8px; border-color:var(--ios-blue);">
                             <option value="plaka">Plaka</option>
                             <option value="tescil">Tescil Belgesi</option>
                             <option value="esya">Eşya / Belge</option>
@@ -356,10 +353,13 @@
                         <div id="div_kPlaka">
                             <input type="text" id="kPlakaNo" placeholder="Plaka No" style="margin-bottom:8px;">
                             <input type="text" id="kPlakaAdet" placeholder="Plaka Adeti" style="margin-bottom:8px;">
-                            <input type="text" id="kPlakaSeri" placeholder="Plaka Seri Nosu">
+                            <input type="text" id="kPlakaSeri1" placeholder="1. Seri No" style="margin-bottom:8px;">
+                            <input type="text" id="kPlakaSeri2" placeholder="2. Seri No" style="margin-bottom:8px;">
+                            <label style="display:flex; align-items:center; gap:8px; font-size:14px; text-transform:none; color:var(--text-dark);"><input type="checkbox" id="kPlakaSerisiz" style="width:20px; height:20px; margin:0;"> Serisiz Plaka</label>
                         </div>
                         <div id="div_kTescil" class="hidden">
-                            <input type="text" id="kBelgeSeri" placeholder="Belge Harf ve Seri No">
+                            <input type="text" id="kTescilPlaka" placeholder="Plaka No" style="margin-bottom:8px;">
+                            <input type="text" id="kTescilSeri" placeholder="Belge Harf ve Seri No">
                         </div>
                         <div id="div_kEsya" class="hidden">
                             <input type="text" id="kEsyaSeri" placeholder="Seri Nosu ve Adeti" style="margin-bottom:8px;">
@@ -390,7 +390,7 @@
             </div>
 
             <hr style="border: 0; height: 1px; background: rgba(0,0,0,0.1); margin: 20px 0;">
-            <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil Blokları (İmza İçin)</label>
+            <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
                 <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
@@ -552,8 +552,12 @@
             document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
             document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
-            tutanakSablonDegistir();
-            sablonDegistir(); // Asayiş otomatik dolar ve WP önizleme yenilenir
+            // AÇILIŞTA ASAYİŞ OTOMATİK DOLSUN DİYE GECİKMELİ TETİKLEME
+            setTimeout(() => {
+                document.getElementById('olayTuru').value = 'asayis';
+                sablonDegistir(); 
+            }, 100);
+            
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
@@ -781,7 +785,7 @@
         const container = document.getElementById("sahisListesiContainer");
         container.innerHTML = "";
         sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div class="sahis-card"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+            container.innerHTML += `<div class="sahis-card" style="background:var(--input-bg); padding:10px; border-radius:12px; margin-top:5px; display:flex; justify-content:space-between;"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
         });
     }
 
@@ -1072,11 +1076,18 @@
             const kTip = document.getElementById("kTip").value;
             const kPlakaNo = document.getElementById("kPlakaNo").value || "..........";
             const kPlakaAdet = document.getElementById("kPlakaAdet").value || "..........";
-            const kPlakaSeri = document.getElementById("kPlakaSeri").value || "..........";
-            const kBelgeSeri = document.getElementById("kBelgeSeri").value || "..........";
+            const kPlakaSeri1 = document.getElementById("kPlakaSeri1").value || "..........";
+            const kPlakaSeri2 = document.getElementById("kPlakaSeri2").value || "..........";
+            const kPlakaSerisiz = document.getElementById("kPlakaSerisiz").checked;
+            
+            const kTescilPlaka = document.getElementById("kTescilPlaka").value || "..........";
+            const kTescilSeri = document.getElementById("kTescilSeri").value || "..........";
+            
             const kEsyaSeri = document.getElementById("kEsyaSeri").value || "..........";
             const kEsyaMarka = document.getElementById("kEsyaMarka").value || "..........";
 
+            const tdStyle = "border: 1px solid black; padding: 4px; vertical-align:middle;";
+            
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 10pt; color: black; background: white;">
                     <div style="text-align: center; line-height: 1.1; margin-bottom: 10px;">
@@ -1085,61 +1096,61 @@
                         <span style="font-weight: bold; font-size: 12pt; letter-spacing: 3px;">B İ L D İ R İ M &nbsp; F O R M U</span>
                     </div>
 
-                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 15px;">
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px;">
                         <tr><td colspan="2" style="background-color: #FFD966 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; text-align: center; font-weight: bold; border: 1px solid black; padding: 4px;">MÜRACAATÇI BİLGİLERİ</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px; width: 35%;">T.C. KİMLİK NO</td><td style="border: 1px solid black; padding: 4px;">: ${kTC}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">ADI VE SOYADI</td><td style="border: 1px solid black; padding: 4px;">: ${kAd}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">BABA ve ANNE ADI</td><td style="border: 1px solid black; padding: 4px;">: ${kAnneBaba}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">DOĞUM YERİ ve TARİHİ</td><td style="border: 1px solid black; padding: 4px;">: ${kDTarih}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">TELEFON NUMARASI</td><td style="border: 1px solid black; padding: 4px;">: ${kTel}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">İKAMET ADRESİ</td><td style="border: 1px solid black; padding: 4px;">: ${kAdres}</td></tr>
+                        <tr><td style="${tdStyle} width: 35%;">T.C. KİMLİK NO</td><td style="${tdStyle}">: ${kTC}</td></tr>
+                        <tr><td style="${tdStyle}">ADI VE SOYADI</td><td style="${tdStyle}">: ${kAd}</td></tr>
+                        <tr><td style="${tdStyle}">BABA ve ANNE ADI</td><td style="${tdStyle}">: ${kAnneBaba}</td></tr>
+                        <tr><td style="${tdStyle}">DOĞUM YERİ ve TARİHİ</td><td style="${tdStyle}">: ${kDTarih}</td></tr>
+                        <tr><td style="${tdStyle}">TELEFON NUMARASI</td><td style="${tdStyle}">: ${kTel}</td></tr>
+                        <tr><td style="${tdStyle}">İKAMET ADRESİ</td><td style="${tdStyle}">: ${kAdres}</td></tr>
                     </table>
 
                     <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px;">
                         <tr><td colspan="2" style="background-color: #FFD966 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; text-align: center; font-weight: bold; border: 1px solid black; padding: 4px;">KAYIP BİLGİLERİ</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px; width: 35%;">MÜRACAATIN ALINDIĞI YER</td><td style="border: 1px solid black; padding: 4px;">: ${kAlinanYer}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">MÜRACAAT TARİH-SAATİ-SAYISI</td><td style="border: 1px solid black; padding: 4px;">: ${tarih} - ${saat}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">KAYIP YERİ</td><td style="border: 1px solid black; padding: 4px;">: ${kKayipYeri}</td></tr>
-                        <tr><td style="border: 1px solid black; padding: 4px;">KAYIP TARİHİ ve SAATİ</td><td style="border: 1px solid black; padding: 4px;">: ${kKayipZaman}</td></tr>
+                        <tr><td style="${tdStyle} width: 35%;">MÜRACAATIN ALINDIĞI YER</td><td style="${tdStyle}">: ${kAlinanYer}</td></tr>
+                        <tr><td style="${tdStyle}">MÜRACAAT TARİH-SAATİ-SAYISI</td><td style="${tdStyle}">: ${tarih} - ${saat}</td></tr>
+                        <tr><td style="${tdStyle}">KAYIP YERİ</td><td style="${tdStyle}">: ${kKayipYeri}</td></tr>
+                        <tr><td style="${tdStyle}">KAYIP TARİHİ ve SAATİ</td><td style="${tdStyle}">: ${kKayipZaman}</td></tr>
                     </table>
                     
-                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 20px; text-align: center;">
+                    <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px; text-align: center; font-size:9pt;">
                         <tr>
-                            <td style="border: 1px solid black; width: 15%; text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 14pt; vertical-align: middle;">${kTip === 'plaka' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 14pt; vertical-align: middle;">☐</span>
+                            <td style="${tdStyle} width: 12%; text-align: left; padding-left: 5px;">
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'plaka' ? '☑' : '☐'}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
                             </td>
-                            <td style="border: 1px solid black; font-weight: bold; width: 15%;">PLAKA</td>
-                            <td style="border: 1px solid black; width: 25%;">PLAKA NO<br>${kTip === 'plaka' ? kPlakaNo : ''}</td>
-                            <td style="border: 1px solid black; width: 15%;">PLAKA ADETİ<br>${kTip === 'plaka' ? kPlakaAdet : ''}</td>
-                            <td style="border: 1px solid black; text-align: left; padding-left: 5px; width: 30%;">
+                            <td style="${tdStyle} font-weight: bold; width: 10%;">PLAKA</td>
+                            <td style="${tdStyle} width: 25%;">PLAKA NO<br>${kTip === 'plaka' ? kPlakaNo : ''}</td>
+                            <td style="${tdStyle} width: 15%;">PLAKA ADETİ<br>${kTip === 'plaka' ? kPlakaAdet : ''}</td>
+                            <td style="${tdStyle} text-align: left; padding-left: 5px; width: 38%;">
                                 PLAKA SERİ NOSU<br>
-                                1- ${kTip === 'plaka' ? kPlakaSeri : ''}<br>
-                                2- <br>
-                                <span style="font-size: 12pt; vertical-align: middle;">☐</span> Serisiz Plaka
+                                1- ${kTip === 'plaka' ? kPlakaSeri1 : ''}<br>
+                                2- ${kTip === 'plaka' ? kPlakaSeri2 : ''}<br>
+                                <span style="font-size: 13pt; vertical-align: middle;">${(kTip === 'plaka' && kPlakaSerisiz) ? '☑' : '☐'}</span> Serisiz Plaka
                             </td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid black; text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 14pt; vertical-align: middle;">${kTip === 'tescil' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 14pt; vertical-align: middle;">☐</span>
+                            <td style="${tdStyle} text-align: left; padding-left: 5px;">
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'tescil' ? '☑' : '☐'}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
                             </td>
-                            <td style="border: 1px solid black; font-weight: bold;">TESCİL BELGESİ</td>
-                            <td style="border: 1px solid black;">PLAKA NO<br>${kTip === 'tescil' ? kPlakaNo : ''}</td>
-                            <td colspan="2" style="border: 1px solid black;">BELGE HARF ve SERİ NO<br>${kTip === 'tescil' ? kBelgeSeri : ''}</td>
+                            <td style="${tdStyle} font-weight: bold;">TESCİL<br>BELGESİ</td>
+                            <td style="${tdStyle}">PLAKA NO<br>${kTip === 'tescil' ? kTescilPlaka : ''}</td>
+                            <td colspan="2" style="${tdStyle}">BELGE HARF ve SERİ NO<br>${kTip === 'tescil' ? kTescilSeri : ''}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid black; text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 14pt; vertical-align: middle;">${kTip === 'esya' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 14pt; vertical-align: middle;">☐</span>
+                            <td style="${tdStyle} text-align: left; padding-left: 5px;">
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'esya' ? '☑' : '☐'}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
                             </td>
-                            <td style="border: 1px solid black; font-weight: bold;">EŞYA<br>BELGE</td>
-                            <td colspan="2" style="border: 1px solid black;">SERİ NOSU ve ADETİ<br>${kTip === 'esya' ? kEsyaSeri : ''}</td>
-                            <td style="border: 1px solid black;">MARKA ve CİNSİ<br>${kTip === 'esya' ? kEsyaMarka : ''}</td>
+                            <td style="${tdStyle} font-weight: bold;">EŞYA<br>BELGE</td>
+                            <td colspan="2" style="${tdStyle}">SERİ NOSU ve ADETİ<br>${kTip === 'esya' ? kEsyaSeri : ''}</td>
+                            <td style="${tdStyle}">MARKA ve CİNSİ<br>${kTip === 'esya' ? kEsyaMarka : ''}</td>
                         </tr>
                     </table>
 
-                    <table style="width: 100%; text-align: center; border: none; font-size: 10pt; margin-top: 20px; page-break-inside: avoid;">
+                    <table style="width: 100%; text-align: center; border: none; font-size: 10pt; margin-top: 40px; page-break-inside: avoid;">
                         <tr>
                             <td style="width: 50%; vertical-align: top;">
                                 <span style="text-decoration: underline;">İŞLEM YAPAN PERSONEL</span><br><br>
