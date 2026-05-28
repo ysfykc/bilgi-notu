@@ -3,46 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.3.0</title>
+    <title>Bilgi Notu v1.3.1</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
     <link rel="apple-touch-icon" href="./logo.png">
+    <meta name="theme-color" content="#F2F2F7">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* GERÇEK iOS TASARIM DİLİ */
+        /* GERÇEK iOS TASARIM SİSTEMİ */
         :root { 
-            --ios-bg: #F2F2F7; 
-            --ios-card: #FFFFFF; 
-            --ios-text: #000000; 
-            --ios-text-mut: #8E8E93; 
-            --ios-blue: #007AFF; 
-            --ios-green: #34C759; 
-            --ios-red: #FF3B30; 
-            --ios-border: #E5E5EA;
-            --ios-input-bg: #E5E5EA; 
-            --wp-bg: #E1F6C6;
-            --bottom-bar-bg: rgba(255, 255, 255, 0.85);
+            --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-text: #000000; --ios-text-mut: #8E8E93; 
+            --ios-blue: #007AFF; --ios-green: #34C759; --ios-red: #FF3B30; --ios-border: #E5E5EA;
+            --ios-input-bg: #E5E5EA; --wp-bg: #E1F6C6; --bottom-bar: rgba(255,255,255,0.85);
         }
 
         body.dark-mode {
-            --ios-bg: #000000; 
-            --ios-card: #1C1C1E; 
-            --ios-text: #FFFFFF; 
-            --ios-text-mut: #98989D; 
-            --ios-blue: #0A84FF; 
-            --ios-green: #30D158; 
-            --ios-red: #FF453A; 
-            --ios-input-bg: #2C2C2E; 
-            --wp-bg: #054C44;
-            --bottom-bar-bg: rgba(28, 28, 30, 0.85);
+            --ios-bg: #000000; --ios-card: #1C1C1E; --ios-text: #FFFFFF; --ios-text-mut: #98989D; 
+            --ios-blue: #0A84FF; --ios-green: #30D158; --ios-red: #FF453A; --ios-border: #38383A;
+            --ios-input-bg: #2C2C2E; --wp-bg: #054C44; --bottom-bar: rgba(28,28,30,0.85);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--ios-bg); color: var(--ios-text); transition: background 0.3s ease; display: block; overflow-x: hidden; padding-bottom: 90px; }
-        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; padding: 12px; }
+        body { background: var(--ios-bg); min-height: 100vh; padding: 12px; color: var(--ios-text); padding-bottom: 90px; transition: background 0.3s ease; display: block; overflow-x: hidden; }
+        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; }
         
         /* GİRİŞ VE MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
@@ -53,29 +39,32 @@
         .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 15px; }
         .login-box h2 { margin-bottom: 8px; font-weight: 700; font-size:22px; color: var(--ios-text); }
         .login-box input { text-align: center; font-size: 16px; margin-bottom: 12px; width: 100%; background: var(--ios-input-bg); border: none; color:var(--ios-text); border-radius: 12px; padding: 14px;}
-        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
+        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
 
-        /* ALT MENÜ BAR (iOS TAB BAR) */
-        .bottom-tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bottom-bar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(128,128,128,0.2); display: flex; justify-content: space-around; padding: 10px 10px 25px 10px; z-index: 9000; }
+        /* ALT MENÜ BAR (iOS BOTTOM TAB BAR) */
+        .bottom-tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bottom-bar); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--ios-border); display: flex; justify-content: space-around; padding: 10px 10px 25px 10px; z-index: 9000; box-shadow: 0 -2px 10px rgba(0,0,0,0.03);}
         .bottom-tab-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ios-text-mut); font-size: 10px; font-weight: 600; gap: 4px; flex: 1; cursor: pointer; transition: 0.2s; }
         .bottom-tab-btn i { font-size: 22px; margin-bottom: 2px;}
         .bottom-tab-btn.active { color: var(--ios-blue); }
 
         /* KARTLAR VE KUTULAR */
-        .glass-panel { background: var(--ios-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: block; width: 100%; }
-        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;}
-        h1 { font-size: 22px; font-weight: 700; margin: 0; color: var(--ios-text); display:flex; align-items:center; gap:8px;}
+        .glass-panel { background: var(--ios-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; width: 100%; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--ios-border); padding-bottom:12px;}
+        h1 { font-size: 17px; font-weight: 700; margin: 0; color: var(--ios-text); display:flex; align-items:center; gap:6px;}
         
         .top-btn-group { display: flex; gap: 8px; }
-        .archive-btn-top { background: var(--ios-input-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 10px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; font-weight:600;}
+        .archive-btn-top { background: var(--ios-input-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 8px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; font-weight:600;}
         .archive-btn-top:active { opacity: 0.6;}
         .btn-danger { color: var(--ios-red); }
 
         .form-group { margin-bottom: 14px; width: 100%; }
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
-        input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
-        input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
-        textarea { resize: vertical; min-height: 120px; padding-right: 45px; line-height: 1.4; }
+        input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 500; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
+        input:focus, select:focus, textarea:focus { border: 1px solid var(--ios-blue); background: var(--ios-card); box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1); }
+        
+        /* ÖZET ALANI GENİŞLETİLDİ */
+        textarea { resize: vertical; min-height: 200px; padding-right: 45px; line-height: 1.4; }
+        
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
@@ -85,24 +74,24 @@
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
         .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .phrase-chip { background: var(--ios-input-bg); color: var(--ios-blue); padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; width: 100%; transition: 0.2s;}
+        .phrase-chip { background: var(--ios-input-bg); color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; width: 100%; transition: 0.2s;}
         .phrase-chip:active { opacity: 0.6; }
-        .chip-green { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); grid-column: span 2; font-weight: 600;}
+        .chip-green { color: var(--ios-green); grid-column: span 2; font-weight: 600;}
         
         .whatsapp-msg { background: var(--wp-bg); border-radius: 12px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: #000; margin-top: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); line-height: 1.4; word-wrap: break-word;}
         
-        button.bot-btn { flex: 1; width: 100%; background: var(--ios-blue); color: white; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top:10px; transition: 0.1s;}
+        button.bot-btn { flex: 1; width: 100%; background: var(--ios-blue); color: white; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top:10px; transition: 0.1s;}
         button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
         .btn-secondary { background: #5856D6; } 
 
-        /* VARDİYA UI */
-        .ios-segment-group { display: flex; background: var(--ios-input-bg); padding: 3px; border-radius: 10px; margin-bottom: 15px; gap: 2px;}
-        .ios-segment-btn { flex: 1; padding: 10px 0; text-align: center; font-size: 13px; font-weight: 600; border-radius: 8px; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
-        .ios-segment-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0,0,0,0.1); color: var(--ios-text);}
+        /* VARDİYA UI (KUSURSUZ iOS SEGMENT) */
+        .ios-segment-group { display: flex; background: var(--ios-input-bg); padding: 3px; border-radius: 9px; margin-bottom: 15px; gap: 2px;}
+        .ios-segment-btn { flex: 1; padding: 8px 0; text-align: center; font-size: 13px; font-weight: 600; border-radius: 7px; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
+        .ios-segment-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0,0,0,0.12); color: var(--ios-text);}
 
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; text-align: center; width:100%;}
         .cal-header { font-size: 11px; font-weight: 700; color: var(--ios-text-mut); padding: 5px 0; text-transform:uppercase;}
-        .cal-day { background: var(--ios-input-bg); border-radius: 8px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 60px;}
+        .cal-day { background: var(--ios-input-bg); border-radius: 8px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px;}
         .cal-shift { font-size: 10px; font-weight: 700; padding: 3px 0; border-radius: 4px; color: white; margin-top:4px; width: 90%; text-transform: uppercase;}
         .cal-sub { font-size: 9px; font-weight: 600; color: var(--ios-text-mut); margin-top:3px; }
 
@@ -242,12 +231,12 @@
                 <label>Özet / Açıklama</label>
                 <div class="textarea-wrapper">
                     <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
-                    <button class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation('ozet')"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="action-btn mic-btn" onclick="toggleDictation('ozet')"><i class="fa-solid fa-microphone"></i></button>
                 </div>
                 
                 <div class="quick-phrases">
                     <span class="phrase-chip chip-green chip-full" onclick="otomatikGirisEkle()"><i class="fa-solid fa-pen-nib" style="margin-right:5px;"></i> Otomatik Giriş Yaz</span>
-                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
+                    <span class="phrase-chip" onclick="ekleOzet('Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır.')">Savcı Talimatı +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Tahkikat evrakları ikmalen gönderilecektir.')">Evrak İkmalen +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Şahsın hayati tehlikesi bulunmamaktadır.')">Hayati Tehlike Yok +</span>
                     <span class="phrase-chip" onclick="ekleOzet('Gerekli çevre ve yol güvenliği sağlanmıştır.')">Çevre Güvenliği +</span>
@@ -257,8 +246,8 @@
             <label><i class="fa-brands fa-whatsapp"></i> WhatsApp Önizlemesi</label>
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
-            <div style="display:flex; gap:8px;">
-                <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
                 <button class="bot-btn" style="background:var(--ios-input-bg); color:var(--ios-blue);" onclick="kopyala()">Kopyala</button>
                 <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
             </div>
@@ -320,28 +309,40 @@
                 </div>
 
                 <div class="form-group hidden" id="d_bakaya_detay">
-                    <input type="text" id="tutBakayaBaba" placeholder="Baba Adı" style="margin-bottom:8px;">
-                    <input type="text" id="tutBakayaNufus" placeholder="Nüfusa Kayıtlı Olduğu İl/İlçe" style="margin-bottom:8px;">
-                    <input type="text" id="tutBakayaAdres" placeholder="Adres ve Telefon">
+                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
+                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-address-card"></i> Bakaya Şahıs Bilgileri</label>
+                        <input type="text" id="tutBakayaBaba" placeholder="Baba Adı" style="margin-bottom:8px;">
+                        <input type="text" id="tutBakayaNufus" placeholder="Nüfusa Kayıtlı Olduğu İl/İlçe" style="margin-bottom:8px;">
+                        <input type="text" id="tutBakayaAdres" placeholder="İkamet Adresi ve Telefonu">
+                    </div>
                 </div>
 
                 <div class="form-group hidden" id="d_dugun_detay">
-                    <div class="row"><input type="text" id="tutDugunBaba" placeholder="Baba Adı" style="margin-bottom:8px;"><input type="text" id="tutDugunDTarih" placeholder="D.Tarihi" style="margin-bottom:8px;"></div>
-                    <div class="row"><input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi" style="margin-bottom:8px;"><input type="text" id="tutDugunMuddet" placeholder="Saat Müddeti" style="margin-bottom:8px;"></div>
-                    <div class="row"><input type="text" id="tutDugunNikah" placeholder="Medeni Nikah" style="margin-bottom:8px;"><input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Tel" style="margin-bottom:8px;"></div>
+                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
+                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-ring"></i> Düğün İzin Detayları</label>
+                        <input type="text" id="tutDugunBaba" placeholder="Düğün Sahibinin Baba Adı" style="margin-bottom:8px;">
+                        <input type="text" id="tutDugunDTarih" placeholder="Düğün Sahibinin Doğum Tarihi" style="margin-bottom:8px;">
+                        <input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi (Sünnet/Düğün vs)" style="margin-bottom:8px;">
+                        <input type="text" id="tutDugunMuddet" placeholder="İzin Müddeti (Örn: 17:00-23:30)" style="margin-bottom:8px;">
+                        <input type="text" id="tutDugunNikah" placeholder="Medeni Nikah (Yapıldı/Yapılmadı)" style="margin-bottom:8px;">
+                        <input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Telefon Numarası">
+                    </div>
                 </div>
 
                 <div class="form-group hidden" id="d_izin_detay">
-                    <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Yıllık İzin vb.)" style="margin-bottom:8px;">
-                    <input type="text" id="tutIzinSure" placeholder="İzin Süresi (10 gün vb.)" style="margin-bottom:8px;">
-                    <input type="text" id="tutIzinAdres" placeholder="İzindeki Adres ve Tel">
+                    <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px;">
+                        <label style="color:var(--ios-blue); margin-bottom:10px;"><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</label>
+                        <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)" style="margin-bottom:8px;">
+                        <input type="text" id="tutIzinSure" placeholder="İzin Süresi (Örn: 10 gün)" style="margin-bottom:8px;">
+                        <input type="text" id="tutIzinAdres" placeholder="İzni Geçireceği Adres ve Telefon">
+                    </div>
                 </div>
 
                 <div class="form-group" id="d_detay">
                     <label>Detaylı Açıklama / Tutanak Metni</label>
                     <div class="textarea-wrapper">
                         <textarea id="tutDetay" placeholder="Açıklamaları buraya girin..."></textarea>
-                        <button class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation('tutDetay')"><i class="fa-solid fa-microphone"></i></button>
+                        <button class="action-btn mic-btn" onclick="toggleDictation('tutDetay')"><i class="fa-solid fa-microphone"></i></button>
                     </div>
                 </div>
             </div>
@@ -353,8 +354,8 @@
                 <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
             </div>
             
-            <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
-            <button class="bot-btn btn-secondary" id="tutKaydetBtn" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
+            <button class="bot-btn" onclick="tutanakA4Hazirla()"><i class="fa-regular fa-file-lines"></i> A4 Önizleme ve Düzenle</button>
+            <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
         </div>
     </div>
 
@@ -362,22 +363,22 @@
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
             
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:5px; display:block;">VARDİYA SİSTEMİ</label>
             <div class="ios-segment-group" style="margin-bottom: 15px;">
                 <div class="ios-segment-btn active" style="flex:1; cursor:default;">Çakma 12/36 (5 Gün / 10 Gece-İst)</div>
             </div>
 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">REFERANS TARİHİ</label>
-            <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="margin-bottom: 15px;">
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:5px; display:block;">REFERANS TARİHİ</label>
+            <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="margin-bottom: 15px; background:var(--ios-card);">
                 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">BUGÜN DURUMUNUZ NEDİR?</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:15px; margin-bottom:10px; display:block;">BUGÜN DURUMUNUZ NEDİR?</label>
             <div class="ios-segment-group" id="durumSecici">
-                <label class="v-radio-label" style="flex:1; text-align:center;"><input type="radio" name="vardiyaDurum" value="0" checked onchange="takvimCiz()"> Gündüz</label>
-                <label class="v-radio-label" style="flex:1; text-align:center;"><input type="radio" name="vardiyaDurum" value="5" onchange="takvimCiz()"> Gece</label>
-                <label class="v-radio-label" style="flex:1; text-align:center;"><input type="radio" name="vardiyaDurum" value="6" onchange="takvimCiz()"> İstirahat</label>
+                <div class="ios-segment-btn active" onclick="setDurum(0, this)">Gündüz</div>
+                <div class="ios-segment-btn" onclick="setDurum(5, this)">Gece</div>
+                <div class="ios-segment-btn" onclick="setDurum(10, this)">İstirahat</div>
             </div>
             
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:10px;">KAÇINCI GÜNDESİNİZ?</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:20px; margin-bottom:10px; display:block;">KAÇINCI GÜNDESİNİZ?</label>
             <div class="ios-segment-group" id="gunSecici">
                 <div class="ios-segment-btn active" onclick="setGun(1, this)">1</div>
                 <div class="ios-segment-btn" onclick="setGun(2, this)">2</div>
@@ -386,7 +387,7 @@
                 <div class="ios-segment-btn" onclick="setGun(5, this)">5</div>
             </div>
 
-            <div class="form-group" style="margin-top:20px;">
+            <div class="form-group" style="margin-top:25px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-card); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
                     <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
@@ -427,7 +428,7 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.3.0</span>
+        <span class="version-tag">v1.3.1</span>
     </div>
 
 </div> <div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
@@ -469,7 +470,7 @@
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
         <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none; cursor:crosshair;"></canvas>
         <div style="display:flex; gap:10px; margin-top:15px;">
-            <button class="bot-btn btn-danger" onclick="clearSignature()" style="flex:1; margin:0;">Temizle</button>
+            <button class="bot-btn" style="background:var(--ios-red); flex:1; margin:0;" onclick="clearSignature()">Temizle</button>
             <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
         <button class="bot-btn" style="background:transparent; border:1px solid var(--ios-border); color:var(--ios-text-mut); margin-top:10px;" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
@@ -490,6 +491,9 @@
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
+    
+    // Vardiya Takibi
+    let seciliVardiyaDurumu = 0; // 0:Gün, 5:Gece, 10:İst
     let seciliVardiyaGunu = 1;
 
     // CHECKLIST VERİSİ
@@ -551,7 +555,7 @@
 
             tutanakSablonDegistir();
             
-            // AÇILIŞTA ASAYİŞ METNİ GELMESİ
+            // AÇILIŞTA ŞAK DİYE ASAYİŞ METNİ GELMESİ
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
 
@@ -631,13 +635,20 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 - KUSURSUZ) ---
+    // --- VARDİYA HESAPLAMA MOTORU (ÇAKMA 12/36 TAM ÇÖZÜM) ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 
+    function setDurum(val, element) {
+        seciliVardiyaDurumu = parseInt(val);
+        document.querySelectorAll('#durumSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+        takvimCiz();
+    }
+
     function setGun(gun, element) {
-        seciliVardiyaGunu = gun;
+        seciliVardiyaGunu = parseInt(gun);
         document.querySelectorAll('#gunSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
         element.classList.add('active');
         takvimCiz();
@@ -656,18 +667,7 @@
         container.innerHTML = "";
 
         const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
-        
-        let radioDurum = parseInt(document.querySelector('input[name="vardiyaDurum"]:checked').value);
-        let baslangicDurumu = 0;
-        let gunOffset = seciliVardiyaGunu - 1;
-
-        if (radioDurum === 0) {
-            baslangicDurumu = gunOffset; // 0-4 (Gündüz 1-5)
-        } else if (radioDurum === 5) {
-            baslangicDurumu = 5 + (gunOffset * 2); // 5, 7, 9, 11, 13 (Gece 1-5)
-        } else if (radioDurum === 6) {
-            baslangicDurumu = 6 + (gunOffset * 2); // 6, 8, 10, 12, 14 (İst 1-5)
-        }
+        let baslangicDurumu = seciliVardiyaDurumu + (seciliVardiyaGunu - 1); 
         
         // Çakma 12/36 Patern (15 Gün)
         const patern = [
@@ -695,8 +695,9 @@
                 const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
                 let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
                 
-                let index = (baslangicDurumu + fark) % 15;
-                if(index < 0) { index += 15; } 
+                let index = (fark - baslangicDurumu) % 15;
+                if(index < 0) { index = (15 + (index % 15)) % 15; } 
+                else { index = index % 15; }
 
                 pBilgi = patern[index];
             }
@@ -886,8 +887,11 @@
             }
             
             if(olayYeri) metin += `*Olay Yeri:* ${olayYeri}\n`;
-            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
             
+            // TARIH/SAAT SATIRINDA 1 SATIR BOSLUK EKLENDI
+            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`; 
+            
+            // SORGULANAN ŞAHIS/ARAÇ AYRI ALT ALTA YAPILDI
             if(tur === "asayis" || tur === "asayis_trafik") {
                 let sSahis = document.getElementById("sorgulananSahis") ? document.getElementById("sorgulananSahis").value : "";
                 let sArac = document.getElementById("sorgulananArac") ? document.getElementById("sorgulananArac").value : "";
@@ -952,15 +956,17 @@
         const isBakaya = (tur === "bakaya");
 
         // Tüm özel alanları gizle
-        document.getElementById("d_izin_detay").classList.add("hidden");
-        document.getElementById("d_dugun_detay").classList.add("hidden");
-        document.getElementById("d_aranan_detay").classList.add("hidden");
-        document.getElementById("d_bakaya_detay").classList.add("hidden");
+        const specialDivs = ["d_izin_detay", "d_dugun_detay", "d_aranan_detay", "d_bakaya_detay"];
+        specialDivs.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.add("hidden");
+        });
 
         // Genel Gizle/Göster
-        document.getElementById("d_olayYeri").classList.toggle("hidden", isDilekce || isBakaya);
-        document.getElementById("d_konu").classList.toggle("hidden", isDilekce || isBakaya);
-        document.getElementById("d_sahis1").classList.toggle("hidden", isDilekce || isBakaya);
+        const hideCommon = isDilekce || isBakaya;
+        document.getElementById("d_olayYeri").classList.toggle("hidden", hideCommon);
+        document.getElementById("d_konu").classList.toggle("hidden", hideCommon);
+        document.getElementById("d_sahis1").classList.toggle("hidden", hideCommon);
         document.getElementById("d_sahis2").classList.toggle("hidden", tur !== "teslim_tesellum");
         document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isBakaya || isAranan);
         document.getElementById("d_tarih_saat").classList.toggle("hidden", isDilekce); 
@@ -972,16 +978,13 @@
         if(isAranan) document.getElementById("d_aranan_detay").classList.remove("hidden");
         if(isBakaya) document.getElementById("d_bakaya_detay").classList.remove("hidden");
         
-        document.getElementById("lblTutSahis1").innerText = "İlgili Şahıs / Kurum";
-        
-        if(tur === "ifade") {
-            document.getElementById("lblTutSahis1").innerText = "İfade Veren (Ad Soyad - TC)";
-        } else if (tur === "teslim_tesellum") {
-            document.getElementById("lblTutSahis1").innerText = "Teslim Eden (Ad Soyad/Birim)";
-        } else if (tur === "adres_tespit") {
-            document.getElementById("lblTutSahis1").innerText = "Aranan Şahıs (Ad Soyad - TC)";
-        } else if (tur === "aranan_sahis") {
-            document.getElementById("lblTutSahis1").innerText = "Yakalanan Şahıs (TC ve Ad Soyad)";
+        let lbl1 = document.getElementById("lblTutSahis1");
+        if(lbl1) {
+            lbl1.innerText = "İlgili Şahıs / Kurum";
+            if(tur === "ifade") lbl1.innerText = "İfade Veren (Ad Soyad - TC)";
+            else if (tur === "teslim_tesellum") lbl1.innerText = "Teslim Eden (Ad Soyad/Birim)";
+            else if (tur === "adres_tespit") lbl1.innerText = "Aranan Şahıs (Ad Soyad - TC)";
+            else if (tur === "aranan_sahis") lbl1.innerText = "Yakalanan Şahıs (TC ve Ad Soyad)";
         }
     }
 
