@@ -8,113 +8,112 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
     <link rel="apple-touch-icon" href="./logo.png">
-    <meta name="theme-color" content="#F4F7FB">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* MODERN VE FERAH TASARIM */
+        /* GERÇEK iOS TASARIM SİSTEMİ */
         :root { 
-            --ios-blue: #007AFF; --ios-green: #34C759; --bg-color: #F4F7FB; --card-bg: #FFFFFF; 
-            --text-dark: #1E293B; --text-gray: #64748B; --input-bg: #F8FAFC; --border-color: #E2E8F0;
-            --wp-bg: #DCF8C6; 
+            --ios-bg: #F2F2F7; --ios-card: #FFFFFF; --ios-text: #000000; --ios-text-mut: #8E8E93; 
+            --ios-blue: #007AFF; --ios-green: #34C759; --ios-red: #FF3B30; --ios-border: #E5E5EA;
+            --ios-input: #FFFFFF; --wp-bg: #E1F6C6;
         }
 
         body.dark-mode {
-            --bg-color: #0F172A; --card-bg: #1E293B; --text-dark: #F8FAFC; --text-gray: #94A3B8;
-            --input-bg: #0F172A; --border-color: #334155; --wp-bg: #054c44; 
+            --ios-bg: #000000; --ios-card: #1C1C1E; --ios-text: #FFFFFF; --ios-text-mut: #98989D; 
+            --ios-blue: #0A84FF; --ios-green: #30D158; --ios-red: #FF453A; --ios-border: #38383A;
+            --ios-input: #1C1C1E; --wp-bg: #054C44;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background: var(--bg-color); min-height: 100vh; padding: 10px; color: var(--text-dark); padding-bottom: 40px; transition: background 0.3s ease; display: block; overflow-x: hidden; }
-        .container { max-width: 650px; margin: 0 auto; display: none; width: 100%; position: relative; }
+        body { background: var(--ios-bg); min-height: 100vh; padding: 12px; color: var(--ios-text); padding-bottom: 40px; transition: background 0.3s ease; display: block; overflow-x: hidden; }
+        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--card-bg); width: 100%; max-width: 500px; max-height: 90vh; border-radius: 20px; padding: 24px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        /* GİRİŞ EKRANI VE YASAL UYARI */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+        .modal-content { background: var(--ios-bg); width: 100%; max-width: 450px; max-height: 90vh; border-radius: 14px; padding: 24px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
 
-        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--ios-blue); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-        .login-box { background: var(--card-bg); border-radius: 24px; padding: 40px 24px; width: 100%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; }
-        .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 20px; }
-        .login-box h2 { margin-bottom: 10px; font-weight: 700; color: var(--text-dark); }
-        .login-box p { font-size: 14px; color: var(--text-gray); margin-bottom: 30px; }
-        .login-box input { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 15px; width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color:var(--text-dark); border-radius: 12px; padding: 14px;}
-        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--ios-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .login-box { background: var(--ios-card); border-radius: 14px; padding: 30px 24px; width: 100%; max-width: 350px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; }
+        .login-box i { font-size: 50px; color: var(--ios-blue); margin-bottom: 15px; }
+        .login-box h2 { margin-bottom: 8px; font-weight: 700; font-size:22px; color: var(--ios-text); }
+        .login-box input { text-align: center; font-size: 16px; margin-bottom: 12px; width: 100%; background: var(--ios-bg); border: 1px solid var(--ios-border); color:var(--ios-text); border-radius: 10px; padding: 14px;}
+        .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
 
-        .tab-container { display: flex; gap: 8px; margin-bottom: 15px; background: var(--card-bg); padding: 8px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); overflow-x: auto; border: 1px solid var(--border-color);}
-        .tab-btn { flex: 1; min-width:80px; padding: 12px 6px; border-radius: 14px; border: none; background: transparent; color: var(--text-gray); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 6px; white-space: nowrap;}
-        .tab-btn.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); }
+        /* iOS SEGMENTED CONTROL (SEKMELER) */
+        .tab-container { display: flex; background: rgba(118, 118, 128, 0.12); padding: 3px; border-radius: 9px; margin-bottom: 20px; overflow-x: auto;}
+        .tab-btn { flex: 1; min-width:75px; padding: 8px 4px; border-radius: 7px; border: none; background: transparent; color: var(--ios-text); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; white-space: nowrap; transition: 0.2s;}
+        .tab-btn.active { background: var(--ios-card); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); }
 
-        .glass-panel { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: block; width: 100%; }
-        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: nowrap; gap: 4px;}
-        h1 { font-size: 16px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; color: var(--ios-blue);}
+        /* KARTLAR VE KUTULAR */
+        .glass-panel { background: var(--ios-card); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; width: 100%; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--ios-border); padding-bottom:12px;}
+        h1 { font-size: 17px; font-weight: 700; margin: 0; color: var(--ios-text); display:flex; align-items:center; gap:6px;}
         
-        .top-btn-group { display: flex; gap: 6px; flex-wrap: nowrap; }
-        .archive-btn-top { background: var(--input-bg); color: var(--ios-blue); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 12px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
-        .archive-btn-top:active { transform: scale(0.95); opacity: 0.7;}
-        .btn-danger { color: #FF3B30; background: rgba(255, 59, 48, 0.1); border-color: transparent;}
+        .top-btn-group { display: flex; gap: 8px; }
+        .archive-btn-top { background: var(--ios-bg); color: var(--ios-blue); border: none; padding: 8px 12px; border-radius: 8px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; }
+        .archive-btn-top:active { opacity: 0.6;}
+        .btn-danger { color: var(--ios-red); }
 
-        .form-group { margin-bottom: 16px; width: 100%; }
-        label { display: block; font-size: 11px; font-weight: 700; color: var(--text-gray); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select, textarea { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; font-size: 15px; font-weight:500; color: var(--text-dark); transition: all 0.2s ease; outline: none; box-sizing: border-box; }
-        input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); background: var(--card-bg); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1); }
-        textarea { resize: vertical; min-height: 150px; padding-right: 45px; line-height: 1.5; }
+        .form-group { margin-bottom: 14px; width: 100%; }
+        label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
+        input, select, textarea { width: 100%; background: var(--ios-input); border: 1px solid var(--ios-border); border-radius: 10px; padding: 12px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
+        input:focus, select:focus, textarea:focus { border-color: var(--ios-blue); }
+        textarea { resize: vertical; min-height: 120px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
         
-        .action-btn { position: absolute; bottom: 12px; right: 12px; border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; transition: transform 0.1s; background: rgba(0, 122, 255, 0.1); color: var(--ios-blue);}
-        .action-btn:active { transform: scale(0.9); }
-        .action-btn.recording { background: #FF3B30; color: white; animation: pulse 1.5s infinite; }
+        .action-btn { position: absolute; bottom: 10px; right: 10px; border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; font-size: 15px; cursor: pointer; background: var(--ios-bg); color: var(--ios-blue);}
+        .action-btn.recording { background: var(--ios-red); color: white; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
         
         .quick-phrases { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .phrase-chip { background: var(--input-bg); color: var(--ios-blue); padding: 10px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box;}
-        .phrase-chip:active { transform: scale(0.96); opacity: 0.8; }
-        .chip-green { background: rgba(52, 199, 89, 0.1); color: var(--ios-green); border-color: transparent; }
-        .chip-full { grid-column: span 2; padding: 12px; font-size: 13px;} 
+        .phrase-chip { background: var(--ios-bg); color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: center; text-align: center; align-items: center; border: 1px solid var(--ios-border); width: 100%;}
+        .phrase-chip:active { opacity: 0.6; }
+        .chip-green { color: var(--ios-green); grid-column: span 2; font-weight: 600;}
         
-        .whatsapp-msg { background: var(--wp-bg); border-radius: 16px; padding: 16px; font-size: 15px; white-space: pre-wrap; color: #000; margin-top: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5; border: 1px solid rgba(0,0,0,0.05); word-wrap: break-word;}
+        .whatsapp-msg { background: var(--wp-bg); border-radius: 12px; padding: 14px; font-size: 15px; white-space: pre-wrap; color: #000; margin-top: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); line-height: 1.4; word-wrap: break-word;}
         
-        button.bot-btn { flex: 1; width: 100%; min-width: 110px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; padding: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.1s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); margin-top:10px; box-sizing: border-box;}
-        button.bot-btn:active { transform: scale(0.97); }
-        .btn-secondary { background: #5856D6; box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2); } 
+        button.bot-btn { flex: 1; width: 100%; background: var(--ios-blue); color: white; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-top:10px; transition: 0.1s;}
+        button.bot-btn:active { opacity:0.8; transform:scale(0.98);}
+        .btn-secondary { background: #5856D6; } 
+
+        /* KASBES ÖZEL KUTULAR (Geliştirildi) */
+        .kasbes-panel { background: var(--ios-bg); border: 1px solid var(--ios-border); padding: 16px; border-radius: 12px; margin-bottom: 16px;}
+        .kasbes-panel h3 { color: var(--ios-blue); font-size: 14px; margin-bottom: 12px; text-transform:uppercase; font-weight:700;}
+        .kasbes-panel input, .kasbes-panel select { margin-bottom: 8px; background: var(--ios-card);}
         
         /* TAKVİM CSS HİZALAMASI */
-        .vardiya-radio-group { display: flex; flex-direction: column; gap: 10px; background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color);}
-        .v-radio-label { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--text-dark); cursor: pointer; }
+        .vardiya-radio-group { display: flex; flex-direction: column; gap: 10px; background: var(--ios-bg); padding: 15px; border-radius: 12px; margin-bottom: 15px;}
+        .v-radio-label { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--ios-text); cursor: pointer; }
         .v-radio-label input[type="radio"] { width: 20px; height: 20px; margin: 0; accent-color: var(--ios-blue); }
-        
-        .vardiya-btn-group { display: flex; gap: 8px; padding-bottom: 5px; justify-content: space-between; }
-        .v-day-btn { flex: 1; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 0; text-align: center; font-weight: bold; color: var(--text-dark); cursor: pointer; transition: 0.2s;}
-        .v-day-btn.active { background: rgba(0,122,255,0.1); color: var(--ios-blue); border-color: var(--ios-blue); }
+        .vardiya-btn-group { display: flex; gap: 8px; margin-top: 10px; }
+        .v-day-btn { flex: 1; background: var(--ios-card); border: 1px solid var(--ios-border); border-radius: 8px; padding: 10px 0; text-align: center; font-weight: 600; color: var(--ios-text); cursor: pointer; transition: 0.2s;}
+        .v-day-btn.active { background: var(--ios-blue); color: white; border-color: var(--ios-blue); }
 
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; text-align: center; width:100%; box-sizing:border-box;}
-        .cal-header { font-size: 12px; font-weight: bold; color: var(--text-gray); padding: 5px 0;}
-        .cal-day { background: var(--card-bg); border-radius: 12px; padding: 8px 2px; font-size: 15px; font-weight: 700; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 65px; box-sizing:border-box; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
-        .cal-shift { font-size: 10px; font-weight: 800; padding: 4px 0; border-radius: 6px; color: white; text-transform: uppercase; margin-top:4px; width: 90%;}
-        .cal-sub { font-size: 9px; font-weight: bold; color: var(--text-gray); margin-top:3px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; text-align: center; width:100%;}
+        .cal-header { font-size: 11px; font-weight: 700; color: var(--ios-text-mut); padding: 5px 0; text-transform:uppercase;}
+        .cal-day { background: var(--ios-bg); border-radius: 8px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px;}
+        .cal-shift { font-size: 10px; font-weight: 700; padding: 3px 0; border-radius: 4px; color: white; margin-top:4px; width: 90%;}
+        .cal-sub { font-size: 9px; font-weight: 600; color: var(--ios-text-mut); margin-top:3px; }
 
-        /* A4 ÖNİZLEME CSS (WORD FORMATI) */
-        #previewModal { align-items: center; padding: 30px 10px; overflow-y: auto; background: rgba(0,0,0,0.85); flex-direction: column; justify-content: flex-start;}
-        .preview-header { width: 100%; max-width: 210mm; padding: 15px 20px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; }
-        #previewEditArea { width: 100%; max-width: 210mm; min-height: 297mm; background: white; color: black; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; outline: none; box-sizing: border-box; text-align: justify; margin-bottom: 40px;}
+        /* A4 ÖNİZLEME MODALI */
+        #previewModal { align-items: flex-start; padding: 40px 10px; overflow-y: auto; background: rgba(0,0,0,0.85); flex-direction: column;}
+        .preview-header { width: 100%; max-width: 210mm; margin: 0 auto; padding: 15px; background: #1C1C1E; color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; }
+        #previewEditArea { width: 100%; max-width: 210mm; min-height: 297mm; margin: 0 auto; background: white; color: black; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; outline: none; box-sizing: border-box; text-align: justify; margin-bottom: 40px;}
 
         /* GELİŞTİRİCİ FOOTER */
-        .developer-credit { width: 100%; text-align: center; margin: 20px auto 10px auto; font-size: 12px; color: var(--text-gray); font-weight: 500; clear: both;}
-        .developer-credit b { font-weight: 700; color: var(--ios-blue); }
-        .version-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 1px; background: var(--border-color); color:var(--text-dark); padding: 4px 8px; border-radius: 10px;}
+        .developer-credit { width: 100%; text-align: center; margin: 20px 0; font-size: 12px; color: var(--ios-text-mut); font-weight: 500;}
+        .developer-credit b { font-weight: 600; color: var(--ios-blue); }
 
-        /* KASBES ÖZEL KUTULAR */
-        .kasbes-panel { background: var(--input-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; margin-bottom: 12px;}
-        .kasbes-panel label { color: var(--ios-blue); font-size: 12px; margin-bottom: 10px;}
-
-        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--input-bg); padding: 12px 14px; border-radius: 12px; font-size: 14px; border: 1px solid var(--border-color);}
-        .checklist-title { font-size: 13px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px; cursor: pointer;}
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--input-bg); padding: 12px; border-radius: 12px; cursor: pointer; transition: opacity 0.2s;}
-        .check-item input { width: 20px; height: 20px; pointer-events: none; accent-color: var(--ios-blue); } 
+        .sahis-card { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background: var(--ios-bg); padding: 12px; border-radius: 10px; font-size: 14px;}
+        .checklist-title { font-size: 13px; font-weight: 600; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer;}
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-bg); padding: 12px; border-radius: 10px; cursor: pointer;}
+        .check-item input { width: 20px; height: 20px; accent-color: var(--ios-blue); } 
         .check-item.done { opacity: 0.5; text-decoration: line-through; }
 
-        /* YAZDIRMA ALANI - SARI RENKLERİ KORUR */
+        /* YAZDIRMA (SARI KASBES RENKLERİ İÇİN EXACT) */
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -128,22 +127,22 @@
 <body>
 
 <div id="disclaimerModal" class="modal-overlay">
-    <div class="modal-content" style="background:var(--card-bg);">
+    <div class="modal-content">
         <h2 style="color:var(--ios-blue); text-align:center; margin-bottom:15px; font-size:20px;"><i class="fa-solid fa-scale-balanced"></i> Yasal Bilgilendirme</h2>
-        <div style="font-size:14px; color:var(--text-dark); line-height:1.6; text-align:justify;">
+        <div style="font-size:14px; color:var(--ios-text); line-height:1.5; text-align:justify;">
             <p><b>Değerli Kullanıcı,</b></p>
-            <p>Bu uygulamada yer alan menüler <b>ZORUNLU DEĞİLDİR.</b> Uygulamayı, kişisel işlerinizi hızlandırmak adına kullanabilirsiniz. Bu yazılım Emniyet Genel Müdürlüğü'nün resmi bir projesi değildir.</p>
+            <p>Bu uygulamada yer alan menüler <b>ZORUNLU DEĞİLDİR.</b> Uygulamayı, kişisel işlerinizi hızlandırmak adına kullanabilirsiniz. Bu yazılım EGM'nin resmi bir projesi değildir.</p>
             <br>
             <p><u><b>Önemli Yasal Uyarılar:</b></u></p>
-            <ul style="padding-left:20px; margin-top:10px; font-size:13px; color:var(--text-gray);">
-                <li style="margin-bottom:8px;">Bu alana girilen bilgiler tamamen kullanıcının kendi isteği ve açık iradesiyle girilir.</li>
-                <li style="margin-bottom:8px;">Girilen hiçbir veri uygulama geliştiricisi tarafından görülmez, işlenmez, paylaşılmaz veya <b>hiçbir sunucuya aktarılmaz.</b></li>
-                <li style="margin-bottom:8px;">Tüm bilgiler yalnızca kullanıcının kendi cihazında (ve kendi şifreli ağında) yerel olarak saklanır.</li>
-                <li style="margin-bottom:8px;">Bu alan herhangi bir resmi kayıt, doğrulama, veri toplama veya denetim amacı taşımaz.</li>
-                <li style="margin-bottom:8px;">Girilen bilgilerin içeriği, doğruluğu ve kullanımından doğabilecek <b>tüm hukuki ve idari sorumluluk tamamen kullanıcıya aittir.</b></li>
+            <ul style="padding-left:20px; margin-top:10px; font-size:13px; color:var(--ios-text-mut);">
+                <li style="margin-bottom:6px;">Girilen bilgiler tamamen kullanıcının kendi isteği ve açık iradesiyle girilir.</li>
+                <li style="margin-bottom:6px;">Girilen hiçbir veri uygulama geliştiricisi tarafından görülmez, işlenmez veya <b>hiçbir sunucuya aktarılmaz.</b></li>
+                <li style="margin-bottom:6px;">Tüm bilgiler yalnızca kullanıcının kendi cihazında yerel olarak saklanır.</li>
+                <li style="margin-bottom:6px;">Bu alan herhangi bir resmi kayıt, doğrulama veya denetim amacı taşımaz.</li>
+                <li>Doğabilecek <b>tüm hukuki ve idari sorumluluk tamamen kullanıcıya aittir.</b></li>
             </ul>
         </div>
-        <button class="bot-btn" style="background:#FF3B30; margin-top:20px; font-size:16px; padding:16px;" onclick="kabulEtDisclaimer()">Okudum, Anladım</button>
+        <button class="bot-btn" style="background:var(--ios-blue); margin-top:20px;" onclick="kabulEtDisclaimer()">Okudum, Anladım</button>
     </div>
 </div>
 
@@ -151,20 +150,20 @@
     <div class="login-box">
         <i class="fa-solid fa-shield-halved"></i>
         <h2>Bilgi Notu</h2>
-        <p style="color:var(--text-gray); margin-bottom:20px; font-size:13px;">Erişim için Sicil ve Şifrenizi giriniz.</p>
+        <p style="color:var(--ios-text-mut); margin-bottom:20px; font-size:13px;">Erişim için Sicil ve Şifrenizi giriniz.</p>
         <input type="text" id="loginSicil" placeholder="Sicil">
         <input type="password" id="loginPassword" placeholder="Parola" onkeypress="if(event.key === 'Enter') girisYap()">
         <button onclick="girisYap()">Giriş Yap</button>
     </div>
 </div>
 
-<div class="container" id="appContainer" style="display: none;">
+<div class="container" id="appContainer">
     
     <div class="tab-container">
         <button class="tab-btn active" id="tabBilgiNotuBtn" onclick="sekmeDegistir('bilgiNotu')"><i class="fa-brands fa-whatsapp"></i> Bildirim</button>
         <button class="tab-btn" id="tabTutanakBtn" onclick="sekmeDegistir('tutanak')"><i class="fa-solid fa-file-signature"></i> Tutanak</button>
         <button class="tab-btn" id="tabVardiyaBtn" onclick="sekmeDegistir('vardiya')"><i class="fa-regular fa-calendar-days"></i> Vardiya</button>
-        <button class="tab-btn hidden" id="tabYonetimBtn" onclick="sekmeDegistir('yonetim')" style="background: linear-gradient(135deg, #FF3B30, #C0392B); color:white;"><i class="fa-solid fa-user-shield"></i> Yönetim</button>
+        <button class="tab-btn hidden" id="tabYonetimBtn" onclick="sekmeDegistir('yonetim')" style="color:var(--ios-red);"><i class="fa-solid fa-user-shield"></i> Yönetim</button>
     </div>
 
     <div id="bilgiNotuBolumu">
@@ -172,10 +171,10 @@
             <div class="header-row">
                 <h1><i class="fa-brands fa-whatsapp"></i> Bildirim</h1>
                 <div class="top-btn-group">
-                    <button class="archive-btn-top btn-danger" onclick="formuTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
-                    <button class="archive-btn-top" onclick="toggleDarkMode()" title="Gece/Gündüz Modu"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
-                    <button class="archive-btn-top" onclick="arsiviAc()" title="Ortak Arşivi Aç"><i class="fa-solid fa-folder-open"></i></button>
-                    <button class="archive-btn-top" onclick="cikisYap()" title="Çıkış Yap"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <button class="archive-btn-top btn-danger" onclick="formuTemizle()"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="archive-btn-top" onclick="toggleDarkMode()"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
+                    <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
+                    <button class="archive-btn-top" onclick="cikisYap()"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             </div>
             
@@ -244,7 +243,7 @@
                 <label>Özet / Açıklama</label>
                 <div class="textarea-wrapper">
                     <textarea id="ozet" placeholder="Olayın özetini buraya girin..." oninput="metinOlustur()"></textarea>
-                    <button class="action-btn mic-btn" title="Sesli Yazdır" onclick="toggleDictation('ozet')"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="action-btn mic-btn" onclick="toggleDictation('ozet')"><i class="fa-solid fa-microphone"></i></button>
                 </div>
                 
                 <div class="quick-phrases">
@@ -267,10 +266,10 @@
 
         <div class="glass-panel" id="checklistPanel">
             <div class="checklist-title" onclick="toggleChecklist()">
-                <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-list-check" style="color: var(--ios-blue);"></i> Kontrol Listesi</div>
-                <i id="checklistIcon" class="fa-solid fa-chevron-up" style="color: var(--text-gray); font-size:14px;"></i>
+                <span><i class="fa-solid fa-list-check" style="color: var(--ios-blue); margin-right:5px;"></i> Kontrol Listesi</span>
+                <i id="checklistIcon" class="fa-solid fa-chevron-up"></i>
             </div>
-            <div id="checkListItemsContainer" style="margin-top:12px;"></div>
+            <div id="checkListItemsContainer" style="margin-top:10px;"></div>
         </div>
     </div>
 
@@ -279,14 +278,14 @@
             <div class="header-row">
                 <h1><i class="fa-solid fa-file-signature"></i> Tutanak Asistanı</h1>
                 <div class="top-btn-group">
-                    <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()" title="Temizle"><i class="fa-solid fa-trash-can"></i></button>
-                    <button class="archive-btn-top" onclick="arsiviAc()" title="Arşiv"><i class="fa-solid fa-folder-open"></i></button>
+                    <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Tutanak / Evrak Türü</label>
-                <select id="tutTuru" onchange="tutanakSablonDegistir()" style="border: 1px solid var(--ios-blue); background: rgba(0, 122, 255, 0.05);">
+                <select id="tutTuru" onchange="tutanakSablonDegistir()">
                     <option value="ifade">İfade Tutanağı</option>
                     <option value="olay_yeri">Olay Yeri Görgü Tutanağı</option>
                     <option value="muhafaza">Muhafaza Altına Alma Tutanağı</option>
@@ -329,49 +328,59 @@
 
                 <div class="form-group hidden" id="d_kayip_detay">
                     <div class="kasbes-panel">
-                        <label><i class="fa-solid fa-user"></i> Müracaatçı Bilgileri</label>
-                        <input type="number" id="kTC" placeholder="T.C. Kimlik No" style="margin-bottom:8px;">
-                        <input type="text" id="kAd" placeholder="Adı ve Soyadı" style="margin-bottom:8px;">
-                        <input type="text" id="kAnneBaba" placeholder="Baba ve Anne Adı (Örn: Ahmet - Ayşe)" style="margin-bottom:8px;">
-                        <input type="text" id="kDTarih" placeholder="Doğum Yeri ve Tarihi" style="margin-bottom:8px;">
-                        <input type="text" id="kTel" placeholder="Telefon Numarası" style="margin-bottom:8px;">
+                        <h3>Müracaatçı Bilgileri</h3>
+                        <input type="number" id="kTC" placeholder="T.C. Kimlik No">
+                        <input type="text" id="kAd" placeholder="Adı ve Soyadı">
+                        <input type="text" id="kAnneBaba" placeholder="Baba ve Anne Adı">
+                        <input type="text" id="kDTarih" placeholder="Doğum Yeri ve Tarihi">
+                        <input type="text" id="kTel" placeholder="Telefon Numarası">
                         <input type="text" id="kAdres" placeholder="İkamet Adresi">
                     </div>
                     <div class="kasbes-panel">
-                        <label><i class="fa-solid fa-circle-info"></i> Kayıp Bilgileri</label>
-                        <input type="text" id="kAlinanYer" placeholder="Müracaatın Alındığı Yer" value="Dodurga Polis Merkezi Amirliği" style="margin-bottom:8px;">
-                        <input type="text" id="kKayipYeri" placeholder="Kayıp Yeri (Örn: Çarşı Merkezi)" style="margin-bottom:8px;">
+                        <h3>Kayıp Bilgileri</h3>
+                        <input type="text" id="kAlinanYer" placeholder="Müracaatın Alındığı Yer" value="Dodurga Polis Merkezi Amirliği">
+                        <input type="text" id="kKayipYeri" placeholder="Kayıp Yeri (Örn: Çarşı İçi)">
                         <input type="text" id="kKayipZaman" placeholder="Kayıp Tarihi ve Saati">
                     </div>
                     <div class="kasbes-panel">
-                        <label><i class="fa-solid fa-box-open"></i> Kayıp Türü</label>
-                        <select id="kTip" onchange="kasbesTipDegistir()" style="margin-bottom:8px; border-color:var(--ios-blue);">
+                        <h3>Durum ve Tür Seçimi</h3>
+                        <select id="kDurum" style="margin-bottom:10px;">
+                            <option value="KAYIP">Kayıp Eşya</option>
+                            <option value="BULUNAN">Bulunan Eşya</option>
+                        </select>
+                        <select id="kTip" onchange="kasbesTipDegistir()">
                             <option value="plaka">Plaka</option>
                             <option value="tescil">Tescil Belgesi</option>
                             <option value="esya">Eşya / Belge</option>
                         </select>
-                        <div id="div_kPlaka">
-                            <input type="text" id="kPlakaNo" placeholder="Plaka No" style="margin-bottom:8px;">
-                            <input type="text" id="kPlakaAdet" placeholder="Plaka Adeti" style="margin-bottom:8px;">
-                            <input type="text" id="kPlakaSeri1" placeholder="1. Seri No" style="margin-bottom:8px;">
-                            <input type="text" id="kPlakaSeri2" placeholder="2. Seri No" style="margin-bottom:8px;">
-                            <label style="display:flex; align-items:center; gap:8px; font-size:14px; text-transform:none; color:var(--text-dark);"><input type="checkbox" id="kPlakaSerisiz" style="width:20px; height:20px; margin:0;"> Serisiz Plaka</label>
+                        
+                        <div id="div_kPlaka" style="margin-top:10px;">
+                            <input type="text" id="kPlakaNo" placeholder="Plaka No">
+                            <input type="text" id="kPlakaAdet" placeholder="Plaka Adeti">
+                            <input type="text" id="kPlakaSeri1" placeholder="1. Seri No">
+                            <input type="text" id="kPlakaSeri2" placeholder="2. Seri No">
+                            <label style="display:flex; align-items:center; gap:8px; font-size:14px; text-transform:none; margin-top:5px; color:var(--ios-text);"><input type="checkbox" id="kPlakaSerisiz" style="width:20px; height:20px; margin:0;"> Serisiz Plaka</label>
                         </div>
-                        <div id="div_kTescil" class="hidden">
-                            <input type="text" id="kTescilPlaka" placeholder="Plaka No" style="margin-bottom:8px;">
+                        <div id="div_kTescil" class="hidden" style="margin-top:10px;">
+                            <input type="text" id="kTescilPlaka" placeholder="Plaka No">
                             <input type="text" id="kTescilSeri" placeholder="Belge Harf ve Seri No">
                         </div>
-                        <div id="div_kEsya" class="hidden">
-                            <input type="text" id="kEsyaSeri" placeholder="Seri Nosu ve Adeti" style="margin-bottom:8px;">
+                        <div id="div_kEsya" class="hidden" style="margin-top:10px;">
+                            <input type="text" id="kEsyaSeri" placeholder="Seri Nosu ve Adeti">
                             <input type="text" id="kEsyaMarka" placeholder="Marka ve Cinsi">
                         </div>
+                    </div>
+                    
+                    <div class="kasbes-panel">
+                        <h3>Konu Özeti</h3>
+                        <textarea id="kOzet" placeholder="Kayıp eşya ile ilgili detayı ve özeti buraya yazın..." style="min-height:100px; margin:0; border:none;"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group hidden" id="d_dugun_detay">
-                    <div class="row"><input type="text" id="tutDugunBaba" placeholder="Baba Adı" style="margin-bottom:8px;"><input type="text" id="tutDugunDTarih" placeholder="D.Tarihi" style="margin-bottom:8px;"></div>
-                    <div class="row"><input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi" style="margin-bottom:8px;"><input type="text" id="tutDugunMuddet" placeholder="Saat Müddeti" style="margin-bottom:8px;"></div>
-                    <div class="row"><input type="text" id="tutDugunNikah" placeholder="Medeni Nikah" style="margin-bottom:8px;"><input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Tel" style="margin-bottom:8px;"></div>
+                    <div class="row"><input type="text" id="tutDugunBaba" placeholder="Baba Adı"><input type="text" id="tutDugunDTarih" placeholder="D.Tarihi"></div>
+                    <div class="row"><input type="text" id="tutDugunCesit" placeholder="Düğün Çeşidi"><input type="text" id="tutDugunMuddet" placeholder="Saat Müddeti"></div>
+                    <div class="row"><input type="text" id="tutDugunNikah" placeholder="Medeni Nikah"><input type="text" id="tutDugunTel" placeholder="Düğün Sahibi Tel"></div>
                 </div>
 
                 <div class="form-group hidden" id="d_izin_detay">
@@ -396,7 +405,7 @@
                 <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
             </div>
             
-            <button class="bot-btn" onclick="tutanakA4Hazirla()"><i class="fa-regular fa-file-lines"></i> A4 Önizleme ve Düzenle</button>
+            <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
             <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
         </div>
     </div>
@@ -406,17 +415,22 @@
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
             
             <div class="vardiya-radio-group">
-                <label style="font-size: 13px; color: var(--text-gray); margin-bottom: 5px;">SİSTEM: Çakma 12/36</label>
-                <label class="v-radio-label"><input type="radio" checked> 5 Gün / 10 Gün (Gece-İst)</label>
+                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
+                <label class="v-radio-label"><input type="radio" checked> Çakma 12/36 (5 Gün / 10 Gece-İst)</label>
             </div>
 
-            <div class="vardiya-radio-group">
-                <label style="font-size: 13px; color: var(--text-gray); margin-bottom: 5px;">BUGÜN DURUMUNUZ NEDİR?</label>
-                <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="0" checked onchange="takvimCiz()"> Gündüz Çalışıyorum</label>
-                <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="5" onchange="takvimCiz()"> Gece Çalışıyorum</label>
-                <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="10" onchange="takvimCiz()"> İstirahatliyim</label>
+            <div class="form-group" style="background:var(--ios-bg); border:1px solid var(--ios-border); padding:16px; border-radius:12px;">
+                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-bottom:10px;">REFERANS TARİHİ</label>
+                <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="background:var(--ios-card);">
                 
-                <label style="font-size: 12px; color: var(--ios-blue); margin-top: 15px;">KAÇINCI GÜNDESİNİZ?</label>
+                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:15px; margin-bottom:10px;">BUGÜN DURUMUNUZ NEDİR?</label>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="0" checked onchange="takvimCiz()"> Gündüz</label>
+                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="5" onchange="takvimCiz()"> Gece</label>
+                    <label class="v-radio-label"><input type="radio" name="vardiyaDurum" value="10" onchange="takvimCiz()"> İstirahat</label>
+                </div>
+                
+                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:20px; margin-bottom:10px;">KAÇINCI GÜNDESİNİZ?</label>
                 <div class="vardiya-btn-group" id="gunSecici">
                     <div class="v-day-btn active" onclick="setGun(1)">1</div>
                     <div class="v-day-btn" onclick="setGun(2)">2</div>
@@ -426,19 +440,17 @@
                 </div>
             </div>
 
-            <input type="date" id="vardiyaBaslangic" style="display: none;"> 
-
             <div class="form-group" style="margin-top:20px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:10px; border-radius:12px; border: 1px solid var(--border-color);">
-                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                    <b id="takvimAyYazi" style="font-size:15px; color:var(--text-dark);">MAYIS 2026</b>
-                    <button class="archive-btn-top" style="background:transparent; border:none; box-shadow:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-bg); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
+                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
+                    <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
 
             <div class="cal-grid">
                 <div class="cal-header">PZT</div><div class="cal-header">SAL</div><div class="cal-header">ÇAR</div>
-                <div class="cal-header">PER</div><div class="cal-header">CUM</div><div class="cal-header" style="color:#FF3B30">CMT</div><div class="cal-header" style="color:#FF3B30">PAZ</div>
+                <div class="cal-header">PER</div><div class="cal-header">CUM</div><div class="cal-header" style="color:var(--ios-red);">CMT</div><div class="cal-header" style="color:var(--ios-red);">PAZ</div>
             </div>
             <div id="takvimGunler" class="cal-grid" style="margin-top:0;"></div>
         </div>
@@ -447,7 +459,7 @@
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
-            <div style="background:var(--input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--border-color);">
+            <div style="background:var(--ios-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px;">Personel Ekle</h3>
                 <div class="row">
                     <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No"></div>
@@ -461,7 +473,7 @@
             <div id="personelListesi" style="max-height: 150px; overflow-y:auto; margin-bottom:15px;">Yükleniyor...</div>
 
             <h3 style="font-size:14px; margin-bottom:5px;">Sistem Logları (Son 50 Hareket)</h3>
-            <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--text-dark); border: 1px solid var(--border-color);">
+            <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
                 Loglar yükleniyor...
             </div>
         </div>
@@ -478,7 +490,7 @@
             <h2 style="margin:0; font-size: 16px;"><i class="fa-solid fa-pen-to-square"></i> A4 Son Kontrol</h2>
             <div style="display:flex; gap:10px;">
                 <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:8px 12px; border:none;" onclick="window.print()">Yazdır / PDF</button>
-                <button class="archive-btn-top btn-danger" style="padding:8px 12px; border:none;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
+                <button class="archive-btn-top" style="background:var(--ios-red); color:white; padding:8px 12px; border:none;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
             </div>
         </div>
         <div style="flex: 1; width: 100%; overflow-y: auto; display: flex; justify-content: center; padding: 20px 0;">
@@ -492,10 +504,10 @@
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
         <canvas id="sigCanvas" style="background: white; border: 2px dashed var(--ios-blue); border-radius: 12px; width: 100%; height: 200px; touch-action: none; cursor:crosshair;"></canvas>
         <div style="display:flex; gap:10px; margin-top:15px;">
-            <button class="bot-btn btn-danger" onclick="clearSignature()" style="flex:1; margin:0;">Temizle</button>
-            <button class="bot-btn" style="background:var(--ios-green); flex:2; margin:0;" onclick="saveSignature()">İmzayı Ekle</button>
+            <button class="bot-btn" style="background:var(--ios-red); flex:1;" onclick="clearSignature()">Temizle</button>
+            <button class="bot-btn" style="background:var(--ios-green); flex:2;" onclick="saveSignature()">İmzayı Ekle</button>
         </div>
-        <button class="archive-btn-top" style="width:100%; margin-top:10px; background:transparent; border:none; color:var(--text-gray);" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
+        <button class="bot-btn" style="background:transparent; border:1px solid var(--ios-border); color:var(--ios-text-mut); margin-top:10px;" onclick="document.getElementById('signatureModal').classList.add('hidden')">İptal</button>
     </div>
 </div>
 
@@ -503,7 +515,7 @@
     <div class="modal-content">
         <div class="header-row">
             <h2>Ortak Arşiv</h2>
-            <button class="archive-btn-top btn-danger" style="border:none;" onclick="arsiviKapat()">Kapat</button>
+            <button class="archive-btn-top" style="background:var(--ios-red); color:white; border:none;" onclick="arsiviKapat()">Kapat</button>
         </div>
         <input type="text" id="archiveSearch" placeholder="Ara..." style="margin-bottom:10px;" oninput="arsivFiltrele()">
         <div id="archiveList">Yükleniyor...</div>
@@ -520,6 +532,16 @@
             document.getElementById("disclaimerModal").classList.add("hidden");
             baslat();
         }
+        
+        document.getElementById("previewModal").addEventListener("click", function(e) {
+            if(e.target === this) { this.classList.add('hidden'); }
+        });
+        document.getElementById("signatureModal").addEventListener("click", function(e) {
+            if(e.target === this) { this.classList.add('hidden'); }
+        });
+        document.getElementById("archiveModal").addEventListener("click", function(e) {
+            if(e.target === this) { this.classList.add('hidden'); }
+        });
     });
 
     function kabulEtDisclaimer() {
@@ -539,7 +561,7 @@
 
         if(localStorage.getItem('polis_ag_giris_izni') === 'true') {
             document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("appContainer").style.display = "block"; // EKRANI KURTARAN KOD
+            document.getElementById("appContainer").style.display = "block";
             
             if(localStorage.getItem('aktif_rol') === 'admin') {
                 document.getElementById("tabYonetimBtn").classList.remove("hidden");
@@ -552,12 +574,12 @@
             document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
             document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
-            // AÇILIŞTA ASAYİŞ OTOMATİK DOLSUN DİYE GECİKMELİ TETİKLEME
-            setTimeout(() => {
-                document.getElementById('olayTuru').value = 'asayis';
-                sablonDegistir(); 
-            }, 100);
+            tutanakSablonDegistir();
             
+            // AÇILIŞTA ŞAK DİYE ASAYİŞ METNİ GELMESİ
+            document.getElementById('olayTuru').value = 'asayis';
+            sablonDegistir(); 
+
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
@@ -663,7 +685,6 @@
         let radioDurum = document.querySelector('input[name="vardiyaDurum"]:checked').value; 
         let baslangicDurumu = parseInt(radioDurum) + (seciliVardiyaGunu - 1); 
         
-        // Çakma 12/36 Patern (15 Günlük Periyot)
         const patern = [
             {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
             {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
@@ -785,7 +806,7 @@
         const container = document.getElementById("sahisListesiContainer");
         container.innerHTML = "";
         sahislarDizisi.forEach((sahis, index) => {
-            container.innerHTML += `<div class="sahis-card" style="background:var(--input-bg); padding:10px; border-radius:12px; margin-top:5px; display:flex; justify-content:space-between;"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:#FF3B30; cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
+            container.innerHTML += `<div class="sahis-card"><span><b style="color: var(--ios-blue);">${sahis.rol}:</b> ${sahis.ad}</span><i class="fa-solid fa-trash" style="color:var(--ios-red); cursor:pointer;" onclick="sahisSil(${index})"></i></div>`;
         });
     }
 
@@ -919,7 +940,7 @@
         document.getElementById("d_konu").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_sahis1").classList.toggle("hidden", isDilekce || isKayip || isBakaya);
         document.getElementById("d_sahis2").classList.toggle("hidden", tur !== "teslim_tesellum");
-        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isKayip || isBakaya || isAranan);
+        document.getElementById("d_detay").classList.toggle("hidden", isDilekce || isAranan); // KASBES'te Özet açıldı
         document.getElementById("d_tarih_saat").classList.toggle("hidden", isDilekce); 
         document.getElementById("kutuMemur2").classList.toggle("hidden", isDilekce || isKayip);
         
@@ -1013,9 +1034,9 @@
         const s1 = (s1Raw !== "..................") ? isimFormatla(s1Raw) : s1Raw;
         const s2 = (s2Raw !== "..................") ? isimFormatla(s2Raw) : s2Raw;
 
-        let rawDetay = document.getElementById("tutDetay").value || "..................";
+        let rawDetay = document.getElementById("tutDetay").value || "";
         const pStyle = 'style="text-align: justify; text-indent: 40px; margin: 0 0 10px 0; line-height: 1.5;"';
-        const detay = rawDetay.split('\n').filter(line => line.trim() !== '').join(`</p><p ${pStyle}>`);
+        let detay = rawDetay ? rawDetay.split('\n').filter(line => line.trim() !== '').join(`</p><p ${pStyle}>`) : "..................";
         
         const m1 = formatMemur(document.getElementById("tutMemur1").value);
         const m2 = formatMemur(document.getElementById("tutMemur2").value);
@@ -1073,7 +1094,9 @@
             const kKayipYeri = document.getElementById("kKayipYeri").value || "..................";
             const kKayipZaman = document.getElementById("kKayipZaman").value || "..................";
             
-            const kTip = document.getElementById("kTip").value;
+            const kDurum = document.getElementById("kDurum").value; // KAYIP or BULUNAN
+            const kTip = document.getElementById("kTip").value; // plaka, tescil, esya
+            
             const kPlakaNo = document.getElementById("kPlakaNo").value || "..........";
             const kPlakaAdet = document.getElementById("kPlakaAdet").value || "..........";
             const kPlakaSeri1 = document.getElementById("kPlakaSeri1").value || "..........";
@@ -1086,7 +1109,10 @@
             const kEsyaSeri = document.getElementById("kEsyaSeri").value || "..........";
             const kEsyaMarka = document.getElementById("kEsyaMarka").value || "..........";
 
+            const kOzet = document.getElementById("kOzet").value || "..........";
+
             const tdStyle = "border: 1px solid black; padding: 4px; vertical-align:middle;";
+            const yes = "☑"; const no = "☐";
             
             printHTML = `
                 <div style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 10pt; color: black; background: white;">
@@ -1098,11 +1124,10 @@
 
                     <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px;">
                         <tr><td colspan="2" style="background-color: #FFD966 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; text-align: center; font-weight: bold; border: 1px solid black; padding: 4px;">MÜRACAATÇI BİLGİLERİ</td></tr>
-                        <tr><td style="${tdStyle} width: 35%;">T.C. KİMLİK NO</td><td style="${tdStyle}">: ${kTC}</td></tr>
-                        <tr><td style="${tdStyle}">ADI VE SOYADI</td><td style="${tdStyle}">: ${kAd}</td></tr>
+                        <tr><td style="${tdStyle} width: 35%;">T.C. KİMLİK NO / ADI SOYADI</td><td style="${tdStyle}">: ${kTC} / ${kAd}</td></tr>
                         <tr><td style="${tdStyle}">BABA ve ANNE ADI</td><td style="${tdStyle}">: ${kAnneBaba}</td></tr>
                         <tr><td style="${tdStyle}">DOĞUM YERİ ve TARİHİ</td><td style="${tdStyle}">: ${kDTarih}</td></tr>
-                        <tr><td style="${tdStyle}">TELEFON NUMARASI</td><td style="${tdStyle}">: ${kTel}</td></tr>
+                        <tr><td style="${tdStyle}">TELEFON - MESLEK</td><td style="${tdStyle}">: ${kTel}</td></tr>
                         <tr><td style="${tdStyle}">İKAMET ADRESİ</td><td style="${tdStyle}">: ${kAdres}</td></tr>
                     </table>
 
@@ -1117,8 +1142,8 @@
                     <table style="width: 100%; border-collapse: collapse; border: 2px solid black; margin-bottom: 10px; text-align: center; font-size:9pt;">
                         <tr>
                             <td style="${tdStyle} width: 12%; text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'plaka' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'KAYIP' && kTip === 'plaka' ? yes : no}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'BULUNAN' && kTip === 'plaka' ? yes : no}</span>
                             </td>
                             <td style="${tdStyle} font-weight: bold; width: 10%;">PLAKA</td>
                             <td style="${tdStyle} width: 25%;">PLAKA NO<br>${kTip === 'plaka' ? kPlakaNo : ''}</td>
@@ -1127,13 +1152,13 @@
                                 PLAKA SERİ NOSU<br>
                                 1- ${kTip === 'plaka' ? kPlakaSeri1 : ''}<br>
                                 2- ${kTip === 'plaka' ? kPlakaSeri2 : ''}<br>
-                                <span style="font-size: 13pt; vertical-align: middle;">${(kTip === 'plaka' && kPlakaSerisiz) ? '☑' : '☐'}</span> Serisiz Plaka
+                                <span style="font-size: 13pt; vertical-align: middle;">${(kTip === 'plaka' && kPlakaSerisiz) ? yes : no}</span> Serisiz Plaka
                             </td>
                         </tr>
                         <tr>
                             <td style="${tdStyle} text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'tescil' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'KAYIP' && kTip === 'tescil' ? yes : no}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'BULUNAN' && kTip === 'tescil' ? yes : no}</span>
                             </td>
                             <td style="${tdStyle} font-weight: bold;">TESCİL<br>BELGESİ</td>
                             <td style="${tdStyle}">PLAKA NO<br>${kTip === 'tescil' ? kTescilPlaka : ''}</td>
@@ -1141,8 +1166,8 @@
                         </tr>
                         <tr>
                             <td style="${tdStyle} text-align: left; padding-left: 5px;">
-                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kTip === 'esya' ? '☑' : '☐'}</span><br>
-                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">☐</span>
+                                KAYIP <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'KAYIP' && kTip === 'esya' ? yes : no}</span><br>
+                                BULUNAN <span style="font-size: 13pt; vertical-align: middle;">${kDurum === 'BULUNAN' && kTip === 'esya' ? yes : no}</span>
                             </td>
                             <td style="${tdStyle} font-weight: bold;">EŞYA<br>BELGE</td>
                             <td colspan="2" style="${tdStyle}">SERİ NOSU ve ADETİ<br>${kTip === 'esya' ? kEsyaSeri : ''}</td>
@@ -1150,20 +1175,37 @@
                         </tr>
                     </table>
 
-                    <table style="width: 100%; text-align: center; border: none; font-size: 10pt; margin-top: 40px; page-break-inside: avoid;">
+                    <div style="border-top:2px solid black; border-bottom:2px solid black; padding: 10px 0; margin-bottom:20px;">
+                        <p style="text-align: justify; margin: 0; line-height: 1.5;"><b>KONU ÖZET:</b> ${kOzet}</p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-bottom: 40px;">
                         <tr>
-                            <td style="width: 50%; vertical-align: top;">
+                            <td style="border: 1px solid black; padding: 4px; width:15%;">TARİH-SAAT:</td>
+                            <td style="border: 1px solid black; padding: 4px; width:45%; text-align:center;">${tarih}</td>
+                            <td style="border: 1px solid black; padding: 4px; text-align:center;">SAAT: ${saat}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; text-align: center; border: none; font-size: 11pt; page-break-inside: avoid;">
+                        <tr>
+                            <td style="width: 50%; vertical-align: top; padding: 10px;">
                                 <span style="text-decoration: underline;">İŞLEM YAPAN PERSONEL</span><br><br>
-                                <div id="sig-m1" style="height:50px;"></div>
+                                <div id="sig-m1" style="height:60px;"></div>
                                 ${m1}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m1')">İmza Al</button>
                             </td>
-                            <td style="width: 50%; vertical-align: top;">
+                            <td style="width: 50%; vertical-align: top; padding: 10px;">
                                 <span style="text-decoration: underline;">MÜRACAATTA BULUNAN</span><br><br>
-                                <div id="sig-vat" style="height:50px;"></div>
-                                <b>${kAd}</b><br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
+                                <div id="sig-vat" style="height:60px;"></div>
+                                <b>${kAd}</b><br>Ruhsat Sahibi/Müracaatçı
+                                <br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button>
                             </td>
                         </tr>
                     </table>
+                    
+                    <div style="text-align:center; margin-top:20px; font-weight:bold; font-size:10pt;">
+                        NOT: BU BELGE MÜRACAATÇININ BEYANINA GÖRE TANZİM EDİLMİŞTİR.<br>ADLİ BELGE YERİNE GEÇMEZ.
+                    </div>
                 </div>
             `;
         }
@@ -1471,7 +1513,7 @@
         liste.innerHTML = "";
         snap.forEach((docSnap) => {
             const data = docSnap.data();
-            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
+            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
         });
     }
 
@@ -1523,9 +1565,9 @@
                 const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR'); 
                 
                 const div = document.createElement("div"); div.className = "archive-item";
-                div.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <div><b style="color:var(--ios-blue);">${data.konu}</b><br><small style="color:var(--text-gray);">${tStr}</small></div>
-                                    <i class="fa-solid fa-trash" style="color:#FF3B30; padding:10px;" onclick="event.stopPropagation(); kayitSilFirebase('${docSnap.id}')"></i>
+                div.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; border:1px solid var(--ios-border); padding:10px; border-radius:10px; margin-bottom:8px; background:var(--ios-card);">
+                                    <div><b style="color:var(--ios-blue); font-size:14px;">${data.konu}</b><br><small style="color:var(--ios-text-mut);">${tStr}</small></div>
+                                    <i class="fa-solid fa-trash" style="color:var(--ios-red); padding:10px;" onclick="event.stopPropagation(); kayitSilFirebase('${docSnap.id}')"></i>
                                  </div>`;
                 div.addEventListener('click', () => { navigator.clipboard.writeText(data.metin); alert("Not kopyalandı!"); });
                 liste.appendChild(div);
