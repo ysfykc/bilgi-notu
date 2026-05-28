@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.3.3</title>
+    <title>Bilgi Notu v1.4.0</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -46,6 +46,19 @@
         .bottom-tab-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ios-text-mut); font-size: 10px; font-weight: 600; gap: 4px; flex: 1; cursor: pointer; transition: 0.2s; }
         .bottom-tab-btn i { font-size: 22px; margin-bottom: 2px;}
         .bottom-tab-btn.active { color: var(--ios-blue); }
+
+        /* CANLI DUYURU BANDI (YENİ) */
+        #globalDuyuru { background: var(--ios-red); color: white; padding: 14px; border-radius: 12px; margin-bottom: 16px; font-size: 14px; font-weight: 600; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 4px 12px rgba(255,59,48,0.2); line-height: 1.4; animation: slideDown 0.3s ease-out;}
+        #globalDuyuru i { margin-top: 2px; font-size: 18px; }
+        #globalDuyuru.hidden { display: none !important; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* İSTATİSTİK KARTLARI (YENİ) */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: var(--ios-blue); color: white; padding: 18px; border-radius: 14px; text-align: center; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2); display:flex; flex-direction:column; justify-content:center; }
+        .stat-card h4 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px;}
+        .stat-card p { margin: 6px 0 0 0; font-size: 12px; opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        .stat-card.green { background: var(--ios-green); box-shadow: 0 4px 15px rgba(52, 199, 89, 0.2); }
 
         /* KARTLAR VE KUTULAR */
         .glass-panel { background: var(--ios-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; width: 100%; }
@@ -159,13 +172,10 @@
 <!-- ANA UYGULAMA -->
 <div class="container" id="appContainer">
     
-    <!-- SEKME BUTONLARI (WEB GÖRÜNÜMÜ VEYA YEDEK İÇİN) -->
-    <div class="tab-container" style="display:none;">
-        <button class="tab-btn active" id="tabBilgiNotuBtn" onclick="sekmeDegistir('bilgiNotu')"><i class="fa-brands fa-whatsapp"></i> Bildirim</button>
-        <button class="tab-btn" id="tabTutanakBtn" onclick="sekmeDegistir('tutanak')"><i class="fa-solid fa-file-signature"></i> Tutanak</button>
-        <button class="tab-btn" id="tabVardiyaBtn" onclick="sekmeDegistir('vardiya')"><i class="fa-regular fa-calendar-days"></i> Vardiya</button>
-        <button class="tab-btn hidden" id="tabYonetimBtn" onclick="sekmeDegistir('yonetim')" style="color:var(--ios-red);"><i class="fa-solid fa-user-shield"></i> Yönetim</button>
-        <button class="tab-btn" id="tabAyarlarBtn" onclick="sekmeDegistir('ayarlar')"><i class="fa-solid fa-gear"></i> Ayarlar</button>
+    <!-- YENİ: CANLI DUYURU BANDI -->
+    <div id="globalDuyuru" class="hidden">
+        <i class="fa-solid fa-bell fa-shake"></i>
+        <span id="duyuruMetni" style="flex:1;">...</span>
     </div>
 
     <!-- ============================================== -->
@@ -264,7 +274,6 @@
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <!-- AĞA GÖNDER BUTONU DÜZELTİLDİ (ID Eklendi) -->
                 <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
                 <button class="bot-btn" style="background:var(--ios-input-bg); color:var(--ios-blue);" onclick="kopyala()">Kopyala</button>
                 <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
@@ -322,7 +331,6 @@
                 
                 <!-- ÖZEL TUTANAK PANELLERİ -->
 
-                <!-- ARANAN ŞAHIS -->
                 <div id="panel_aranan" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
@@ -332,7 +340,6 @@
                     <input type="text" id="tutArananTeslim" placeholder="Teslim Edilen Birim (Örn: Polis Merkezi)">
                 </div>
 
-                <!-- BAKAYA -->
                 <div id="panel_bakaya" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-address-card"></i> Bakaya Şahıs Bilgileri</label>
                     <input type="number" id="tutBakayaTC" placeholder="T.C. Kimlik No" maxlength="11">
@@ -343,7 +350,6 @@
                     <input type="text" id="tutBakayaAdres" placeholder="İkamet Adresi ve Telefonu">
                 </div>
 
-                <!-- DÜĞÜN İZNİ -->
                 <div id="panel_dugun" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-ring"></i> Düğün İzin Detayları</label>
                     <div class="row">
@@ -370,7 +376,6 @@
                     </div>
                 </div>
 
-                <!-- İZİN DİLEKÇESİ -->
                 <div id="panel_izin" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</label>
                     <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)">
@@ -391,7 +396,7 @@
             <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
-                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
+                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
@@ -445,7 +450,7 @@
             <div id="takvimGunler" class="cal-grid" style="margin-top:0;"></div>
         </div>
     </div>
-
+    
     <!-- ============================================== -->
     <!-- BÖLÜM 4: AYARLAR (ŞİFRE DEĞİŞTİRME) -->
     <!-- ============================================== -->
@@ -453,10 +458,11 @@
         <div class="glass-panel">
             <div class="header-row">
                 <h1><i class="fa-solid fa-gear"></i> Ayarlar</h1>
+                <button class="archive-btn-top btn-danger" onclick="cikisYap()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
             </div>
             
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
-                <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-blue);">Şifre Değiştirme</h3>
+                <h3 style="font-size:14px; margin-bottom:15px; color:var(--ios-blue);"><i class="fa-solid fa-key"></i> Şifre Değiştirme</h3>
                 <div class="form-group">
                     <input type="password" id="ayarEskiSifre" placeholder="Mevcut Şifreniz" style="background:var(--ios-card);">
                 </div>
@@ -470,15 +476,38 @@
             </div>
         </div>
     </div>
-    
+
     <!-- ============================================== -->
-    <!-- BÖLÜM 5: YÖNETİM PANELİ (ADMİN) -->
+    <!-- BÖLÜM 5: YÖNETİM PANELİ (ADMİN) + FAZ 1 ÖZELLİKLERİ -->
     <!-- ============================================== -->
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
+            
+            <!-- YENİ: İSTATİSTİK PANELLERİ -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4 id="statPersonel">-</h4>
+                    <p>Aktif Personel</p>
+                </div>
+                <div class="stat-card green">
+                    <h4 id="statArsiv">-</h4>
+                    <p>Arşiv Kaydı</p>
+                </div>
+            </div>
+
+            <!-- YENİ: CANLI DUYURU YÖNETİMİ -->
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
-                <h3 style="font-size:14px; margin-bottom:10px;">Personel Ekle</h3>
+                <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
+                <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
+                <div style="display:flex; gap:10px;">
+                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Yayından Kaldır</button>
+                    <button class="bot-btn" style="background:var(--ios-red); margin:0;" onclick="duyuruYayinla()">Tümüne Gönder</button>
+                </div>
+            </div>
+
+            <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
+                <h3 style="font-size:14px; margin-bottom:10px;"><i class="fa-solid fa-user-plus"></i> Personel Ekle</h3>
                 <div class="row">
                     <div class="form-group"><input type="number" id="yeniPersonelSicil" placeholder="Sicil No" style="background:var(--ios-card);"></div>
                     <div class="form-group"><input type="text" id="yeniPersonelIsim" placeholder="Ad Soyad" style="background:var(--ios-card);"></div>
@@ -487,10 +516,10 @@
                 <button class="bot-btn" onclick="personelEkleFirebase()">Kaydet</button>
             </div>
             
-            <h3 style="font-size:14px; margin-bottom:5px;">Kayıtlı Personel</h3>
+            <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-users"></i> Kayıtlı Personel</h3>
             <div id="personelListesi" style="max-height: 150px; overflow-y:auto; margin-bottom:15px;">Yükleniyor...</div>
 
-            <h3 style="font-size:14px; margin-bottom:5px;">Sistem Logları</h3>
+            <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
             <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
                 Loglar yükleniyor...
             </div>
@@ -499,7 +528,7 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.3.3</span>
+        <span class="version-tag">v1.4.0</span>
     </div>
 
 </div>
@@ -643,6 +672,7 @@
             setTimeout(checklistCiz, 100); 
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
+            // Not: Duyuru dinleyicisi Firebase scripti içinde baslat() çağrıldıktan sonra çalışır.
         } else {
             document.getElementById("loginScreen").classList.remove("hidden");
         }
@@ -688,7 +718,6 @@
         }
     }
 
-    // YENİ ALT MENÜ SEKME SİSTEMİ
     function sekmeDegistir(sekme) {
         document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
         if(document.querySelectorAll('.tab-btn')) document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -723,13 +752,9 @@
             document.getElementById("yonetimBolumu").style.display = "block";
             if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
             if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
+            if(typeof window.istatistikleriYukle === 'function') window.istatistikleriYukle();
         }
     }
-
-    // --- VARDİYA HESAPLAMA MOTORU ---
-    let gosterilenAy = new Date().getMonth();
-    let gosterilenYil = new Date().getFullYear();
-    const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 
     function setDurum(val, element) {
         seciliVardiyaDurumu = parseInt(val);
@@ -1129,12 +1154,6 @@
         return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
     }
 
-    // ==========================================
-    // DOKUNMATİK İMZA MOTORU
-    // ==========================================
-    let sigCanvas, sigCtx, sigTargetId;
-    let isDrawing = false;
-
     function initSignature() {
         sigCanvas = document.getElementById("sigCanvas");
         sigCtx = sigCanvas.getContext("2d");
@@ -1170,9 +1189,6 @@
         }
     }
 
-    // ==========================================
-    // NİZAMİ A4 YAZDIRMA MOTORU
-    // ==========================================
     function tutanakA4Hazirla() {
         const tur = document.getElementById("tutTuru").value;
         const tarih = document.getElementById("tutTarih").value || "....";
@@ -1462,7 +1478,7 @@
 <!-- ============================================== -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc, enableIndexedDbPersistence, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc, enableIndexedDbPersistence, limit, updateDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const p1 = "AIzaSyADpIRNL"; const p2 = "QEIer_gplTgwK"; const p3 = "i_EKkfcyrYoqY";
     const firebaseConfig = { apiKey: p1+p2+p3, authDomain: "maasgunu-bd353.firebaseapp.com", projectId: "maasgunu-bd353", storageBucket: "maasgunu-bd353.firebasestorage.app" };
@@ -1471,9 +1487,50 @@
     try { 
         app = initializeApp(firebaseConfig); db = getFirestore(app); 
         enableIndexedDbPersistence(db).catch((err) => { console.log("Offline mod hatası", err); });
+        
+        const duyuruDocRef = doc(db, "ayarlar", "genel_duyuru");
+        onSnapshot(duyuruDocRef, (docSnap) => {
+            const duyuruKutusu = document.getElementById("globalDuyuru");
+            const duyuruMetni = document.getElementById("duyuruMetni");
+            if (docSnap.exists() && docSnap.data().aktif && docSnap.data().mesaj) {
+                duyuruMetni.innerText = docSnap.data().mesaj;
+                duyuruKutusu.classList.remove("hidden");
+            } else {
+                duyuruKutusu.classList.add("hidden");
+            }
+        });
     } catch(e) {}
 
-    // AĞA GÖNDER VE DİĞER FIREBASE İŞLEMLERİ
+    window.duyuruYayinla = async function() {
+        const mesaj = document.getElementById("yeniDuyuruMetni").value.trim();
+        if(!mesaj) { alert("Duyuru metni boş olamaz!"); return; }
+        if(confirm("Bu duyuru tüm personelin ekranında anında görünecek. Onaylıyor musunuz?")) {
+            await setDoc(doc(db, "ayarlar", "genel_duyuru"), { mesaj: mesaj, aktif: true, tarih: serverTimestamp() });
+            document.getElementById("yeniDuyuruMetni").value = "";
+            alert("Duyuru yayınlandı!");
+            window.logIslem("Duyuru", "Yeni genel duyuru yayınlandı.");
+        }
+    };
+
+    window.duyuruKaldir = async function() {
+        if(confirm("Yayındaki duyuruyu kaldırmak istiyor musunuz?")) {
+            await setDoc(doc(db, "ayarlar", "genel_duyuru"), { mesaj: "", aktif: false, tarih: serverTimestamp() }, {merge: true});
+            alert("Duyuru kaldırıldı!");
+            window.logIslem("Duyuru", "Genel duyuru yayından kaldırıldı.");
+        }
+    };
+
+    window.istatistikleriYukle = async function() {
+        if(!db) return;
+        try {
+            const pSnap = await getDocs(collection(db, "personel"));
+            document.getElementById("statPersonel").innerText = pSnap.size;
+
+            const aSnap = await getDocs(collection(db, "bilginotlari"));
+            document.getElementById("statArsiv").innerText = aSnap.size;
+        } catch(e) { console.log(e); }
+    };
+
     window.logIslem = async function(islemTipi, detay) {
         if(!db) return;
         let sicil = localStorage.getItem('aktif_sicil') || "Bilinmiyor";
@@ -1566,7 +1623,6 @@
         }
     }
 
-    // AĞA GÖNDER FONKSİYONU ÇÖZÜMÜ
     window.kaydetVeArsivle = async function(kaynak) {
         if(!navigator.onLine) { alert("İnternet yok, not yerel hafızaya kaydedildi, internet gelince otomatik yüklenecek."); }
         else if(!db) { alert("Sistem bağlantı hatası!"); return; }
@@ -1625,7 +1681,6 @@
         }
     }
 
-    // YENİ ŞİFRE GÜNCELLEME İŞLEMİ (AYARLAR)
     window.sifreGuncelle = async function() {
         const eskiSifre = document.getElementById("ayarEskiSifre").value;
         const yeniSifre = document.getElementById("ayarYeniSifre").value;
