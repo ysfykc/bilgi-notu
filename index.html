@@ -41,24 +41,11 @@
         .login-box input { text-align: center; font-size: 16px; margin-bottom: 12px; width: 100%; background: var(--ios-input-bg); border: none; color:var(--ios-text); border-radius: 12px; padding: 14px;}
         .login-box button { width: 100%; background: var(--ios-blue); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top:5px;}
 
-        /* ALT MENÜ BAR (iOS BOTTOM TAB BAR) */
+        /* ALT MENÜ BAR */
         .bottom-tab-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bottom-bar); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--ios-border); display: flex; justify-content: space-around; padding: 10px 10px 25px 10px; z-index: 9000; box-shadow: 0 -2px 10px rgba(0,0,0,0.03);}
         .bottom-tab-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ios-text-mut); font-size: 10px; font-weight: 600; gap: 4px; flex: 1; cursor: pointer; transition: 0.2s; }
         .bottom-tab-btn i { font-size: 22px; margin-bottom: 2px;}
         .bottom-tab-btn.active { color: var(--ios-blue); }
-
-        /* CANLI DUYURU BANDI (YENİ) */
-        #globalDuyuru { background: var(--ios-red); color: white; padding: 14px; border-radius: 12px; margin-bottom: 16px; font-size: 14px; font-weight: 600; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 4px 12px rgba(255,59,48,0.2); line-height: 1.4; animation: slideDown 0.3s ease-out;}
-        #globalDuyuru i { margin-top: 2px; font-size: 18px; }
-        #globalDuyuru.hidden { display: none !important; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* İSTATİSTİK KARTLARI (YENİ) */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-card { background: var(--ios-blue); color: white; padding: 18px; border-radius: 14px; text-align: center; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2); display:flex; flex-direction:column; justify-content:center; }
-        .stat-card h4 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px;}
-        .stat-card p { margin: 6px 0 0 0; font-size: 12px; opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
-        .stat-card.green { background: var(--ios-green); box-shadow: 0 4px 15px rgba(52, 199, 89, 0.2); }
 
         /* KARTLAR VE KUTULAR */
         .glass-panel { background: var(--ios-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; width: 100%; }
@@ -74,7 +61,7 @@
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
         input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
         input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
-        textarea { resize: vertical; min-height: 120px; padding-right: 45px; line-height: 1.4; }
+        textarea { resize: vertical; min-height: 180px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
         .row { display: flex; gap: 10px; width: 100%; } .row .form-group { flex: 1; }
         .textarea-wrapper { position: relative; width: 100%; }
@@ -136,7 +123,6 @@
 </head>
 <body>
 
-<!-- YASAL BİLGİLENDİRME -->
 <div id="disclaimerModal" class="modal-overlay">
     <div class="modal-content" style="background:var(--ios-card);">
         <h2 style="color:var(--ios-blue); text-align:center; margin-bottom:15px; font-size:20px;"><i class="fa-solid fa-scale-balanced"></i> Yasal Bilgilendirme</h2>
@@ -157,7 +143,6 @@
     </div>
 </div>
 
-<!-- GİRİŞ EKRANI -->
 <div id="loginScreen" class="hidden">
     <div class="login-box">
         <i class="fa-solid fa-shield-halved"></i>
@@ -169,18 +154,8 @@
     </div>
 </div>
 
-<!-- ANA UYGULAMA -->
 <div class="container" id="appContainer">
     
-    <!-- YENİ: CANLI DUYURU BANDI -->
-    <div id="globalDuyuru" class="hidden">
-        <i class="fa-solid fa-bell fa-shake"></i>
-        <span id="duyuruMetni" style="flex:1;">...</span>
-    </div>
-
-    <!-- ============================================== -->
-    <!-- BÖLÜM 1: BİLGİ NOTU -->
-    <!-- ============================================== -->
     <div id="bilgiNotuBolumu">
         <div class="glass-panel">
             <div class="header-row">
@@ -274,7 +249,7 @@
             <div class="whatsapp-msg" id="wpOnizleme"></div>
             
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="bot-btn btn-secondary" id="kaydetBtn" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
+                <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('wp')">Ağa Gönder</button>
                 <button class="bot-btn" style="background:var(--ios-input-bg); color:var(--ios-blue);" onclick="kopyala()">Kopyala</button>
                 <button class="bot-btn" style="background:var(--ios-green);" onclick="whatsappGonder()">WhatsApp</button>
             </div>
@@ -289,9 +264,6 @@
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- BÖLÜM 2: TUTANAK ASİSTANI -->
-    <!-- ============================================== -->
     <div id="tutanakBolumu" style="display:none;">
         <div class="glass-panel">
             <div class="header-row">
@@ -329,8 +301,6 @@
                 <div class="form-group" id="d_sahis1"><label id="lblTutSahis1">İlgili Şahıs / Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis1" placeholder="TC ve İsim"></div>
                 <div class="form-group hidden" id="d_sahis2"><label id="lblTutSahis2">Teslim Alan Şahıs/Kurum (TC ve Ad Soyad)</label><input type="text" id="tutSahis2" placeholder="TC ve İsim"></div>
                 
-                <!-- ÖZEL TUTANAK PANELLERİ -->
-
                 <div id="panel_aranan" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-handcuffs"></i> Aranan Şahıs Detayları</label>
                     <input type="text" id="tutArananEkip" placeholder="Ekip Kodu (Örn: 8867)">
@@ -400,13 +370,10 @@
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
-            <button class="bot-btn btn-secondary" id="tutKaydetBtn" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
+            <button class="bot-btn btn-secondary" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- BÖLÜM 3: VARDİYA HESAPLAMA -->
-    <!-- ============================================== -->
     <div id="vardiyaBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
@@ -451,9 +418,6 @@
         </div>
     </div>
     
-    <!-- ============================================== -->
-    <!-- BÖLÜM 4: AYARLAR (ŞİFRE DEĞİŞTİRME) -->
-    <!-- ============================================== -->
     <div id="ayarlarBolumu" style="display:none;">
         <div class="glass-panel">
             <div class="header-row">
@@ -477,35 +441,10 @@
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- BÖLÜM 5: YÖNETİM PANELİ (ADMİN) + FAZ 1 ÖZELLİKLERİ -->
-    <!-- ============================================== -->
     <div id="yonetimBolumu" style="display:none;">
         <div class="glass-panel">
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-solid fa-user-shield"></i> Yönetici Paneli</h2>
             
-            <!-- YENİ: İSTATİSTİK PANELLERİ -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4 id="statPersonel">-</h4>
-                    <p>Aktif Personel</p>
-                </div>
-                <div class="stat-card green">
-                    <h4 id="statArsiv">-</h4>
-                    <p>Arşiv Kaydı</p>
-                </div>
-            </div>
-
-            <!-- YENİ: CANLI DUYURU YÖNETİMİ -->
-            <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
-                <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
-                <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
-                <div style="display:flex; gap:10px;">
-                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Yayından Kaldır</button>
-                    <button class="bot-btn" style="background:var(--ios-red); margin:0;" onclick="duyuruYayinla()">Tümüne Gönder</button>
-                </div>
-            </div>
-
             <div style="background:var(--ios-input-bg); padding:15px; border-radius:12px; margin-bottom:15px; border: 1px solid var(--ios-border);">
                 <h3 style="font-size:14px; margin-bottom:10px;"><i class="fa-solid fa-user-plus"></i> Personel Ekle</h3>
                 <div class="row">
@@ -517,9 +456,14 @@
             </div>
             
             <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-users"></i> Kayıtlı Personel</h3>
-            <div id="personelListesi" style="max-height: 150px; overflow-y:auto; margin-bottom:15px;">Yükleniyor...</div>
+            <div id="personelListesi" style="max-height: 200px; overflow-y:auto; margin-bottom:20px;">Yükleniyor...</div>
 
-            <h3 style="font-size:14px; margin-bottom:5px;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                <h3 style="font-size:14px; margin:0;"><i class="fa-solid fa-clock-rotate-left"></i> Sistem Logları</h3>
+                <button class="archive-btn-top" style="font-size:12px; padding:6px 10px;" onclick="loglariIndirCSV()"><i class="fa-solid fa-file-csv" style="margin-right:4px;"></i> Excel İndir</button>
+            </div>
+            <input type="text" id="logFiltre" placeholder="Sicil no veya işlem adı ile log ara..." style="background:var(--ios-card); margin-bottom:8px; width:100%; border:1px solid var(--ios-border); padding:10px; border-radius:8px; font-size:13px;" oninput="logFiltrele()">
+            
             <div id="adminLogs" style="max-height: 250px; overflow-y:auto; background:var(--ios-input-bg); border-radius:12px; padding:10px; font-size:12px; color:var(--ios-text); border: 1px solid var(--ios-border);">
                 Loglar yükleniyor...
             </div>
@@ -533,9 +477,6 @@
 
 </div>
 
-<!-- ============================================== -->
-<!-- YENİ ALT MENÜ (iOS BOTTOM TAB BAR) -->
-<!-- ============================================== -->
 <div class="bottom-tab-bar" id="bottomTabBar" style="display:none;">
     <button class="bottom-tab-btn active" id="bBtn1" onclick="sekmeDegistir('bilgiNotu')">
         <i class="fa-brands fa-whatsapp"></i>
@@ -559,9 +500,6 @@
     </button>
 </div>
 
-<!-- ============================================== -->
-<!-- A4 ÖNİZLEME VE DÜZENLEME MODALI -->
-<!-- ============================================== -->
 <div id="previewModal" class="modal-overlay hidden">
     <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
         <div class="preview-header no-print">
@@ -577,7 +515,6 @@
     </div>
 </div>
 
-<!-- DOKUNMATİK İMZA MODALI -->
 <div id="signatureModal" class="modal-overlay hidden">
     <div class="modal-content" style="max-width: 400px; text-align:center;">
         <h3 style="margin-bottom: 10px; color:var(--ios-blue);">Lütfen İmza Atın</h3>
@@ -590,7 +527,6 @@
     </div>
 </div>
 
-<!-- ARŞİV MODALI -->
 <div id="archiveModal" class="modal-overlay hidden">
     <div class="modal-content">
         <div class="header-row">
@@ -602,12 +538,12 @@
     </div>
 </div>
 
-<!-- UYGULAMA MANTIĞI -->
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
     let seciliVardiyaDurumu = 0; 
     let seciliVardiyaGunu = 1;
+    let globalLogs = []; // Logları filtrelemek ve indirmek için global dizi
 
     const checklistSablonlari = {
         asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
@@ -672,7 +608,6 @@
             setTimeout(checklistCiz, 100); 
             takvimCiz();
             if(window.arsiviYukle) window.arsiviYukle();
-            // Not: Duyuru dinleyicisi Firebase scripti içinde baslat() çağrıldıktan sonra çalışır.
         } else {
             document.getElementById("loginScreen").classList.remove("hidden");
         }
@@ -752,7 +687,6 @@
             document.getElementById("yonetimBolumu").style.display = "block";
             if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
             if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
-            if(typeof window.istatistikleriYukle === 'function') window.istatistikleriYukle();
         }
     }
 
@@ -1473,9 +1407,6 @@
     }
 </script>
 
-<!-- ============================================== -->
-<!-- ORTAK AĞ: FIREBASE BAĞLANTISI VE OFFLINE MOD -->
-<!-- ============================================== -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, deleteDoc, doc, enableIndexedDbPersistence, limit, updateDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -1548,18 +1479,56 @@
         if(!db) return;
         const liste = document.getElementById("adminLogs");
         try {
-            const q = query(collection(db, "sistem_loglari"), orderBy("tarih", "desc"), limit(50));
+            const q = query(collection(db, "sistem_loglari"), orderBy("tarih", "desc"), limit(100)); // Limit arttırıldı
             const snap = await getDocs(q);
             liste.innerHTML = "";
+            globalLogs = []; // Global diziyi sıfırla
             if(snap.empty) { liste.innerHTML = "Log bulunamadı."; return; }
             
             snap.forEach((docSnap) => {
-                const data = docSnap.data();
-                const d = data.tarih ? data.tarih.toDate() : new Date();
-                const tStr = d.toLocaleDateString('tr-TR') + " " + d.toLocaleTimeString('tr-TR'); 
-                liste.innerHTML += `<div style="border-bottom:1px solid rgba(0,0,0,0.1); padding:6px 0;"><b>${data.sicil}</b> - <i>${tStr}</i><br><span style="color:var(--ios-blue); font-weight:bold;">${data.islem}</span>: ${data.detay}</div>`;
+                let data = docSnap.data();
+                data.tStr = data.tarih ? data.tarih.toDate().toLocaleString('tr-TR') : "";
+                globalLogs.push(data);
             });
+            window.logFiltrele(); // UI'ı çiz
         } catch (e) { liste.innerHTML = "Loglar yüklenemedi."; }
+    }
+
+    // LOG FİLTRELEME FONKSİYONU
+    window.logFiltrele = function() {
+        const val = document.getElementById("logFiltre").value.toLowerCase();
+        const liste = document.getElementById("adminLogs");
+        liste.innerHTML = "";
+        
+        let found = false;
+        globalLogs.forEach(data => {
+            if(data.sicil.toLowerCase().includes(val) || data.islem.toLowerCase().includes(val)) {
+                 liste.innerHTML += `<div style="border-bottom:1px solid rgba(0,0,0,0.1); padding:6px 0;"><b>${data.sicil}</b> - <i>${data.tStr}</i><br><span style="color:var(--ios-blue); font-weight:bold;">${data.islem}</span>: ${data.detay}</div>`;
+                 found = true;
+            }
+        });
+        if(!found) liste.innerHTML = "Eşleşen log bulunamadı.";
+    }
+
+    // LOGLARI EXCEL(CSV) OLARAK İNDİRME FONKSİYONU
+    window.loglariIndirCSV = function() {
+        if(globalLogs.length === 0) { alert("İndirilecek log bulunamadı!"); return; }
+        
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // \uFEFF Excel Türkçe karakter desteği için
+        csvContent += "Tarih,Sicil,Islem,Detay\n"; // Başlıklar
+        
+        globalLogs.forEach(row => {
+            let detay = row.detay ? row.detay.replace(/"/g, '""') : ""; // Çift tırnakları Excel için escape et
+            csvContent += `"${row.tStr}","${row.sicil}","${row.islem}","${detay}"\n`;
+        });
+        
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `Sistem_Loglari_${new Date().toLocaleDateString('tr-TR')}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     window.personelDogrula = async function(pSicil, pSifre) {
@@ -1568,13 +1537,23 @@
         const snap = await getDocs(q);
         let basarili = false;
         let pRol = "user";
+        let isAktif = true;
         
         snap.forEach((docSnap) => {
             const d = docSnap.data();
             if(d.sicil == pSicil && d.sifre == pSifre) {
-                basarili = true; pRol = d.rol || "user";
+                if(d.aktif === false) {
+                    isAktif = false;
+                } else {
+                    basarili = true; pRol = d.rol || "user";
+                }
             }
         });
+
+        if(!isAktif) {
+            alert("Hesabınız yönetici tarafından askıya alınmıştır!");
+            return;
+        }
 
         if(basarili) {
             localStorage.setItem('polis_ag_giris_izni', 'true');
@@ -1593,7 +1572,7 @@
         const i = document.getElementById("yeniPersonelIsim").value;
         const p = document.getElementById("yeniPersonelSifre").value;
         if(s && i && p) {
-            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user" });
+            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user", aktif: true });
             alert("Personel Eklendi!");
             await window.logIslem("Personel İşlemi", `${s} sicil nolu personel eklendi.`);
             document.getElementById("yeniPersonelSicil").value = "";
@@ -1611,12 +1590,47 @@
         liste.innerHTML = "";
         snap.forEach((docSnap) => {
             const data = docSnap.data();
-            liste.innerHTML += `<div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;"><span><b>${data.sicil}</b> - ${data.isim}</span><i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')"></i></div>`;
+            const isAktif = data.aktif !== false; // varsayılan true
+            const durumRenk = isAktif ? "var(--ios-green)" : "var(--ios-text-mut)";
+            const durumIcon = isAktif ? "fa-user-check" : "fa-user-lock";
+
+            liste.innerHTML += `
+            <div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;">
+                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim}</span>
+                <div style="display:flex; gap:12px; font-size:16px;">
+                    <i class="fa-solid fa-key" style="color:var(--ios-blue); cursor:pointer;" onclick="sifreSifirlaFirebase('${docSnap.id}', '${data.sicil}')" title="Şifre Sıfırla"></i>
+                    <i class="fa-solid ${durumIcon}" style="color:${durumRenk}; cursor:pointer;" onclick="durumDegistirFirebase('${docSnap.id}', '${data.sicil}', ${isAktif})" title="Askıya Al / Aktif Et"></i>
+                    <i class="fa-solid fa-trash" style="color:var(--ios-red); cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')" title="Personeli Sil"></i>
+                </div>
+            </div>`;
         });
     }
 
+    window.sifreSifirlaFirebase = async function(id, sicil) {
+        const yeniSifre = prompt(`${sicil} sicil numaralı personel için YENİ ŞİFRE belirleyin:`);
+        if(yeniSifre && yeniSifre.trim() !== "") {
+            try {
+                await updateDoc(doc(db, "personel", id), { sifre: yeniSifre.trim() });
+                await window.logIslem("Şifre Sıfırlama", `Yönetici, ${sicil} sicilli personelin şifresini sıfırladı.`);
+                alert("Şifre başarıyla sıfırlandı!");
+            } catch(e) { alert("Hata oluştu."); }
+        }
+    }
+
+    window.durumDegistirFirebase = async function(id, sicil, isAktif) {
+        const yeniDurum = !isAktif;
+        const msj = yeniDurum ? "AKTİF edilsin mi?" : "ASKIYA ALINSIN mı? (Sisteme giremez)";
+        if(confirm(`${sicil} sicilli personelin hesabı ${msj}`)) {
+            try {
+                await updateDoc(doc(db, "personel", id), { aktif: yeniDurum });
+                await window.logIslem("Hesap Durumu", `Yönetici, ${sicil} sicilli personeli ${yeniDurum ? 'aktif etti' : 'askıya aldı'}.`);
+                window.personelYukleFirebase();
+            } catch(e) { alert("Hata oluştu."); }
+        }
+    }
+
     window.personelSilFirebase = async function(id, sicil) {
-        if(confirm("Silmek istediğinize emin misiniz?")) { 
+        if(confirm("Bu personeli tamamen SİLMEK istediğinize emin misiniz?")) { 
             await deleteDoc(doc(db, "personel", id)); 
             await window.logIslem("Personel İşlemi", `${sicil} sicil nolu personel silindi.`);
             window.personelYukleFirebase(); 
