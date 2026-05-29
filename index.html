@@ -625,7 +625,7 @@
         <div class="preview-header no-print">
             <h2 style="margin:0; font-size: 16px;"><i class="fa-solid fa-pen-to-square"></i> A4 Son Kontrol</h2>
             <div style="display:flex; gap:10px;">
-                <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:8px 12px; border:none;" onclick="window.print()">Yazdır / PDF</button>
+                <button class="archive-btn-top" style="background:var(--ios-green); color:white; padding:8px 12px; border:none;" onclick="belgeYazdir()">Yazdır / PDF</button>
                 <button class="archive-btn-top btn-danger" style="padding:8px 12px; border:none;" onclick="document.getElementById('previewModal').classList.add('hidden')">İptal</button>
             </div>
         </div>
@@ -1817,6 +1817,31 @@
     function personelPaneliAc() { 
         document.getElementById("adminModal").classList.remove("hidden"); 
         if(typeof window.personelYukleFirebase==='function') window.personelYukleFirebase(); 
+    }
+    
+    // YENİ EKLENEN ÖZEL YAZDIRMA FONKSİYONU
+    function belgeYazdir() {
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var isStandalone = window.navigator.standalone === true;
+
+        if (isIOS && isStandalone) {
+            // iOS PWA (Ana Ekrana Ekle) modunda window.print() çalışmaz. Bu yüzden HTML'i kopyalayıp yeni pencerede açıyoruz.
+            var printContents = document.getElementById('previewEditArea').innerHTML;
+            var printWindow = window.open('', '_blank');
+            if (printWindow) {
+                printWindow.document.write('<html><head><title>Tutanak Çıktısı</title>');
+                printWindow.document.write('<style>body { font-family: "Times New Roman", Times, serif; font-size: 12pt; padding: 20px; }</style>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write(printContents);
+                printWindow.document.write('<script>setTimeout(function(){ window.print(); }, 800);</' + 'script>');
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+            } else {
+                alert("Apple kısıtlamaları nedeniyle bu menüden doğrudan yazdırma yapılamıyor. Lütfen uygulamayı Safari üzerinden açarak tekrar deneyin.");
+            }
+        } else {
+            window.print();
+        }
     }
 </script>
 
