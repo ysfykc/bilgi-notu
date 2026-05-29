@@ -1285,10 +1285,14 @@
             if(d_tarih_saat) d_tarih_saat.classList.toggle("hidden", isDilekce || isKasbes); 
             
             const tutMemur2 = document.getElementById("tutMemur2");
+            const tutMemur1 = document.getElementById("tutMemur1");
+            
             if(tutMemur2) {
                 if (isKasbes || isDilekce) {
-                    tutMemur2.parentElement.classList.add("hidden");
+                    tutMemur2.classList.add("hidden");
+                    tutMemur2.parentElement.classList.remove("hidden");
                 } else {
+                    tutMemur2.classList.remove("hidden");
                     tutMemur2.parentElement.classList.remove("hidden");
                 }
             }
