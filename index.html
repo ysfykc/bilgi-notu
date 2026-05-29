@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bilgi Notu v1.4.1</title>
+    <title>Bilgi Notu v1.4.2</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -125,9 +125,10 @@
 
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; text-align: center; width:100%;}
         .cal-header { font-size: 11px; font-weight: 700; color: var(--ios-text-mut); padding: 5px 0; text-transform:uppercase;}
-        .cal-day { background: var(--ios-input-bg); border-radius: 8px; padding: 8px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px;}
-        .cal-shift { font-size: 10px; font-weight: 700; padding: 3px 0; border-radius: 4px; color: white; margin-top:4px; width: 90%; text-transform: uppercase;}
-        .cal-sub { font-size: 9px; font-weight: 600; color: var(--ios-text-mut); margin-top:3px; }
+        .cal-day { background: var(--ios-input-bg); border-radius: 8px; padding: 4px 2px; font-size: 15px; font-weight: 600; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 55px; border: 2px solid transparent;}
+        .cal-day.today { border-color: var(--ios-blue); background: var(--ios-card); }
+        .cal-shift { font-size: 10px; font-weight: 700; padding: 3px 0; border-radius: 4px; color: white; margin-top:2px; width: 95%; text-transform: uppercase; line-height:1;}
+        .cal-sub { font-size: 9px; font-weight: 600; color: var(--ios-text-mut); margin-top:2px; }
 
         /* A4 ÖNİZLEME MODALI */
         #previewModal { align-items: flex-start; padding: 40px 10px; overflow-y: auto; background: rgba(0,0,0,0.85); flex-direction: column;}
@@ -145,7 +146,7 @@
 
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; size-adjust: exact !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             body { background: white !important; margin: 0; padding: 0; display: block; }
             #loginScreen, #appContainer, .bottom-tab-bar, .modal-overlay, .preview-header, .no-print, .developer-credit { display: none !important; }
             #previewModal { position: static; background: none; display: block !important; padding: 0; }
@@ -470,33 +471,40 @@
             <h2 style="color:var(--ios-blue); margin-top:0; margin-bottom:15px;"><i class="fa-regular fa-calendar-days"></i> Vardiya Takvimi</h2>
             
             <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
-            <div class="ios-segment-group" style="margin-bottom: 15px;">
-                <div class="ios-segment-btn active" style="flex:1; cursor:default;">Çakma 12/36 (5 Gün / 10 Gece-İst)</div>
-            </div>
+            <select id="vardiyaSistemi" onchange="sistemDegisti()" style="width: 100%; margin-bottom: 15px; border: 1px solid var(--ios-blue); background: var(--ios-card); padding: 10px; border-radius: 8px;">
+                <option value="cakma1236">Çakma 12/36 (5 Gün / 5 Gece)</option>
+                <option value="standart1236">Standart 12/36 (1 Gün / 1 Gece / 2 İst)</option>
+                <option value="standart1224">Standart 12/24 (1 Gün / 1 Gece / 1 İst)</option>
+            </select>
 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">REFERANS TARİHİ</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">REFERANS TARİHİ (Örn: Bugün)</label>
             <input type="date" id="vardiyaBaslangic" onchange="takvimCiz()" style="margin-bottom: 15px; background:var(--ios-card);">
                 
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">BUGÜN DURUMUNUZ NEDİR?</label>
+            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">SEÇİLİ TARİHTEKİ DURUMUNUZ?</label>
             <div class="ios-segment-group" id="durumSecici">
-                <div class="ios-segment-btn active" onclick="setDurum(0, this)">Gündüz</div>
-                <div class="ios-segment-btn" onclick="setDurum(5, this)">Gece</div>
-                <div class="ios-segment-btn" onclick="setDurum(10, this)">İstirahat</div>
+                <div class="ios-segment-btn active" onclick="setDurumStr('gunduz', this)">Gündüz</div>
+                <div class="ios-segment-btn" onclick="setDurumStr('gece', this)">Gece</div>
+                <div class="ios-segment-btn" onclick="setDurumStr('istirahat', this)">İstirahat</div>
             </div>
             
-            <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:10px;">KAÇINCI GÜNDESİNİZ?</label>
-            <div class="ios-segment-group" id="gunSecici">
-                <div class="ios-segment-btn active" onclick="setGun(1, this)">1</div>
-                <div class="ios-segment-btn" onclick="setGun(2, this)">2</div>
-                <div class="ios-segment-btn" onclick="setGun(3, this)">3</div>
-                <div class="ios-segment-btn" onclick="setGun(4, this)">4</div>
-                <div class="ios-segment-btn" onclick="setGun(5, this)">5</div>
+            <div id="gunSeciciKapsayici">
+                <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase; margin-top:10px;">KAÇINCI GÜNDESİNİZ?</label>
+                <div class="ios-segment-group" id="gunSecici">
+                    <div class="ios-segment-btn active" onclick="setGun(1, this)">1</div>
+                    <div class="ios-segment-btn" onclick="setGun(2, this)">2</div>
+                    <div class="ios-segment-btn" onclick="setGun(3, this)">3</div>
+                    <div class="ios-segment-btn" onclick="setGun(4, this)">4</div>
+                    <div class="ios-segment-btn" onclick="setGun(5, this)">5</div>
+                </div>
             </div>
 
             <div class="form-group" style="margin-top:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-card); padding:10px; border-radius:12px; border: 1px solid var(--ios-border);">
                     <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-                    <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
+                    <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer;" onclick="buguneDon()">
+                        <b id="takvimAyYazi" style="font-size:15px; color:var(--ios-text);">MAYIS 2026</b>
+                        <span style="font-size:10px; color:var(--ios-blue);">Bugüne Dön</span>
+                    </div>
                     <button class="archive-btn-top" style="background:transparent; border:none;" onclick="ayDegistir(1)"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
@@ -583,7 +591,7 @@
     
     <div class="developer-credit">
         Developed by <b>ysfykc</b><br>
-        <span class="version-tag">v1.4.1</span>
+        <span class="version-tag">v1.4.2</span>
     </div>
 
 </div>
@@ -652,9 +660,64 @@
 <script>
     const SISTEM_SIFRESI = "Dodurga155";
     let sahislarDizisi = []; 
-    let seciliVardiyaDurumu = 0; 
-    let seciliVardiyaGunu = 1;
     let globalLogs = []; 
+
+    // YENİ VARDİYA MANTIĞI DEĞİŞKENLERİ
+    let seciliDurumStr = 'gunduz'; 
+    let seciliGunNo = 1;
+
+    const shiftPatterns = {
+        "cakma1236": {
+            cycle: 15,
+            pattern: [
+                {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
+                {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
+                {n:"GECE", sub:"2. Gece", c:"#5856D6"}, {n:"İST", sub:"2. İst", c:"#34C759"},
+                {n:"GECE", sub:"3. Gece", c:"#5856D6"}, {n:"İST", sub:"3. İst", c:"#34C759"},
+                {n:"GECE", sub:"4. Gece", c:"#5856D6"}, {n:"İST", sub:"4. İst", c:"#34C759"},
+                {n:"GECE", sub:"5. Gece", c:"#5856D6"}, {n:"İST", sub:"5. İst", c:"#34C759"}
+            ],
+            getStartIndex: function(durum, gun) {
+                let offset = gun - 1;
+                if(durum === 'gunduz') return offset % 5;
+                if(durum === 'gece') return 5 + (offset % 5) * 2;
+                if(durum === 'istirahat') return 6 + (offset % 5) * 2;
+                return 0;
+            },
+            getMaxGun: function(durum) { return 5; }
+        },
+        "standart1236": {
+            cycle: 4,
+            pattern: [
+                {n:"GÜNDÜZ", sub:"08:00-20:00", c:"#FF9500"},
+                {n:"GECE", sub:"20:00-08:00", c:"#5856D6"},
+                {n:"İST", sub:"1. İstirahat", c:"#34C759"},
+                {n:"İST", sub:"2. İstirahat", c:"#34C759"}
+            ],
+            getStartIndex: function(durum, gun) {
+                if(durum === 'gunduz') return 0;
+                if(durum === 'gece') return 1;
+                if(durum === 'istirahat') return (gun === 1) ? 2 : 3;
+                return 0;
+            },
+            getMaxGun: function(durum) { return (durum === 'istirahat') ? 2 : 1; }
+        },
+        "standart1224": {
+            cycle: 3,
+            pattern: [
+                {n:"GÜNDÜZ", sub:"08:00-20:00", c:"#FF9500"},
+                {n:"GECE", sub:"20:00-08:00", c:"#5856D6"},
+                {n:"İST", sub:"İstirahat", c:"#34C759"}
+            ],
+            getStartIndex: function(durum, gun) {
+                if(durum === 'gunduz') return 0;
+                if(durum === 'gece') return 1;
+                if(durum === 'istirahat') return 2;
+                return 0;
+            },
+            getMaxGun: function(durum) { return 1; }
+        }
+    };
 
     const checklistSablonlari = {
         asayis: ["GBT sorgulaması eksiksiz yapıldı mı?", "Çevre ve yol emniyeti tam sağlandı mı?", "Aranan şahıs/araç tespiti merkeze bildirildi mi?"],
@@ -710,15 +773,16 @@
             document.getElementById("tarih").value = trh; document.getElementById("saat").value = st;
             document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
             
-            document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
+            const vY = bugun.getFullYear();
+            const vM = String(bugun.getMonth() + 1).padStart(2, '0');
+            const vD = String(bugun.getDate()).padStart(2, '0');
+            document.getElementById("vardiyaBaslangic").value = `${vY}-${vM}-${vD}`;
 
             tutanakSablonDegistir();
-            
             document.getElementById('olayTuru').value = 'asayis';
             sablonDegistir(); 
-
             setTimeout(checklistCiz, 100); 
-            takvimCiz();
+            sistemDegisti(); 
             if(window.arsiviYukle) window.arsiviYukle();
         } else {
             document.getElementById("loginScreen").classList.remove("hidden");
@@ -736,7 +800,7 @@
         const pSicil = document.getElementById("loginSicil").value.trim().toLowerCase();
         const pSifre = document.getElementById("loginPassword").value;
         
-        if(pSifre === SISTEM_SIFREESİ && pSicil === 'admin') {
+        if(pSifre === SISTEM_SIFRESI && pSicil === 'admin') {
             localStorage.setItem('polis_ag_giris_izni', 'true');
             localStorage.setItem('aktif_rol', 'admin');
             localStorage.setItem('aktif_sicil', 'Admin');
@@ -766,8 +830,7 @@
     }
 
     function sekmeDegistir(sekme) {
-        document.querySelectorAll('.bottom-tab-bar').forEach(btn => btn.classList.remove('active'));
-        if(document.querySelectorAll('.tab-btn')) document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
         
         document.getElementById("bilgiNotuBolumu").style.display = "none";
         document.getElementById("tutanakBolumu").style.display = "none";
@@ -777,25 +840,20 @@
 
         if(sekme === 'bilgiNotu') {
             document.getElementById("bBtn1").classList.add("active");
-            if(document.getElementById("tabBilgiNotuBtn")) document.getElementById("tabBilgiNotuBtn").classList.add("active");
             document.getElementById("bilgiNotuBolumu").style.display = "block";
             checklistCiz();
         } else if(sekme === 'tutanak') {
             document.getElementById("bBtn2").classList.add("active");
-            if(document.getElementById("tabTutanakBtn")) document.getElementById("tabTutanakBtn").classList.add("active");
             document.getElementById("tutanakBolumu").style.display = "block";
         } else if(sekme === 'vardiya') {
             document.getElementById("bBtn3").classList.add("active");
-            if(document.getElementById("tabVardiyaBtn")) document.getElementById("tabVardiyaBtn").classList.add("active");
             document.getElementById("vardiyaBolumu").style.display = "block";
             takvimCiz();
         } else if(sekme === 'ayarlar') {
             document.getElementById("bBtn5").classList.add("active");
-            if(document.getElementById("tabAyarlarBtn")) document.getElementById("tabAyarlarBtn").classList.add("active");
             document.getElementById("ayarlarBolumu").style.display = "block";
         } else if(sekme === 'yonetim') {
             document.getElementById("bBtn4").classList.add("active");
-            if(document.getElementById("tabYonetimBtn")) document.getElementById("tabYonetimBtn").classList.add("active");
             document.getElementById("yonetimBolumu").style.display = "block";
             if(typeof window.personelYukleFirebase === 'function') window.personelYukleFirebase();
             if(typeof window.logYukleFirebase === 'function') window.logYukleFirebase();
@@ -803,62 +861,123 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (DÜZELTİLDİ) ---
+    // --- VARDİYA HESAPLAMA MOTORU (DÜZELTİLDİ VE GELİŞTİRİLDİ) ---
+    let gosterilenAy = new Date().getMonth();
+    let gosterilenYil = new Date().getFullYear();
+    const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
+
+    function sistemDegisti() {
+        updateGunSecici();
+        takvimCiz();
+    }
+
+    function setDurumStr(val, element) {
+        seciliDurumStr = val;
+        document.querySelectorAll('#durumSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+        updateGunSecici();
+        takvimCiz();
+    }
+
+    function setGun(gun, element) {
+        seciliGunNo = gun;
+        document.querySelectorAll('#gunSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+        takvimCiz();
+    }
+
+    function updateGunSecici() {
+        let aktifSistem = document.getElementById("vardiyaSistemi").value;
+        const sData = shiftPatterns[aktifSistem];
+        let max = sData.getMaxGun(seciliDurumStr);
+        
+        const kapsayici = document.getElementById("gunSeciciKapsayici");
+        if(max <= 1) {
+            kapsayici.style.display = "none";
+            seciliGunNo = 1;
+        } else {
+            kapsayici.style.display = "block";
+            const gunContainer = document.getElementById("gunSecici");
+            gunContainer.innerHTML = "";
+            if(seciliGunNo > max) seciliGunNo = 1;
+            
+            for(let i=1; i<=max; i++) {
+                let cls = (i === seciliGunNo) ? "ios-segment-btn active" : "ios-segment-btn";
+                gunContainer.innerHTML += `<div class="${cls}" onclick="setGun(${i}, this)">${i}</div>`;
+            }
+        }
+    }
+
+    function buguneDon() {
+        gosterilenAy = new Date().getMonth();
+        gosterilenYil = new Date().getFullYear();
+        takvimCiz();
+    }
+
+    function ayDegistir(yon) {
+        gosterilenAy += yon;
+        if(gosterilenAy > 11) { gosterilenAy = 0; gosterilenYil++; }
+        else if(gosterilenAy < 0) { gosterilenAy = 11; gosterilenYil--; }
+        takvimCiz();
+    }
+
     function takvimCiz() {
         document.getElementById("takvimAyYazi").innerText = aylar[gosterilenAy] + " " + gosterilenYil;
         const container = document.getElementById("takvimGunler");
         container.innerHTML = "";
 
-        const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
-        
-        let baslangicDurumu = 0;
-        let gunOffset = seciliVardiyaGunu - 1;
-
-        if (seciliVardiyaDurumu === 0) {
-            baslangicDurumu = gunOffset; 
-        } else if (seciliVardiyaDurumu === 5) {
-            baslangicDurumu = 5 + (gunOffset * 2); 
-        } else if (seciliVardiyaDurumu === 10) {
-            baslangicDurumu = 6 + (gunOffset * 2); 
+        const vBas = document.getElementById("vardiyaBaslangic").value;
+        let bTime = null;
+        if(vBas) {
+            const parts = vBas.split('-');
+            if(parts.length === 3) {
+                bTime = new Date(parts[0], parts[1]-1, parts[2], 0, 0, 0).getTime();
+            }
         }
         
-        const patern = [
-            {n:"GÜN", sub:"1. Gün", c:"#FF9500"}, {n:"GÜN", sub:"2. Gün", c:"#FF9500"}, {n:"GÜN", sub:"3. Gün", c:"#FF9500"}, {n:"GÜN", sub:"4. Gün", c:"#FF9500"}, {n:"GÜN", sub:"5. Gün", c:"#FF9500"},
-            {n:"GECE", sub:"1. Gece", c:"#5856D6"}, {n:"İST", sub:"1. İst", c:"#34C759"},
-            {n:"GECE", sub:"2. Gece", c:"#5856D6"}, {n:"İST", sub:"2. İst", c:"#34C759"},
-            {n:"GECE", sub:"3. Gece", c:"#5856D6"}, {n:"İST", sub:"3. İst", c:"#34C759"},
-            {n:"GECE", sub:"4. Gece", c:"#5856D6"}, {n:"İST", sub:"4. İst", c:"#34C759"},
-            {n:"GECE", sub:"5. Gece", c:"#5856D6"}, {n:"İST", sub:"5. İst", c:"#34C759"}
-        ];
+        let aktifSistem = document.getElementById("vardiyaSistemi").value;
+        const sData = shiftPatterns[aktifSistem];
+        let baslangicDurumu = sData.getStartIndex(seciliDurumStr, seciliGunNo);
 
         let ilkGun = new Date(gosterilenYil, gosterilenAy, 1).getDay();
         if(ilkGun === 0) ilkGun = 7; 
         
         const gunSayisi = new Date(gosterilenYil, gosterilenAy + 1, 0).getDate();
+        
+        const bugunTarih = new Date();
+        const bugunYil = bugunTarih.getFullYear();
+        const bugunAy = bugunTarih.getMonth();
+        const bugunGun = bugunTarih.getDate();
 
-        for(let i=1; i<ilkGun; i++) container.innerHTML += "<div></div>";
+        let html = "";
+        for(let i=1; i<ilkGun; i++) html += "<div></div>";
 
         for(let g=1; g<=gunSayisi; g++) {
-            let suan = new Date(gosterilenYil, gosterilenAy, g);
             let pBilgi = {n:"", c:"transparent", sub:""};
             
-            if(baslangicTarihi) {
-                const bTime = Date.UTC(baslangicTarihi.getFullYear(), baslangicTarihi.getMonth(), baslangicTarihi.getDate());
-                const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
-                let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
+            if(bTime) {
+                let sTime = new Date(gosterilenYil, gosterilenAy, g, 0, 0, 0).getTime();
+                let fark = Math.round((sTime - bTime) / 86400000);
                 
-                let index = (fark + baslangicDurumu) % 15;
-                if(index < 0) { index = (15 + (index % 15)) % 15; } 
-
-                pBilgi = patern[index] || {n:"", c:"transparent", sub:""};
+                if(!isNaN(fark)) {
+                    let index = (fark + baslangicDurumu) % sData.cycle;
+                    if(index < 0) { index = (sData.cycle + (index % sData.cycle)) % sData.cycle; } 
+                    pBilgi = sData.pattern[index] || {n:"", c:"transparent", sub:""};
+                }
             }
 
             let shiftBadge = "";
             if (pBilgi.n) {
                 shiftBadge = '<span class="cal-shift" style="background:' + pBilgi.c + '">' + pBilgi.n + '</span><span class="cal-sub">' + pBilgi.sub + '</span>';
             }
-            container.innerHTML += '<div class="cal-day"><span style="color:var(--ios-text);">' + g + '</span>' + shiftBadge + '</div>';
+            
+            let isToday = (gosterilenYil === bugunYil && gosterilenAy === bugunAy && g === bugunGun);
+            let dayClass = isToday ? "cal-day today" : "cal-day";
+            let dayStyle = isToday ? "color:var(--ios-blue); font-weight:800;" : "color:var(--ios-text);";
+
+            html += '<div class="' + dayClass + '"><span style="' + dayStyle + '">' + g + '</span>' + shiftBadge + '</div>';
         }
+        container.innerHTML = html;
     }
 
     function isimFormatla(metin) {
@@ -1055,7 +1174,41 @@
     function kopyala() { navigator.clipboard.writeText(document.getElementById("wpOnizleme").getAttribute('data-raw')); alert("Kopyalandı!"); }
     function whatsappGonder() { window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(document.getElementById("wpOnizleme").getAttribute('data-raw')), '_blank'); }
 
-    // --- TUTANAK ASİSTANI İŞLEMLERİ ---
+    let recognition;
+    let isRecording = false;
+    let dictationTarget = 'ozet';
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+        recognition.lang = 'tr-TR';
+
+        recognition.onstart = () => { isRecording = true; document.querySelectorAll('.mic-btn').forEach(b=>b.classList.add('recording')); };
+        recognition.onresult = (event) => {
+            let trans = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) { if (event.results[i].isFinal) trans += event.results[i][0].transcript + ' '; }
+            trans = trans.trim();
+            const targetBox = document.getElementById(dictationTarget);
+            targetBox.value = targetBox.value.trim() === "" ? trans : targetBox.value + " " + trans;
+            if(dictationTarget === 'ozet') metinOlustur();
+        };
+        recognition.onerror = () => stopDictation();
+        recognition.onend = () => { if(isRecording) stopDictation(); };
+    }
+
+    function toggleDictation(targetId) {
+        if (!recognition) { alert("Tarayıcınız sesle yazdırmayı desteklemiyor."); return; }
+        dictationTarget = targetId;
+        isRecording ? stopDictation() : recognition.start();
+    }
+    function stopDictation() {
+        isRecording = false;
+        if(recognition) recognition.stop();
+        document.querySelectorAll('.mic-btn').forEach(b=>b.classList.remove('recording'));
+    }
+
     function tutanakSablonDegistir() {
         try {
             const tur = document.getElementById("tutTuru").value;
@@ -1772,7 +1925,7 @@
 
             liste.innerHTML += `
             <div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;">
-                <span><b>${data.sicil}</b> - ${data.isim}</span>
+                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim}</span>
                 <div style="display:flex; gap:12px; font-size:16px;">
                     <i class="fa-solid fa-key" style="color:var(--ios-blue); cursor:pointer;" onclick="sifreSifirlaFirebase('${docSnap.id}', '${data.sicil}')" title="Şifre Sıfırla"></i>
                     <i class="fa-solid ${durumIcon}" style="color:${durumRenk}; cursor:pointer;" onclick="durumDegistirFirebase('${docSnap.id}', '${data.sicil}', ${isAktif})" title="Askıya Al / Aktif Et"></i>
@@ -1929,7 +2082,7 @@
             document.getElementById("ayarYeniSifreTekrar").value = "";
             
         } catch (e) {
-            alert("Şifre güncellerken hata oluştu!");
+            alert("Şifre güncellenirken hata oluştu!");
             console.log(e);
         }
     }
