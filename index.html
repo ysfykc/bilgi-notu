@@ -145,7 +145,7 @@
 
         @media print {
             @page { margin: 1cm; size: A4 portrait; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; size-adjust: exact !important; }
             body { background: white !important; margin: 0; padding: 0; display: block; }
             #loginScreen, #appContainer, .bottom-tab-bar, .modal-overlay, .preview-header, .no-print, .developer-credit { display: none !important; }
             #previewModal { position: static; background: none; display: block !important; padding: 0; }
@@ -457,7 +457,7 @@
             <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
-                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
+                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
@@ -710,11 +710,7 @@
             document.getElementById("tarih").value = trh; document.getElementById("saat").value = st;
             document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
             
-            // Vardiya başlangıç tarihini geçerli ve okunabilir yapalım (Çökme engeli)
-            const vY = bugun.getFullYear();
-            const vM = String(bugun.getMonth() + 1).padStart(2, '0');
-            const vD = String(bugun.getDate()).padStart(2, '0');
-            document.getElementById("vardiyaBaslangic").value = `${vY}-${vM}-${vD}`;
+            document.getElementById("vardiyaBaslangic").valueAsDate = new Date();
 
             tutanakSablonDegistir();
             
@@ -740,7 +736,7 @@
         const pSicil = document.getElementById("loginSicil").value.trim().toLowerCase();
         const pSifre = document.getElementById("loginPassword").value;
         
-        if(pSifre === SISTEM_SIFRESI && pSicil === 'admin') {
+        if(pSifre === SISTEM_SIFREESİ && pSicil === 'admin') {
             localStorage.setItem('polis_ag_giris_izni', 'true');
             localStorage.setItem('aktif_rol', 'admin');
             localStorage.setItem('aktif_sicil', 'Admin');
@@ -770,7 +766,7 @@
     }
 
     function sekmeDegistir(sekme) {
-        document.querySelectorAll('.bottom-tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.bottom-tab-bar').forEach(btn => btn.classList.remove('active'));
         if(document.querySelectorAll('.tab-btn')) document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
         document.getElementById("bilgiNotuBolumu").style.display = "none";
@@ -807,38 +803,13 @@
         }
     }
 
-    function setDurum(val, element) {
-        seciliVardiyaDurumu = parseInt(val);
-        document.querySelectorAll('#durumSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
-        element.classList.add('active');
-        takvimCiz();
-    }
-
-    function setGun(gun, element) {
-        seciliVardiyaGunu = parseInt(gun);
-        document.querySelectorAll('#gunSecici .ios-segment-btn').forEach(b => b.classList.remove('active'));
-        element.classList.add('active');
-        takvimCiz();
-    }
-
-    function ayDegistir(yon) {
-        gosterilenAy += yon;
-        if(gosterilenAy > 11) { gosterilenAy = 0; gosterilenYil++; }
-        else if(gosterilenAy < 0) { gosterilenAy = 11; gosterilenYil--; }
-        takvimCiz();
-    }
-
+    // --- VARDİYA HESAPLAMA MOTORU (DÜZELTİLDİ) ---
     function takvimCiz() {
         document.getElementById("takvimAyYazi").innerText = aylar[gosterilenAy] + " " + gosterilenYil;
         const container = document.getElementById("takvimGunler");
         container.innerHTML = "";
 
-        let baslangicTarihi = null;
-        const vBas = document.getElementById("vardiyaBaslangic").value;
-        if(vBas) {
-            baslangicTarihi = new Date(vBas);
-            if(isNaN(baslangicTarihi.getTime())) baslangicTarihi = null;
-        }
+        const baslangicTarihi = document.getElementById("vardiyaBaslangic").valueAsDate;
         
         let baslangicDurumu = 0;
         let gunOffset = seciliVardiyaGunu - 1;
@@ -865,7 +836,7 @@
         
         const gunSayisi = new Date(gosterilenYil, gosterilenAy + 1, 0).getDate();
 
-        for(let i=1; i<ilkGun; i++) container.innerHTML += `<div></div>`;
+        for(let i=1; i<ilkGun; i++) container.innerHTML += "<div></div>";
 
         for(let g=1; g<=gunSayisi; g++) {
             let suan = new Date(gosterilenYil, gosterilenAy, g);
@@ -876,19 +847,17 @@
                 const sTime = Date.UTC(suan.getFullYear(), suan.getMonth(), suan.getDate());
                 let fark = Math.floor((sTime - bTime) / (1000 * 3600 * 24));
                 
-                if(!isNaN(fark)) {
-                    let index = (fark + baslangicDurumu) % 15;
-                    if(index < 0) { index = (15 + (index % 15)) % 15; } 
-                    pBilgi = patern[index] || {n:"", c:"transparent", sub:""};
-                }
+                let index = (fark + baslangicDurumu) % 15;
+                if(index < 0) { index = (15 + (index % 15)) % 15; } 
+
+                pBilgi = patern[index] || {n:"", c:"transparent", sub:""};
             }
 
-            container.innerHTML += `
-                <div class="cal-day">
-                    <span style="color:var(--ios-text);">${g}</span>
-                    ${pBilgi.n ? `<span class="cal-shift" style="background:${pBilgi.c}">${pBilgi.n}</span><span class="cal-sub">${pBilgi.sub}</span>` : ''}
-                </div>
-            `;
+            let shiftBadge = "";
+            if (pBilgi.n) {
+                shiftBadge = '<span class="cal-shift" style="background:' + pBilgi.c + '">' + pBilgi.n + '</span><span class="cal-sub">' + pBilgi.sub + '</span>';
+            }
+            container.innerHTML += '<div class="cal-day"><span style="color:var(--ios-text);">' + g + '</span>' + shiftBadge + '</div>';
         }
     }
 
@@ -915,7 +884,7 @@
         
         gorevler.forEach((gorev, idx) => {
             container.innerHTML += `
-                <div class="check-item" id="chk-div-${idx}" onclick="window.toggleCheckItem(${idx}, event)">
+                <div class="check-item" id="chk-div-${idx}" onclick="window.toggleCheckItem(null, event)">
                     <i id="chk-icon-${idx}" class="fa-regular fa-circle" style="color: var(--ios-text-mut); font-size: 18px;"></i>
                     <span>${gorev}</span>
                 </div>`;
@@ -923,8 +892,8 @@
     }
 
     window.toggleCheckItem = function(idx, event) {
-        const div = document.getElementById('chk-div-' + idx);
-        const icon = document.getElementById('chk-icon-' + idx);
+        const div = event.currentTarget;
+        const icon = div.querySelector('i');
         const isDone = div.classList.toggle("done");
         
         if(isDone) {
@@ -1086,41 +1055,7 @@
     function kopyala() { navigator.clipboard.writeText(document.getElementById("wpOnizleme").getAttribute('data-raw')); alert("Kopyalandı!"); }
     function whatsappGonder() { window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(document.getElementById("wpOnizleme").getAttribute('data-raw')), '_blank'); }
 
-    let recognition;
-    let isRecording = false;
-    let dictationTarget = 'ozet';
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = false;
-        recognition.lang = 'tr-TR';
-
-        recognition.onstart = () => { isRecording = true; document.querySelectorAll('.mic-btn').forEach(b=>b.classList.add('recording')); };
-        recognition.onresult = (event) => {
-            let trans = '';
-            for (let i = event.resultIndex; i < event.results.length; ++i) { if (event.results[i].isFinal) trans += event.results[i][0].transcript + ' '; }
-            trans = trans.trim();
-            const targetBox = document.getElementById(dictationTarget);
-            targetBox.value = targetBox.value.trim() === "" ? trans : targetBox.value + " " + trans;
-            if(dictationTarget === 'ozet') metinOlustur();
-        };
-        recognition.onerror = () => stopDictation();
-        recognition.onend = () => { if(isRecording) stopDictation(); };
-    }
-
-    function toggleDictation(targetId) {
-        if (!recognition) { alert("Tarayıcınız sesle yazdırmayı desteklemiyor."); return; }
-        dictationTarget = targetId;
-        isRecording ? stopDictation() : recognition.start();
-    }
-    function stopDictation() {
-        isRecording = false;
-        if(recognition) recognition.stop();
-        document.querySelectorAll('.mic-btn').forEach(b=>b.classList.remove('recording'));
-    }
-
+    // --- TUTANAK ASİSTANI İŞLEMLERİ ---
     function tutanakSablonDegistir() {
         try {
             const tur = document.getElementById("tutTuru").value;
@@ -1158,10 +1093,9 @@
             
             const tutMemur2 = document.getElementById("tutMemur2");
             if(tutMemur2) {
-                tutMemur2.parentElement.classList.toggle("hidden", isDilekce);
-                if (isKasbes) {
+                if (isKasbes || isDilekce) {
                     tutMemur2.parentElement.classList.add("hidden");
-                } else if(!isDilekce) {
+                } else {
                     tutMemur2.parentElement.classList.remove("hidden");
                 }
             }
@@ -1203,49 +1137,6 @@
             }
         } catch(e) {
             console.error("Tutanak Sablon Degistir Hatası:", e);
-        }
-    }
-
-    function formatMemur(memurStr) {
-        if(!memurStr) return ".........................<br>Polis Memuru";
-        let parts = memurStr.trim().split(/\s+/);
-        let sicil = parts.find(p => /^\d+$/.test(p)) || "";
-        let isim = isimFormatla(parts.filter(p => p !== sicil).join(" "));
-        return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
-    }
-
-    function initSignature() {
-        sigCanvas = document.getElementById("sigCanvas");
-        sigCtx = sigCanvas.getContext("2d");
-        sigCanvas.width = sigCanvas.offsetWidth;
-        sigCanvas.height = 200;
-        sigCtx.lineWidth = 3; sigCtx.lineCap = "round"; sigCtx.strokeStyle = "#000";
-
-        const startDraw = (e) => { isDrawing = true; draw(e); };
-        const endDraw = () => { isDrawing = false; sigCtx.beginPath(); };
-        const draw = (e) => {
-            if (!isDrawing) return; e.preventDefault();
-            let rect = sigCanvas.getBoundingClientRect();
-            let x = (e.clientX || e.touches[0].clientX) - rect.left;
-            let y = (e.clientY || e.touches[0].clientY) - rect.top;
-            sigCtx.lineTo(x, y); sigCtx.stroke(); sigCtx.beginPath(); sigCtx.moveTo(x, y);
-        };
-        sigCanvas.addEventListener("mousedown", startDraw); sigCanvas.addEventListener("mouseup", endDraw); sigCanvas.addEventListener("mousemove", draw);
-        sigCanvas.addEventListener("touchstart", startDraw, {passive:false}); sigCanvas.addEventListener("touchend", endDraw); sigCanvas.addEventListener("touchmove", draw, {passive:false});
-    }
-
-    function openSignature(targetId) {
-        sigTargetId = targetId;
-        document.getElementById('signatureModal').classList.remove('hidden');
-        if(!sigCanvas) initSignature();
-        if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
-    }
-    function clearSignature() { if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); }
-    function saveSignature() {
-        if(sigCanvas) {
-            let dataUrl = sigCanvas.toDataURL("image/png");
-            document.getElementById(sigTargetId).innerHTML = `<img src="${dataUrl}" style="max-height: 80px; width: auto; object-fit: contain;">`;
-            document.getElementById('signatureModal').classList.add('hidden');
         }
     }
 
@@ -1618,7 +1509,6 @@
             `;
         }
         else {
-            // STANDART TUTANAKLAR
             let baslik = document.getElementById("tutTuru").options[document.getElementById("tutTuru").selectedIndex].text.toUpperCase();
             let icerik = `<p ${pStyle}>${tarih} günü saat ${saat} sıralarında <b>${yer}</b> adresinde meydana gelen <b>${konu}</b> olayı ile ilgili olarak yapılan çalışmalarda <b>${s1}</b> ile ilgili olarak;</p><p ${pStyle}>${detay}</p><p ${pStyle}>İş bu tutanak tarafımızdan tanzim edilerek birlikte imza altına alınmıştır.</p>`;
 
@@ -1655,10 +1545,10 @@
                             <td style="width: 50%;"><div id="sig-m2" style="height:60px;"></div>${m2}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m2')">İmza Al</button></td>
                         </tr>
                     </table>
-                    ${(tur==='ifade' || tur==='teslim_tesellum') ? `
+                    \${(tur==='ifade' || tur==='teslim_tesellum') ? \`
                     <table style="width: 100%; text-align: center; border: none; font-size: 12pt; margin-top: 40px;">
-                        <tr><td style="width: 100%;"><b>${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><div id="sig-vat" style="height:60px;"></div>${(tur==='ifade'?s1:s2)}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
-                    </table>` : ''}
+                        <tr><td style="width: 100%;"><b>\${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><div id="sig-vat" style="height:60px;"></div>\${(tur==='ifade'?s1:s2)}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
+                    </table>\` : ''}
                 </div>
             `;
         }
@@ -1882,7 +1772,7 @@
 
             liste.innerHTML += `
             <div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;">
-                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim}</span>
+                <span><b>${data.sicil}</b> - ${data.isim}</span>
                 <div style="display:flex; gap:12px; font-size:16px;">
                     <i class="fa-solid fa-key" style="color:var(--ios-blue); cursor:pointer;" onclick="sifreSifirlaFirebase('${docSnap.id}', '${data.sicil}')" title="Şifre Sıfırla"></i>
                     <i class="fa-solid ${durumIcon}" style="color:${durumRenk}; cursor:pointer;" onclick="durumDegistirFirebase('${docSnap.id}', '${data.sicil}', ${isAktif})" title="Askıya Al / Aktif Et"></i>
@@ -2039,7 +1929,7 @@
             document.getElementById("ayarYeniSifreTekrar").value = "";
             
         } catch (e) {
-            alert("Şifre güncellenirken hata oluştu!");
+            alert("Şifre güncellerken hata oluştu!");
             console.log(e);
         }
     }
