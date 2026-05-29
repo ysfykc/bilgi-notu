@@ -1340,37 +1340,87 @@
         return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
     }
 
-    function initSignature() {
-        sigCanvas = document.getElementById("sigCanvas");
-        sigCtx = sigCanvas.getContext("2d");
-        sigCanvas.width = sigCanvas.offsetWidth;
-        sigCanvas.height = 200;
-        sigCtx.lineWidth = 3; sigCtx.lineCap = "round"; sigCtx.strokeStyle = "#000";
+    // YENİ İMZA ÇİZİM DEĞİŞKENLERİ VE FONKSİYONLARI
+    let mySigCanvas = null;
+    let mySigCtx = null;
+    let isDrawing = false;
+    let mySigTargetId = "";
 
-        const startDraw = (e) => { isDrawing = true; draw(e); };
-        const endDraw = () => { isDrawing = false; sigCtx.beginPath(); };
-        const draw = (e) => {
-            if (!isDrawing) return; e.preventDefault();
-            let rect = sigCanvas.getBoundingClientRect();
-            let x = (e.clientX || e.touches[0].clientX) - rect.left;
-            let y = (e.clientY || e.touches[0].clientY) - rect.top;
-            sigCtx.lineTo(x, y); sigCtx.stroke(); sigCtx.beginPath(); sigCtx.moveTo(x, y);
+    function initSignature() {
+        mySigCanvas = document.getElementById("sigCanvas");
+        mySigCtx = mySigCanvas.getContext("2d");
+        
+        mySigCanvas.width = mySigCanvas.offsetWidth || 300;
+        mySigCanvas.height = 200;
+        mySigCtx.lineWidth = 3; 
+        mySigCtx.lineCap = "round"; 
+        mySigCtx.strokeStyle = "#000";
+
+        const startDraw = (e) => { 
+            isDrawing = true; 
+            mySigCtx.beginPath(); 
+            draw(e); 
         };
-        sigCanvas.addEventListener("mousedown", startDraw); sigCanvas.addEventListener("mouseup", endDraw); sigCanvas.addEventListener("mousemove", draw);
-        sigCanvas.addEventListener("touchstart", startDraw, {passive:false}); sigCanvas.addEventListener("touchend", endDraw); sigCanvas.addEventListener("touchmove", draw, {passive:false});
+        
+        const endDraw = () => { 
+            isDrawing = false; 
+            mySigCtx.beginPath(); 
+        };
+        
+        const draw = (e) => {
+            if (!isDrawing) return; 
+            e.preventDefault();
+            let rect = mySigCanvas.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            let x = clientX - rect.left;
+            let y = clientY - rect.top;
+            
+            mySigCtx.lineTo(x, y); 
+            mySigCtx.stroke(); 
+            mySigCtx.beginPath(); 
+            mySigCtx.moveTo(x, y);
+        };
+        
+        mySigCanvas.addEventListener("mousedown", startDraw); 
+        mySigCanvas.addEventListener("mouseup", endDraw); 
+        mySigCanvas.addEventListener("mousemove", draw);
+        
+        mySigCanvas.addEventListener("touchstart", startDraw, {passive:false}); 
+        mySigCanvas.addEventListener("touchend", endDraw); 
+        mySigCanvas.addEventListener("touchmove", draw, {passive:false});
     }
 
     function openSignature(targetId) {
-        sigTargetId = targetId;
+        mySigTargetId = targetId;
         document.getElementById('signatureModal').classList.remove('hidden');
-        if(!sigCanvas) initSignature();
-        if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        
+        setTimeout(() => {
+            if(!mySigCtx) initSignature();
+            if(mySigCanvas && mySigCanvas.offsetWidth > 0 && mySigCanvas.width !== mySigCanvas.offsetWidth) {
+                mySigCanvas.width = mySigCanvas.offsetWidth;
+                mySigCtx.lineWidth = 3; 
+                mySigCtx.lineCap = "round"; 
+                mySigCtx.strokeStyle = "#000";
+            }
+            if(mySigCtx) { 
+                mySigCtx.clearRect(0, 0, mySigCanvas.width, mySigCanvas.height); 
+                mySigCtx.beginPath(); 
+            }
+        }, 100);
     }
-    function clearSignature() { if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); }
+    
+    function clearSignature() { 
+        if(mySigCtx) { 
+            mySigCtx.clearRect(0, 0, mySigCanvas.width, mySigCanvas.height); 
+            mySigCtx.beginPath(); 
+        } 
+    }
+    
     function saveSignature() {
-        if(sigCanvas) {
-            let dataUrl = sigCanvas.toDataURL("image/png");
-            document.getElementById(sigTargetId).innerHTML = `<img src="${dataUrl}" style="max-height: 80px; width: auto; object-fit: contain;">`;
+        if(mySigCanvas) {
+            let dataUrl = mySigCanvas.toDataURL("image/png");
+            document.getElementById(mySigTargetId).innerHTML = `<img src="${dataUrl}" style="max-height: 80px; width: auto; object-fit: contain;">`;
             document.getElementById('signatureModal').classList.add('hidden');
         }
     }
