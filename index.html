@@ -710,6 +710,7 @@
             document.getElementById("tarih").value = trh; document.getElementById("saat").value = st;
             document.getElementById("tutTarih").value = trh; document.getElementById("tutSaat").value = st;
             
+            // Vardiya başlangıç tarihini geçerli ve okunabilir yapalım (Çökme engeli)
             const vY = bugun.getFullYear();
             const vM = String(bugun.getMonth() + 1).padStart(2, '0');
             const vD = String(bugun.getDate()).padStart(2, '0');
@@ -1159,9 +1160,9 @@
             if(tutMemur2) {
                 tutMemur2.parentElement.classList.toggle("hidden", isDilekce);
                 if (isKasbes) {
-                    tutMemur2.classList.add("hidden");
-                } else {
-                    tutMemur2.classList.remove("hidden");
+                    tutMemur2.parentElement.classList.add("hidden");
+                } else if(!isDilekce) {
+                    tutMemur2.parentElement.classList.remove("hidden");
                 }
             }
             
