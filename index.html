@@ -92,6 +92,7 @@
         .form-group { margin-bottom: 14px; width: 100%; }
         label { display: block; font-size: 12px; font-weight: 600; color: var(--ios-text-mut); margin-bottom: 6px; margin-left: 4px; text-transform: uppercase;}
         input, select, textarea { width: 100%; background: var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; appearance: none; -webkit-appearance: none;}
+        input[type="radio"], input[type="checkbox"] { width: auto; appearance: auto; -webkit-appearance: auto; padding: 0; background: transparent; transform: scale(1.2); margin-right: 6px; cursor: pointer; accent-color: var(--ios-blue);}
         input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px var(--ios-blue); }
         textarea { resize: vertical; min-height: 180px; padding-right: 45px; line-height: 1.4; }
         .hidden { display: none !important; }
@@ -559,7 +560,7 @@
                 <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
                 <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
                 <div style="display:flex; gap:10px;">
-                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Yayından Kaldır</button>
+                    <button class="bot-btn" style="margin:0; background:var(--ios-input-bg); color:var(--ios-red);" onclick="duyuruKaldir()">Yayından Kaldır</button>
                     <button class="bot-btn" style="background:var(--ios-red); margin:0;" onclick="duyuruYayinla()">Tümüne Gönder</button>
                 </div>
             </div>
@@ -654,6 +655,43 @@
         </div>
         <input type="text" id="archiveSearch" placeholder="Ara..." style="margin-bottom:10px;" oninput="arsivFiltrele()">
         <div id="archiveList">Yükleniyor...</div>
+    </div>
+</div>
+
+<div id="yetkiModal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 450px;">
+        <h3 style="margin-bottom: 15px; color:var(--ios-blue);"><i class="fa-solid fa-user-shield"></i> Yetki Yönetimi</h3>
+        <p id="yetkiSicilLabel" style="font-size:14px; font-weight:bold; margin-bottom:15px;"></p>
+        <input type="hidden" id="yetkiDocId">
+        
+        <div class="form-group">
+            <label>Kullanıcı Rolü</label>
+            <select id="yetkiRolSecimi" onchange="yetkiRolDegisti()" style="background:var(--ios-card); border:1px solid var(--ios-border);">
+                <option value="user">Standart Kullanıcı (User)</option>
+                <option value="admin">Yönetici (Admin)</option>
+            </select>
+        </div>
+        
+        <div id="ozelYetkilerAlani" class="hidden" style="background:var(--ios-input-bg); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--ios-border);">
+            <label style="margin-bottom:10px; color:var(--ios-blue);">Yönetici Yetkileri (Sadece Adminler):</label>
+            <label style="display:flex; align-items:center; font-weight:normal; text-transform:none; margin-bottom:10px; font-size:14px;">
+                <input type="checkbox" id="yetkiDuyuru" value="duyuru"> Duyuru Yayınlama / Kaldırma
+            </label>
+            <label style="display:flex; align-items:center; font-weight:normal; text-transform:none; margin-bottom:10px; font-size:14px;">
+                <input type="checkbox" id="yetkiPersonelEkle" value="personelEkle"> Personel Ekleme
+            </label>
+            <label style="display:flex; align-items:center; font-weight:normal; text-transform:none; margin-bottom:10px; font-size:14px;">
+                <input type="checkbox" id="yetkiPersonelYonet" value="personelYonet"> Personel Yönetimi (Yetki, Şifre, Silme)
+            </label>
+            <label style="display:flex; align-items:center; font-weight:normal; text-transform:none; font-size:14px;">
+                <input type="checkbox" id="yetkiLogGor" value="logGor"> Sistem Loglarını Görme / İndirme
+            </label>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="bot-btn" style="margin:0; background:var(--ios-input-bg); color:var(--ios-text-mut);" onclick="document.getElementById('yetkiModal').classList.add('hidden')">İptal</button>
+            <button class="bot-btn" style="margin:0; background:var(--ios-green);" onclick="yetkileriKaydet()">Kaydet</button>
+        </div>
     </div>
 </div>
 
@@ -804,6 +842,7 @@
             localStorage.setItem('polis_ag_giris_izni', 'true');
             localStorage.setItem('aktif_rol', 'admin');
             localStorage.setItem('aktif_sicil', 'Admin');
+            localStorage.setItem('aktif_yetkiler', JSON.stringify(['duyuru', 'personelEkle', 'personelYonet', 'logGor']));
             if(typeof window.logIslem === 'function') await window.logIslem("Giriş", "Yönetici girişi yapıldı.");
             location.reload();
             return;
@@ -825,6 +864,7 @@
             localStorage.removeItem('polis_ag_giris_izni'); 
             localStorage.removeItem('aktif_rol');
             localStorage.removeItem('aktif_sicil');
+            localStorage.removeItem('aktif_yetkiler');
             location.reload(); 
         }
     }
@@ -1805,7 +1845,25 @@
         });
     } catch(e) {}
 
+    // YENİ YETKİ KONTROL FONKSİYONU
+    window.yetkiKontrol = function(istenenYetki) {
+        const rol = localStorage.getItem('aktif_rol');
+        if (rol !== 'admin') return false;
+        if (localStorage.getItem('aktif_sicil') === 'Admin') return true; 
+        
+        const yetkilerStr = localStorage.getItem('aktif_yetkiler');
+        if (!yetkilerStr) return true; 
+        
+        try {
+            const yetkiler = JSON.parse(yetkilerStr);
+            return yetkiler.includes(istenenYetki);
+        } catch(e) {
+            return true;
+        }
+    };
+
     window.duyuruYayinla = async function() {
+        if(!window.yetkiKontrol('duyuru')) { alert("Bu işlem için Duyuru yetkiniz bulunmamaktadır."); return; }
         const mesaj = document.getElementById("yeniDuyuruMetni").value.trim();
         if(!mesaj) { alert("Duyuru metni boş olamaz!"); return; }
         if(confirm("Bu duyuru tüm personelin ekranında anında görünecek. Onaylıyor musunuz?")) {
@@ -1817,6 +1875,7 @@
     };
 
     window.duyuruKaldir = async function() {
+        if(!window.yetkiKontrol('duyuru')) { alert("Bu işlem için Duyuru yetkiniz bulunmamaktadır."); return; }
         if(confirm("Yayındaki duyuruyu kaldırmak istiyor musunuz?")) {
             await setDoc(doc(db, "ayarlar", "genel_duyuru"), { mesaj: "", aktif: false, tarih: serverTimestamp() }, {merge: true});
             alert("Duyuru kaldırıldı!");
@@ -1883,6 +1942,7 @@
     }
 
     window.loglariIndirCSV = function() {
+        if(!window.yetkiKontrol('logGor')) { alert("Bu işlem için Sistem Loglarını Görme yetkiniz bulunmamaktadır."); return; }
         if(globalLogs.length === 0) { alert("İndirilecek log bulunamadı!"); return; }
         
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
@@ -1909,6 +1969,7 @@
         let basarili = false;
         let pRol = "user";
         let isAktif = true;
+        let yetkiler = [];
         
         snap.forEach((docSnap) => {
             const d = docSnap.data();
@@ -1916,7 +1977,9 @@
                 if(d.aktif === false) {
                     isAktif = false;
                 } else {
-                    basarili = true; pRol = d.rol || "user";
+                    basarili = true; 
+                    pRol = d.rol || "user";
+                    yetkiler = d.yetkiler || [];
                 }
             }
         });
@@ -1930,6 +1993,7 @@
             localStorage.setItem('polis_ag_giris_izni', 'true');
             localStorage.setItem('aktif_rol', pRol);
             localStorage.setItem('aktif_sicil', pSicil);
+            localStorage.setItem('aktif_yetkiler', JSON.stringify(yetkiler));
             await window.logIslem("Giriş", "Sisteme giriş yapıldı.");
             location.reload();
         } else {
@@ -1938,12 +2002,13 @@
     }
 
     window.personelEkleFirebase = async function() {
+        if(!window.yetkiKontrol('personelEkle')) { alert("Bu işlem için Personel Ekleme yetkiniz bulunmamaktadır."); return; }
         if(!db) return;
         const s = document.getElementById("yeniPersonelSicil").value;
         const i = document.getElementById("yeniPersonelIsim").value;
         const p = document.getElementById("yeniPersonelSifre").value;
         if(s && i && p) {
-            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user", aktif: true });
+            await addDoc(collection(db, "personel"), { sicil: s, isim: i, sifre: p, rol: "user", aktif: true, yetkiler: [] });
             alert("Personel Eklendi!");
             await window.logIslem("Personel İşlemi", `${s} sicil nolu personel eklendi.`);
             document.getElementById("yeniPersonelSicil").value = "";
@@ -1967,8 +2032,9 @@
 
             liste.innerHTML += `
             <div class="sahis-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-input-bg); padding:10px; border-radius:10px; margin-bottom:6px;">
-                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim}</span>
+                <span><b style="color:${isAktif ? 'var(--ios-text)' : 'var(--ios-text-mut)'}">${data.sicil}</b> - ${data.isim} ${data.rol==='admin' ? '<i class="fa-solid fa-star" style="color:#FF9500; font-size:10px; margin-left:4px;" title="Yönetici"></i>' : ''}</span>
                 <div style="display:flex; gap:12px; font-size:16px;">
+                    <i class="fa-solid fa-crown" style="color:#FF9500; cursor:pointer;" onclick="yetkiPaneliAc('${docSnap.id}', '${data.sicil}', '${data.rol || 'user'}', '${(data.yetkiler || []).join(',')}')" title="Yetki Düzenle"></i>
                     <i class="fa-solid fa-key" style="color:var(--ios-blue); cursor:pointer;" onclick="sifreSifirlaFirebase('${docSnap.id}', '${data.sicil}')" title="Şifre Sıfırla"></i>
                     <i class="fa-solid ${durumIcon}" style="color:${durumRenk}; cursor:pointer;" onclick="durumDegistirFirebase('${docSnap.id}', '${data.sicil}', ${isAktif})" title="Askıya Al / Aktif Et"></i>
                     <i class="fa-solid fa-trash" style="color:var(--ios-red); cursor:pointer;" onclick="personelSilFirebase('${docSnap.id}', '${data.sicil}')" title="Personeli Sil"></i>
@@ -1977,7 +2043,63 @@
         });
     }
 
+    // YETKİ YÖNETİMİ SCRİPTLERİ
+    window.yetkiPaneliAc = function(docId, sicil, rol, yetkilerStr) {
+        if(!window.yetkiKontrol('personelYonet')) { alert("Bu işlem için Personel Yönetimi yetkiniz bulunmamaktadır."); return; }
+        document.getElementById("yetkiDocId").value = docId;
+        document.getElementById("yetkiSicilLabel").innerText = sicil + " Sicil Numaralı Personel";
+        document.getElementById("yetkiRolSecimi").value = rol === 'admin' ? 'admin' : 'user';
+        
+        const yetkiler = yetkilerStr ? yetkilerStr.split(',') : [];
+        document.getElementById("yetkiDuyuru").checked = yetkiler.includes('duyuru');
+        document.getElementById("yetkiPersonelEkle").checked = yetkiler.includes('personelEkle');
+        document.getElementById("yetkiPersonelYonet").checked = yetkiler.includes('personelYonet');
+        document.getElementById("yetkiLogGor").checked = yetkiler.includes('logGor');
+        
+        window.yetkiRolDegisti();
+        document.getElementById("yetkiModal").classList.remove("hidden");
+    };
+
+    window.yetkiRolDegisti = function() {
+        const rol = document.getElementById("yetkiRolSecimi").value;
+        const yetkiAlani = document.getElementById("ozelYetkilerAlani");
+        if(rol === 'admin') {
+            yetkiAlani.classList.remove("hidden");
+        } else {
+            yetkiAlani.classList.add("hidden");
+            document.getElementById("yetkiDuyuru").checked = false;
+            document.getElementById("yetkiPersonelEkle").checked = false;
+            document.getElementById("yetkiPersonelYonet").checked = false;
+            document.getElementById("yetkiLogGor").checked = false;
+        }
+    };
+
+    window.yetkileriKaydet = async function() {
+        const docId = document.getElementById("yetkiDocId").value;
+        const rol = document.getElementById("yetkiRolSecimi").value;
+        
+        let secilenYetkiler = [];
+        if(rol === 'admin') {
+            if(document.getElementById("yetkiDuyuru").checked) secilenYetkiler.push('duyuru');
+            if(document.getElementById("yetkiPersonelEkle").checked) secilenYetkiler.push('personelEkle');
+            if(document.getElementById("yetkiPersonelYonet").checked) secilenYetkiler.push('personelYonet');
+            if(document.getElementById("yetkiLogGor").checked) secilenYetkiler.push('logGor');
+        }
+
+        try {
+            await updateDoc(doc(db, "personel", docId), { rol: rol, yetkiler: secilenYetkiler });
+            await window.logIslem("Yetki Değişimi", `Personel yetkileri güncellendi (${rol}).`);
+            alert("Yetkiler başarıyla kaydedildi!");
+            document.getElementById("yetkiModal").classList.add("hidden");
+            window.personelYukleFirebase();
+        } catch(e) {
+            alert("Yetkiler güncellenirken hata oluştu.");
+            console.error(e);
+        }
+    };
+
     window.sifreSifirlaFirebase = async function(id, sicil) {
+        if(!window.yetkiKontrol('personelYonet')) { alert("Bu işlem için Personel Yönetimi yetkiniz bulunmamaktadır."); return; }
         const yeniSifre = prompt(`${sicil} sicil numaralı personel için YENİ ŞİFRE belirleyin:`);
         if(yeniSifre && yeniSifre.trim() !== "") {
             try {
@@ -1989,6 +2111,7 @@
     }
 
     window.durumDegistirFirebase = async function(id, sicil, isAktif) {
+        if(!window.yetkiKontrol('personelYonet')) { alert("Bu işlem için Personel Yönetimi yetkiniz bulunmamaktadır."); return; }
         const yeniDurum = !isAktif;
         const msj = yeniDurum ? "AKTİF edilsin mi?" : "ASKIYA ALINSIN mı? (Sisteme giremez)";
         if(confirm(`${sicil} sicilli personelin hesabı ${msj}`)) {
@@ -2001,6 +2124,7 @@
     }
 
     window.personelSilFirebase = async function(id, sicil) {
+        if(!window.yetkiKontrol('personelYonet')) { alert("Bu işlem için Personel Yönetimi yetkiniz bulunmamaktadır."); return; }
         if(confirm("Bu personeli tamamen SİLMEK istediğinize emin misiniz?")) { 
             await deleteDoc(doc(db, "personel", id)); 
             await window.logIslem("Personel İşlemi", `${sicil} sicil nolu personel silindi.`);
