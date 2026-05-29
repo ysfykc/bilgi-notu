@@ -442,6 +442,7 @@
                 <div id="panel_izin" class="form-group hidden tutanak-ozel-panel">
                     <label class="panel-title"><i class="fa-solid fa-plane-departure"></i> İzin Talebi Detayları</label>
                     <input type="text" id="tutIzinDetay" placeholder="İzin Türü (Örn: Yıllık İzin sebebiyle)">
+                    <input type="text" id="tutIzinBaslama" placeholder="Başlama Tarihi (Örn: 15.05.2026)">
                     <input type="text" id="tutIzinSure" placeholder="İzin Süresi (Örn: 10 gün)">
                     <input type="text" id="tutIzinAdres" placeholder="İzni Geçireceği Adres ve Telefon">
                 </div>
@@ -560,7 +561,7 @@
                 <h3 style="font-size:14px; margin-bottom:10px; color:var(--ios-red);"><i class="fa-solid fa-bullhorn"></i> Canlı Duyuru Yayınla</h3>
                 <textarea id="yeniDuyuruMetni" placeholder="Tüm personele iletilecek acil mesajı yazın... (Örn: Şok uygulama saat 20:00'da)" style="background:var(--ios-card); min-height:80px; margin-bottom:10px;"></textarea>
                 <div style="display:flex; gap:10px;">
-                    <button class="bot-btn" style="margin:0; background:var(--ios-input-bg); color:var(--ios-red);" onclick="duyuruKaldir()">Yayından Kaldır</button>
+                    <button class="bot-btn btn-danger" style="margin:0; background:var(--ios-card);" onclick="duyuruKaldir()">Yayından Kaldır</button>
                     <button class="bot-btn" style="background:var(--ios-red); margin:0;" onclick="duyuruYayinla()">Tümüne Gönder</button>
                 </div>
             </div>
@@ -1286,9 +1287,9 @@
             const tutMemur2 = document.getElementById("tutMemur2");
             if(tutMemur2) {
                 if (isKasbes || isDilekce) {
-                    tutMemur2.classList.add("hidden");
+                    tutMemur2.parentElement.classList.add("hidden");
                 } else {
-                    tutMemur2.classList.remove("hidden");
+                    tutMemur2.parentElement.classList.remove("hidden");
                 }
             }
             
@@ -1448,6 +1449,7 @@
 
         if (tur === "izin_dilekcesi") {
             const iDetay = document.getElementById("tutIzinDetay").value || "..........";
+            const iBaslama = document.getElementById("tutIzinBaslama").value || "..........";
             const iSure = document.getElementById("tutIzinSure").value || "..........";
             const iAdres = document.getElementById("tutIzinAdres").value || "..........";
             
@@ -1462,7 +1464,7 @@
                         DODURGA İLÇE EMNİYET AMİRLİĞİNE
                     </div>
                     <p style="text-align: justify; text-indent: 40px; margin-bottom: 10px; line-height: 1.5;">
-                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} sebebiyle tarafıma, ${iSure} izin verilmesi hususunu;
+                        Amirliğimiz kadrosunda ${sSicil} sicil sayılı Polis Memuru olarak görev yapmaktayım. ${iDetay} sebebiyle tarafıma, ${iBaslama} tarihinden itibaren ${iSure} izin verilmesi hususunu;
                     </p>
                     <p style="text-align: justify; text-indent: 40px; margin-bottom: 40px; line-height: 1.5;">
                         Gereğini bilgilerinize arz ederim.
