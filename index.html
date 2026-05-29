@@ -458,7 +458,7 @@
             <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
-                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
+                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
@@ -861,7 +861,6 @@
         }
     }
 
-    // --- VARDİYA HESAPLAMA MOTORU (DÜZELTİLDİ VE GELİŞTİRİLDİ) ---
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
     const aylar = ["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
@@ -1293,6 +1292,49 @@
         }
     }
 
+    function formatMemur(memurStr) {
+        if(!memurStr) return ".........................<br>Polis Memuru";
+        let parts = memurStr.trim().split(/\s+/);
+        let sicil = parts.find(p => /^\d+$/.test(p)) || "";
+        let isim = isimFormatla(parts.filter(p => p !== sicil).join(" "));
+        return `<b>${isim}</b><br>${sicil}<br>Polis Memuru`;
+    }
+
+    function initSignature() {
+        sigCanvas = document.getElementById("sigCanvas");
+        sigCtx = sigCanvas.getContext("2d");
+        sigCanvas.width = sigCanvas.offsetWidth;
+        sigCanvas.height = 200;
+        sigCtx.lineWidth = 3; sigCtx.lineCap = "round"; sigCtx.strokeStyle = "#000";
+
+        const startDraw = (e) => { isDrawing = true; draw(e); };
+        const endDraw = () => { isDrawing = false; sigCtx.beginPath(); };
+        const draw = (e) => {
+            if (!isDrawing) return; e.preventDefault();
+            let rect = sigCanvas.getBoundingClientRect();
+            let x = (e.clientX || e.touches[0].clientX) - rect.left;
+            let y = (e.clientY || e.touches[0].clientY) - rect.top;
+            sigCtx.lineTo(x, y); sigCtx.stroke(); sigCtx.beginPath(); sigCtx.moveTo(x, y);
+        };
+        sigCanvas.addEventListener("mousedown", startDraw); sigCanvas.addEventListener("mouseup", endDraw); sigCanvas.addEventListener("mousemove", draw);
+        sigCanvas.addEventListener("touchstart", startDraw, {passive:false}); sigCanvas.addEventListener("touchend", endDraw); sigCanvas.addEventListener("touchmove", draw, {passive:false});
+    }
+
+    function openSignature(targetId) {
+        sigTargetId = targetId;
+        document.getElementById('signatureModal').classList.remove('hidden');
+        if(!sigCanvas) initSignature();
+        if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+    }
+    function clearSignature() { if(sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); }
+    function saveSignature() {
+        if(sigCanvas) {
+            let dataUrl = sigCanvas.toDataURL("image/png");
+            document.getElementById(sigTargetId).innerHTML = `<img src="${dataUrl}" style="max-height: 80px; width: auto; object-fit: contain;">`;
+            document.getElementById('signatureModal').classList.add('hidden');
+        }
+    }
+
     function tutanakA4Hazirla() {
         const tur = document.getElementById("tutTuru").value;
         const tarih = document.getElementById("tutTarih").value || "....";
@@ -1431,7 +1473,7 @@
         }
         else if (tur === "aranan_sahis") {
             const aEkip = document.getElementById("tutArananEkip").value || "....";
-            const aMahalle = document.getElementById("tutArananMahalle").value || yer;
+            const aMahalle = yer; 
             const aMahkeme = document.getElementById("tutArananMahkeme").value || "..................";
             const aSuc = document.getElementById("tutArananSuc").value || "..................";
             const aHastane = document.getElementById("tutArananHastane").value || "..................";
@@ -1698,10 +1740,10 @@
                             <td style="width: 50%;"><div id="sig-m2" style="height:60px;"></div>${m2}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-m2')">İmza Al</button></td>
                         </tr>
                     </table>
-                    \${(tur==='ifade' || tur==='teslim_tesellum') ? \`
+                    ${(tur === 'ifade' || tur === 'teslim_tesellum') ? `
                     <table style="width: 100%; text-align: center; border: none; font-size: 12pt; margin-top: 40px;">
-                        <tr><td style="width: 100%;"><b>\${(tur==='ifade'?'İfade Veren':'Teslim Alan')}</b><br><div id="sig-vat" style="height:60px;"></div>\${(tur==='ifade'?s1:s2)}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
-                    </table>\` : ''}
+                        <tr><td style="width: 100%;"><b>${(tur === 'ifade' ? 'İfade Veren' : 'Teslim Alan')}</b><br><div id="sig-vat" style="height:60px;"></div>${(tur === 'ifade' ? s1 : s2)}<br><button class="no-print archive-btn-top" style="margin: 5px auto;" onclick="openSignature('sig-vat')">İmza Al</button></td></tr>
+                    </table>` : ''}
                 </div>
             `;
         }
