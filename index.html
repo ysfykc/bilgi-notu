@@ -459,7 +459,7 @@
             <label style="color:var(--ios-blue);"><i class="fa-solid fa-users"></i> Sicil / İmza Blokları</label>
             <div class="row">
                 <input type="text" id="tutMemur1" placeholder="1. Memur (Sicil İsim)">
-                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)" id="kutuMemur2">
+                <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
             </div>
             
             <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
@@ -1286,9 +1286,9 @@
             const tutMemur2 = document.getElementById("tutMemur2");
             if(tutMemur2) {
                 if (isKasbes || isDilekce) {
-                    tutMemur2.parentElement.classList.add("hidden");
+                    tutMemur2.classList.add("hidden");
                 } else {
-                    tutMemur2.parentElement.classList.remove("hidden");
+                    tutMemur2.classList.remove("hidden");
                 }
             }
             
